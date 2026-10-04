@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Vocal Persona Builder v0.6 verified · **Current milestone:** Vocal Persona Builder v0.6 · **Last reviewed:** 2026-10-04
+**Status:** Persona Identity foundation verified; v0.7 gate open · **Current milestone:** Persona Identity v0.7 · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,21 +10,22 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns a visual position into musical direction; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Vocal Persona Builder v0.6
+## Current milestone — Persona Identity v0.7
 
-**Goal:** Configure a vocal identity independently of the Genre Mixer and derive structured Voice DNA.
+**Goal:** Turn Voice DNA into a reusable persona identity. This first step adds session-only records; local persistence and reopening remain for the next step of v0.7.
 
-**Existing state:** Genre Mixer v0.5 remains available with its existing saved recipes, Sound DNA, compatibility analysis, and export text. The Vocal Persona Builder has its own in-memory selections.
+**Existing state:** Vocal Persona Builder v0.6 derives deterministic Voice DNA independently of Genre Mixer. A created persona now captures that DNA and its source selections with a stable UUID, name, and short identity description.
 
-**Allowed scope:** Curated register, texture, delivery, and effect traits; breathiness, power, warmth, and rasp controls; deterministic structured Voice DNA. Defer saving, persona names, genre integration, compatibility guidance, and generator prompts.
+**Allowed scope for this step:** Identity metadata, a stable persona domain object, and creation from current builder state. Defer persistence, duplication, branching, genre integration, compatibility guidance, and generator prompts.
 
 **Acceptance tests:**
 
-* [x] Two deliberately opposite vocal selections yield deterministic, structurally and descriptively distinct Voice DNA.
-* [x] `npm test` passes 20 tests, including the existing Genre Mixer tests; `npm run build` passes.
-* [x] In the running browser, high/airy/intimate/reverb with breathiness 90, power 15, warmth 90, rasp 5 differs clearly from low/raspy/assertive/doubled with breathiness 10, power 95, warmth 20, rasp 90. Switching tools retains independent in-progress state.
+* [x] A named persona with a short description captures the current Voice DNA exactly and receives a unique UUID that remains fixed.
+* [x] Changing the builder after creation leaves the persona's selections, Voice DNA, and ID intact in the running browser.
+* [x] `npm test` passes 22 tests; `npm run build` passes; Genre Mixer still renders with its existing behavior.
+* [ ] Complete the broader v0.7 gate: persist and reopen a persona without changing its core identity.
 
-**Gate:** v0.6 verified. The next planned stage is v0.7 Persona Identity.
+**Gate:** The identity-record foundation is verified. The full v0.7 gate stays open until local persistence and reopening are implemented and checked.
 
 ## Roadmap and gates
 
@@ -70,6 +71,7 @@ Complete each block independently before starting the next. v2.0 is integration 
 |2026-10-04|Genre Mixer v0.4|Verified|Fifteen tests pass; build passes; browser save/refresh/reopen/update/duplicate/delete flow checked with two mixes. Malformed/old data parser tests pass.|
 |2026-10-04|Genre Mixer v0.5|Verified|Seventeen tests pass, including recipes for 66 pairs at three weights; build passes; browser verified two saved recipes, refresh/reopen, update/delete, regenerated text, and both clipboard outputs.|
 |2026-10-04|Vocal Persona Builder v0.6|Verified|Twenty tests and build pass. Connected Edge browser confirms opposite Voice DNA descriptions and navigation retains in-progress state for both tools. Narrow viewport was not checked.|
+|2026-10-04|Persona Identity v0.7 foundation|Verified; full gate open|Twenty-two tests and build pass. Browser creation of Ember captured exact airy/warm DNA with UUID; changing live controls left the record intact. Genre Mixer view checked. Persistence intentionally deferred.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 

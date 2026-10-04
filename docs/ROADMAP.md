@@ -8,7 +8,7 @@ The builder and contrasting Voice DNA are verified in the running browser. Vocal
 
 ## Next — Persona Identity v0.7
 
-Add names and local persistence so a vocal persona can be reopened and reused without changing its core identity. Keep genre outside the persona object.
+The identity record and session-only creation flow are implemented. Next, add local persistence and reopening so a persona can be reused without changing its core identity. Keep genre outside the persona object.
 
 ## Later
 

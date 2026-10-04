@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Created personas capture a Voice DNA snapshot
+
+The first Persona Identity step creates a session-only record with a UUID, identity metadata, source selections, and the exact Voice DNA at creation. The record does not follow subsequent builder edits. Capturing both selections and DNA keeps the current identity inspectable and gives later persistence work an explicit source and output to reconcile. No local storage schema is introduced in this step; the full v0.7 reuse gate remains open.
+
 ## 2026-10-04 — Voice DNA derives from independent vocal selections
 
 The v0.6 builder keeps register, texture, delivery, effect, and four 0–100 dimensions in view-local state. Curated trait descriptions and deterministic dimension bands produce a structured Voice DNA object. This keeps vocal identity independent of genre and avoids storing derived wording. There is no persistence or composition contract yet; later milestones can add those without changing the Genre Mixer source model.

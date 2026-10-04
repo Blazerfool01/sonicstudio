@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react'
 import { deliveries, registers, textures, vocalEffects } from './data/vocalTraits.ts'
 import { createVoiceDna, defaultVocalSelections } from './lib/voiceDna.ts'
 import type { VocalDimension, VocalSelections } from './lib/voiceDna.ts'
+import { createVocalPersona } from './lib/vocalPersona.ts'
+import type { VocalPersona } from './lib/vocalPersona.ts'
 
 const groups = [
   { key: 'register', label: 'Register', options: registers },
@@ -19,9 +21,26 @@ const sliders: { key: VocalDimension; label: string }[] = [
 export default function VocalPersonaBuilder({ onSwitch }: { onSwitch: () => void }) {
   const [selections, setSelections] = useState<VocalSelections>(defaultVocalSelections)
   const dna = useMemo(() => createVoiceDna(selections), [selections])
+  const [personaName, setPersonaName] = useState('')
+  const [identityDescription, setIdentityDescription] = useState('')
+  const [personas, setPersonas] = useState<VocalPersona[]>([])
+  const [creationMessage, setCreationMessage] = useState('')
 
   function change<K extends keyof VocalSelections>(key: K, value: VocalSelections[K]) {
     setSelections(previous => ({ ...previous, [key]: value }))
+  }
+
+  function createPersona(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    try {
+      const persona = createVocalPersona(personaName, identityDescription, selections)
+      setPersonas(previous => [persona, ...previous])
+      setPersonaName('')
+      setIdentityDescription('')
+      setCreationMessage(`Created ${persona.name} for this session.`)
+    } catch (error) {
+      setCreationMessage(error instanceof Error ? error.message : 'Could not create persona.')
+    }
   }
 
   return <div className="app-shell">
@@ -41,7 +60,13 @@ export default function VocalPersonaBuilder({ onSwitch }: { onSwitch: () => void
           <div className="dna-content vocal-dna-content"><p className="vocal-summary">{dna.description}</p>{groups.map(group => { const trait = dna[group.key]; return <div className="dna-field" key={group.key}><div className="field-index">{group.label.toUpperCase()} / {trait.label.toUpperCase()}</div><p className="relationship-text">{trait.description}</p></div> })}<div className="vocal-dimensions">{sliders.map(({ key, label }) => <div className="dna-field" key={key}><div className="field-index">{label.toUpperCase()} / {dna.dimensions[key].value}</div><p className="relationship-text">{dna.dimensions[key].description}</p></div>)}</div></div>
           <div className="output-foot"><span>BUILT FROM VOCAL TRAIT DATA</span><span>NO RANDOMNESS · NO API</span></div>
         </section>
-      </div><footer className="page-footer"><span>SONIC STUDIO / VOCAL PERSONA</span><span>EXPLORE THE VOICE.</span></footer>
+      </div>
+      <section className="persona-panel" aria-labelledby="persona-heading"><div className="persona-panel-head"><span className="eyebrow">03 / PERSONA IDENTITY</span><h2 id="persona-heading">Give this voice an identity<span className="heading-period">.</span></h2><p>Create a record from the current Voice DNA. Records stay in this session only.</p></div>
+        <form className="persona-form" onSubmit={createPersona}><label>PERSONA NAME<input maxLength={80} value={personaName} onChange={event => setPersonaName(event.target.value)} placeholder="A name for this voice" required/></label><label>SHORT IDENTITY DESCRIPTION<textarea maxLength={240} rows={3} value={identityDescription} onChange={event => setIdentityDescription(event.target.value)} placeholder="What makes this singer recognisable?" required/></label><button type="submit">Create persona</button></form>
+        <p className="persona-message" role="status">{creationMessage}</p>
+        <div className="persona-records"><h3>Created this session <span>{personas.length}</span></h3>{personas.length === 0 ? <p>No personas created yet.</p> : personas.map(persona => <article className="persona-record" key={persona.id}><div className="persona-record-top"><strong>{persona.name}</strong><code>{persona.id}</code></div><p>{persona.identityDescription}</p><div className="persona-record-dna"><span>CAPTURED VOICE DNA</span><p>{persona.voiceDna.description}</p></div></article>)}</div>
+      </section>
+      <footer className="page-footer"><span>SONIC STUDIO / VOCAL PERSONA</span><span>EXPLORE THE VOICE.</span></footer>
     </main>
   </div>
 }
