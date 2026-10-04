@@ -2,9 +2,9 @@
 
 The current implemented state and gate results live in `PROJECT.md`. Planned work follows the independent-tool sequence in its roadmap table.
 
-## Next — Vocal Persona Builder v0.6
+## Current — Vocal Persona Builder v0.6
 
-Build two distinct vocal personas that remain recognisably different under the same genre setting. Keep their identities separate from genre and mood data so they can later be reused across mixes.
+The builder and contrasting Voice DNA are implemented. Browser interaction verification remains before this gate closes. Vocal identity stays separate from genre and mood data.
 
 ## Later
 

@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Genre Mixer v0.5 implemented and verified · **Current milestone:** Genre Mixer v0.5 · **Last reviewed:** 2026-10-04  
+**Status:** Vocal Persona Builder v0.6 implemented; browser verification pending · **Current milestone:** Vocal Persona Builder v0.6 · **Last reviewed:** 2026-10-04  
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,23 +10,21 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns a visual position into musical direction; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Genre Mixer v0.5
+## Current milestone — Vocal Persona Builder v0.6
 
-**Goal:** Produce reusable short and detailed musical recipes from the current two-genre mix.
+**Goal:** Configure a vocal identity independently of the Genre Mixer and derive structured Voice DNA.
 
-**Existing state:** v0.4 stores named, versioned source selections. v0.5 derives both recipe formats from the selected genres, weights, Sound DNA, and compatibility analysis without storing generated text.
+**Existing state:** Genre Mixer v0.5 remains available with its existing saved recipes, Sound DNA, compatibility analysis, and export text. The Vocal Persona Builder has its own in-memory selections.
 
-**Allowed scope:** Short and detailed generator-neutral recipe text, copy controls, and saved recipe management through local storage. Defer third genres, vocals, mood, audio analysis, visualisation, APIs, accounts, cloud sync, folders, and unrelated UI redesign.
+**Allowed scope:** Curated register, texture, delivery, and effect traits; breathiness, power, warmth, and rasp controls; deterministic structured Voice DNA. Defer saving, persona names, genre integration, compatibility guidance, and generator prompts.
 
 **Acceptance tests:**
 
-* [x] Short and detailed recipes are deterministic across all 66 genre pairs at representative weights and include weighted source identity, tempo, musical roles, and compatibility guidance.
-* [x] Two recipes save locally; refresh and reopen restore their exact genres and weights and regenerate the recipe text.
-* [x] Update and delete affect the chosen recipe only; existing v0.4 records remain readable through the same `schemaVersion: 1` source model.
-* [x] Both copy controls write their respective recipe text to the clipboard in the running browser.
-* [x] `npm test` passes 17 tests; `npm run build` passes; the running browser demonstrates save, refresh, reopen, update, delete, and copy.
+* [x] Two deliberately opposite vocal selections yield deterministic, structurally and descriptively distinct Voice DNA.
+* [x] `npm test` passes 20 tests, including the existing Genre Mixer tests; `npm run build` passes.
+* [ ] Running browser interaction and responsive layout verification. The browser tooling could not connect to the local dev server in this session.
 
-**Gate:** v0.5 is verified. The next planned independent-tool stage is Vocal Persona Builder v0.6.
+**Gate:** v0.6 implementation and automated checks pass. Browser verification remains before the v0.6 gate can be fully closed; v0.7 Persona Identity follows it.
 
 ## Roadmap and gates
 
@@ -71,6 +69,7 @@ Complete each block independently before starting the next. v2.0 is integration 
 |2026-10-04|Genre Mixer v0.3|Verified|Twelve tests pass; all 66 pairs classified at 20/50/80; build passes; four review cases checked in code output and browser. Details in `docs/v0.3-change-record.md`.|
 |2026-10-04|Genre Mixer v0.4|Verified|Fifteen tests pass; build passes; browser save/refresh/reopen/update/duplicate/delete flow checked with two mixes. Malformed/old data parser tests pass.|
 |2026-10-04|Genre Mixer v0.5|Verified|Seventeen tests pass, including recipes for 66 pairs at three weights; build passes; browser verified two saved recipes, refresh/reopen, update/delete, regenerated text, and both clipboard outputs.|
+|2026-10-04|Vocal Persona Builder v0.6|Implementation verified; browser pending|Twenty tests pass, including opposite voice DNA and existing Genre Mixer coverage; build passes. Browser verification blocked by unavailable `agent-browser` command and local tab navigation timeout.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 

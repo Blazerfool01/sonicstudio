@@ -1,0 +1,47 @@
+import { useMemo, useState } from 'react'
+import { deliveries, registers, textures, vocalEffects } from './data/vocalTraits.ts'
+import { createVoiceDna, defaultVocalSelections } from './lib/voiceDna.ts'
+import type { VocalDimension, VocalSelections } from './lib/voiceDna.ts'
+
+const groups = [
+  { key: 'register', label: 'Register', options: registers },
+  { key: 'texture', label: 'Texture', options: textures },
+  { key: 'delivery', label: 'Delivery', options: deliveries },
+  { key: 'effect', label: 'Vocal effect', options: vocalEffects },
+] as const
+const sliders: { key: VocalDimension; label: string }[] = [
+  { key: 'breathiness', label: 'Breathiness' },
+  { key: 'power', label: 'Power' },
+  { key: 'warmth', label: 'Warmth' },
+  { key: 'rasp', label: 'Rasp' },
+]
+
+export default function VocalPersonaBuilder({ onSwitch }: { onSwitch: () => void }) {
+  const [selections, setSelections] = useState<VocalSelections>(defaultVocalSelections)
+  const dna = useMemo(() => createVoiceDna(selections), [selections])
+
+  function change<K extends keyof VocalSelections>(key: K, value: VocalSelections[K]) {
+    setSelections(previous => ({ ...previous, [key]: value }))
+  }
+
+  return <div className="app-shell">
+    <aside className="rail" aria-label="Studio navigation"><div className="brand-mark" aria-label="Sonic Studio">S<span>·</span></div><div className="rail-center"><span className="rail-tick"/><span className="rail-tick active"/><span className="rail-tick"/><span className="rail-tick"/></div><span className="rail-bottom">02 / 04</span></aside>
+    <main className="main">
+      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 02</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 0.6</div></header>
+      <nav className="tool-nav" aria-label="Studio tools"><button onClick={onSwitch}>01 / Genre Mixer</button><button className="active" aria-current="page">02 / Vocal Persona</button></nav>
+      <section className="intro"><div className="eyebrow"><span>02</span> / VOCAL PERSONA BUILDER</div><div className="intro-row"><div><h1>Shape the voice<br/><em>behind the sound.</em></h1><p>Choose a vocal character and adjust its four expressive dimensions. Voice DNA updates as you work.</p></div><div className="intro-index">AN INDEPENDENT<br/>VOCAL STUDY <span>↘</span></div></div></section>
+      <div className="workspace vocal-workspace">
+        <section className="mix-panel" aria-labelledby="vocal-input-heading"><div className="section-heading"><div><span className="eyebrow">01 / INPUT</span><h2 id="vocal-input-heading">Build a voice</h2></div><button className="text-button" onClick={() => setSelections(defaultVocalSelections)}>↺ &nbsp; Reset voice</button></div>
+          <p className="section-lead">Select one trait in each group, then adjust the dimensions.</p>
+          {groups.map(group => <fieldset className="vocal-fieldset" key={group.key}><legend>{group.label}</legend><div className="vocal-options">{group.options.map(option => <button type="button" key={option.id} className={selections[group.key] === option.id ? 'vocal-option selected' : 'vocal-option'} aria-pressed={selections[group.key] === option.id} onClick={() => change(group.key, option.id)} title={option.description}>{option.label}</button>)}</div></fieldset>)}
+          <div className="vocal-sliders">{sliders.map(({ key, label }) => <label className="vocal-slider" key={key}><span>{label}<strong>{selections[key]} / 100</strong></span><input type="range" min="0" max="100" step="1" value={selections[key]} onChange={event => change(key, Number(event.target.value))}/></label>)}</div>
+        </section>
+        <section className="output-panel" aria-labelledby="voice-dna-heading"><div className="output-head"><div className="eyebrow">02 / THE RESULT <span className="live-pill"><i/> LIVE DNA</span></div><h2 id="voice-dna-heading">Voice DNA<span className="heading-period">.</span></h2><p>A structured vocal identity derived from the current controls.</p></div>
+          <div className="dna-identity"><span>VOCAL CHARACTER</span><strong>{dna.register.label} · {dna.texture.label} · {dna.delivery.label}</strong><div><span>{dna.effect.label} effect</span></div></div>
+          <div className="dna-content vocal-dna-content"><p className="vocal-summary">{dna.description}</p>{groups.map(group => { const trait = dna[group.key]; return <div className="dna-field" key={group.key}><div className="field-index">{group.label.toUpperCase()} / {trait.label.toUpperCase()}</div><p className="relationship-text">{trait.description}</p></div> })}<div className="vocal-dimensions">{sliders.map(({ key, label }) => <div className="dna-field" key={key}><div className="field-index">{label.toUpperCase()} / {dna.dimensions[key].value}</div><p className="relationship-text">{dna.dimensions[key].description}</p></div>)}</div></div>
+          <div className="output-foot"><span>BUILT FROM VOCAL TRAIT DATA</span><span>NO RANDOMNESS · NO API</span></div>
+        </section>
+      </div><footer className="page-footer"><span>SONIC STUDIO / VOCAL PERSONA</span><span>EXPLORE THE VOICE.</span></footer>
+    </main>
+  </div>
+}

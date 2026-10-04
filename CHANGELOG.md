@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.6 — Vocal Persona Builder (2026-10-04)
+
+- Added curated vocal trait data, an independent in-memory builder view, and deterministic structured Voice DNA in `src/data/vocalTraits.ts`, `src/VocalPersonaBuilder.tsx`, and `src/lib/voiceDna.ts`.
+- Added navigation between the Vocal Persona Builder and the unchanged Genre Mixer. Vocal selections do not enter genre recipes or local storage.
+- Verified: `npm test` (20 passing, including contrasting voice cases and Genre Mixer regression coverage); `npm run build` (passing). Browser check remains pending because the browser tools could not reach the local server.
+
 ## v0.5 — Exportable Recipe (2026-10-04)
 
 - Added deterministic short and detailed generator-neutral recipes in `src/lib/recipe.ts`, with copy controls in `src/App.tsx`.

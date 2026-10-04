@@ -6,10 +6,12 @@ import { analyzeCompatibility, dimensionLabels } from './lib/compatibility.ts'
 import { makeMix, readSavedMixes, sourceOf, STORAGE_KEY, updateMix } from './lib/savedMixes.ts'
 import type { SavedMix } from './lib/savedMixes.ts'
 import { createRecipe } from './lib/recipe.ts'
+import VocalPersonaBuilder from './VocalPersonaBuilder.tsx'
+import './vocal.css'
 
 type Slot = 'a' | 'b'
 
-function App() {
+function GenreMixer({ onSwitch }: { onSwitch: () => void }) {
   const [firstId, setFirstId] = useState('dark-rnb')
   const [secondId, setSecondId] = useState('hardwave')
   const [weight, setWeight] = useState(60)
@@ -120,8 +122,9 @@ function App() {
     <main className="main">
       <header className="topbar">
         <div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 01</small></div>
-        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 0.5</div>
+        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 0.6</div>
       </header>
+      <nav className="tool-nav" aria-label="Studio tools"><button className="active" aria-current="page">01 / Genre Mixer</button><button onClick={onSwitch}>02 / Vocal Persona</button></nav>
 
       <section className="intro">
         <div className="eyebrow"><span>01</span> / THE GENRE MIXER</div>
@@ -205,4 +208,7 @@ function Meter({index,title,value}:{index:string,title:string,value:number}) {
   return <div className="meter"><div className="field-index">{index} / {title}</div><div className="meter-number">{value}<small>/100</small></div><div className="meter-track"><span style={{width:`${value}%`}}/></div></div>
 }
 
-export default App
+export default function App() {
+  const [view, setView] = useState<'genre' | 'vocal'>('genre')
+  return view === 'genre' ? <GenreMixer onSwitch={() => setView('vocal')}/> : <VocalPersonaBuilder onSwitch={() => setView('genre')}/>
+}
