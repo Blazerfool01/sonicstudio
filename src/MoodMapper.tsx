@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import type { MoodProjectSnapshot } from './lib/studioProject.ts'
 import { moods, moodDimensions } from './data/moods.ts'
 import { deriveMoodDna } from './lib/moodDna.ts'
 import type { MoodDna, MoodSelection } from './lib/moodDna.ts'
@@ -10,7 +11,7 @@ import MoodProductionGuidance from './MoodProductionGuidance.tsx'
 import MoodPresetLibrary from './MoodPresetLibrary.tsx'
 import './mood.css'
 
-export default function MoodMapper({ onNavigate, onCharacteristics }: { onNavigate: (view: 'genre' | 'vocal' | 'visualiser') => void, onCharacteristics: (dna: MoodDna | null) => void }) {
+export default function MoodMapper({ onNavigate, onCharacteristics, onUse, projectEnabled }: { onNavigate: (view: 'genre' | 'vocal' | 'visualiser') => void, onCharacteristics: (dna: MoodDna | null) => void; onUse: (snapshot: MoodProjectSnapshot) => void; projectEnabled: boolean }) {
   const [selections, setSelections] = useState<MoodSelection[]>([])
   const dna = useMemo(() => deriveMoodDna(selections), [selections])
   useEffect(() => { onCharacteristics(dna) }, [dna, onCharacteristics])
@@ -28,8 +29,9 @@ export default function MoodMapper({ onNavigate, onCharacteristics }: { onNaviga
   return <div className="app-shell">
     <aside className="rail" aria-label="Studio navigation"><div className="brand-mark" aria-label="Sonic Studio">S<span>·</span></div><div className="rail-center"><span className="rail-tick"/><span className="rail-tick"/><span className="rail-tick active"/><span className="rail-tick"/></div><span className="rail-bottom">03 / 04</span></aside>
     <main className="main">
-      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 03</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 1.9.0</div></header>
+      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 03</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 2.0.0-stage.1</div></header>
       <nav className="tool-nav" aria-label="Studio tools"><button onClick={() => onNavigate('genre')}>01 / Genre Mixer</button><button onClick={() => onNavigate('vocal')}>02 / Vocal Persona</button><button className="active" aria-current="page">03 / Mood Mapper</button><button onClick={() => onNavigate('visualiser')}>04 / Visualiser</button></nav>
+      <button className="project-use" disabled={!projectEnabled || !dna} onClick={() => onUse({ label: selections.map(s => `${moods.find(m => m.id === s.moodId)!.name} ${s.weight}`).join(' / '), sourceId: null, selections })}>Use current mood in project / replace mood</button>
       <section className="intro"><div className="eyebrow"><span>03</span> / THE MOOD MAPPER</div><div className="intro-row"><div><h1>Shape the feeling<br/><em>behind the sound.</em></h1><p>Choose up to three moods, set their influence, and explore their shared emotional fingerprint.</p></div><div className="intro-index">A CREATIVE TOOL<br/>FOR EMOTIONAL IDENTITY <span>↘</span></div></div></section>
       <div className="workspace mood-workspace">
         <section className="mix-panel" aria-labelledby="mood-heading"><div className="section-heading"><div><span className="eyebrow">01 / INPUT</span><h2 id="mood-heading">Choose your moods</h2></div><button className="text-button" onClick={() => setSelections([])}>↺ &nbsp; Reset</button></div><p className="section-lead">Select up to three. Each influence is relative to the others.</p>

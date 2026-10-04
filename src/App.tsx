@@ -14,6 +14,8 @@ import { getMood } from './data/moods.ts'
 
 import { readBrowserStorage } from './lib/browserStorage.ts'
 import './vocal.css'
+import StudioComposer, { useStudioProjects } from './StudioComposer.tsx'
+import type { GenreProjectSnapshot } from './lib/studioProject.ts'
 
 const visualPreviews = ['dreamlike', 'aggressive'].map(id => {
   const mood = getMood(id)!
@@ -22,7 +24,7 @@ const visualPreviews = ['dreamlike', 'aggressive'].map(id => {
 
 type Slot = 'a' | 'b'
 
-function GenreMixer({ onNavigate }: { onNavigate: (view: 'vocal' | 'mood' | 'visualiser') => void }) {
+function GenreMixer({ onNavigate, onUse, projectEnabled }: { onNavigate: (view: 'vocal' | 'mood' | 'visualiser') => void; onUse: (snapshot: GenreProjectSnapshot) => void; projectEnabled: boolean }) {
   const [firstId, setFirstId] = useState('dark-rnb')
   const [secondId, setSecondId] = useState('hardwave')
   const [weight, setWeight] = useState(60)
@@ -133,10 +135,11 @@ function GenreMixer({ onNavigate }: { onNavigate: (view: 'vocal' | 'mood' | 'vis
     <main className="main">
       <header className="topbar">
         <div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 01</small></div>
-        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 1.9.0</div>
+        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 2.0.0-stage.1</div>
       </header>
       <nav className="tool-nav" aria-label="Studio tools"><button className="active" aria-current="page">01 / Genre Mixer</button><button onClick={() => onNavigate('vocal')}>02 / Vocal Persona</button><button onClick={() => onNavigate('mood')}>03 / Mood Mapper</button><button onClick={() => onNavigate('visualiser')}>04 / Visualiser</button></nav>
 
+      <button className="project-use" disabled={!projectEnabled} onClick={() => onUse({ label: selectedMix && !dirty ? selectedMix.name : `${first.name} × ${second.name} (current mix)`, sourceId: selectedMix && !dirty ? selectedMix.id : null, genres: [{ genreId: firstId, weight }, { genreId: secondId, weight: 100 - weight }] })}>Use current mix in project / replace genre</button>
       <section className="intro">
         <div className="eyebrow"><span>01</span> / THE GENRE MIXER</div>
         <div className="intro-row"><div><h1>Find the space<br/><em>between sounds.</em></h1><p>Choose two genres. Shift the balance. Discover the sound they make together.</p></div><div className="intro-index">A CREATIVE TOOL<br/>FOR SOUND DESIGN <span>↘</span></div></div>
@@ -220,12 +223,18 @@ function Meter({index,title,value}:{index:string,title:string,value:number}) {
 }
 
 export default function App() {
+  const studio = useStudioProjects()
   const [visualMood, setVisualMood] = useState<MoodDna | null>(null)
   const [view, setView] = useState<'genre' | 'vocal' | 'mood' | 'visualiser'>('genre')
+  function openTool(next: 'genre' | 'vocal' | 'mood') {
+    setView(next)
+    requestAnimationFrame(() => document.getElementById(`studio-tool-${next}`)?.scrollIntoView({ block: 'start' }))
+  }
   return <>
-    <div hidden={view !== 'genre'}><GenreMixer onNavigate={setView}/></div>
-    <div hidden={view !== 'vocal'}><VocalPersonaBuilder onNavigate={setView}/></div>
-    <div hidden={view !== 'mood'}><MoodMapper onNavigate={setView} onCharacteristics={setVisualMood}/></div>
+    <StudioComposer studio={studio} onNavigate={openTool}/>
+    <div id="studio-tool-genre" hidden={view !== 'genre'}><GenreMixer onNavigate={setView} projectEnabled={!!studio.active} onUse={snapshot => studio.attach('genre', snapshot)}/></div>
+    <div id="studio-tool-vocal" hidden={view !== 'vocal'}><VocalPersonaBuilder onNavigate={setView} projectEnabled={!!studio.active} onUse={snapshot => studio.attach('vocal', snapshot)}/></div>
+    <div id="studio-tool-mood" hidden={view !== 'mood'}><MoodMapper onNavigate={setView} onCharacteristics={setVisualMood} projectEnabled={!!studio.active} onUse={snapshot => studio.attach('mood', snapshot)}/></div>
     <div hidden={view !== 'visualiser'}><Visualiser previews={visualPreviews} characteristics={visualMood?.dimensions ?? null} characterName={visualMood?.dominantMood.name ?? null} active={view === 'visualiser'} onNavigate={setView}/></div>
   </>
 }

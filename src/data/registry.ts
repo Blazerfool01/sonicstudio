@@ -1,6 +1,6 @@
-import genreData from './genres.json'
-import characteristicData from './characteristics.json'
-import compatibilityData from './compatibility.json'
+import genreData from './genres.json' with { type: 'json' }
+import characteristicData from './characteristics.json' with { type: 'json' }
+import compatibilityData from './compatibility.json' with { type: 'json' }
 
 export type MusicalDimension = 'rhythm' | 'bass' | 'harmony' | 'instrumentation' | 'texture' | 'production' | 'intensity'
 export type MusicalRole = { anchor: string; accent: string; strength: number }

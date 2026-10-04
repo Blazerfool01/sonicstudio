@@ -63,6 +63,10 @@ The existing player now exposes reusable live waveform and spectrum buffers, RMS
 
 Spectrum bars, waveform, and radial views render from the shared v1.6 analysis data. Browser checks covered silence, 80 Hz bass, 6 kHz treble, a broad-spectrum composite, mode/track changes, seek, pause/resume, end, selected-track removal, returning to the Visualiser, responsive widths, DPR 2, and reduced motion. Automated tests and build pass. Project-aware and personality-driven styling remains in v1.9.
 
-## Later
+## v2.0 integration stages
 
-Vocal Persona Lab, Mood Mapper, and the local-audio Visualiser advance as independent tools before v2.0 integration. See `PROJECT.md` for their version gates.
+1. **Stage 1 — Compose: implemented and locally verified.** Local projects capture immutable source ingredients through explicit actions and regenerate a deterministic Creation Brief. Verification and limitations live in `PROJECT.md`.
+2. **Stage 2 — project tracks: deferred pending scope approval.** Define local audio attachment, source URLs, track notes/history and captured generation provenance before implementation. This stage must preserve existing browser audio ownership.
+3. **Comparison and final Studio navigation: deferred.** A/B listening, comparison observations and final Create / Tracks / Compare / Visualise navigation follow track-model decisions. Full v2.0 is not complete at the Compose gate.
+
+The four independent tools retain their completed gates and ownership throughout integration. See `PROJECT.md` for their verification history.

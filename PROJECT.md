@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** v1.9 Reactive Personality verified locally · **Next milestone:** v2.0 Integrated Studio · **Last reviewed:** 2026-10-04
+**Status:** v2.0 Stage 1 Compose verified locally (`2.0.0-stage.1`) · **Next milestone:** Stage 2 project tracks (scope approval pending) · **Last reviewed:** 2026-10-05
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,7 +10,21 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns weighted emotional choices into a seven-dimensional fingerprint; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Reactive Personality v1.9
+## Current milestone — v2.0 Stage 1: Compose
+
+**Goal:** Capture a stable musical identity from the independent tools and regenerate one coherent Creation Brief after reopening.
+
+**Implemented state:** `src/lib/studioProject.ts` defines a version 1 project with stable ID, name, notes, created/updated timestamps, and nullable Genre/Vocal/Mood source snapshots. Genre captures ordered catalogue IDs and exact weights; Vocal captures copied selections, saved-persona ID/name/description when opened (or an explicitly labelled current builder); Mood captures one to three weighted source IDs. Origin labels and optional source IDs explain provenance without live references. Tool edits remain local; only explicit use/replace actions update the project. A compact composition surface supports create/open, explicit rename, notes, ingredient removal, confirmed deletion, source summaries, and a collapsible Creation Brief.
+
+**Persistence:** Dedicated `sonic-studio.projects.v1` key with `{ schemaVersion: 1, projects, activeId }`; every project also declares schema version 1. Unsupported envelopes fail closed; invalid/duplicate records are skipped independently; unknown fields are stripped. Existing preset/persona/experiment keys and schemas are unchanged. Denied storage still allows session-only composition and visibly warns that reload will lose changes.
+
+**Creation Brief:** Pure `creationBrief.ts` rebuilds identity summary, structured Genre/Vocal/Mood sections, and a copyable combined prompt. Genre owns tempo, instruments, harmonic centre and source roles; Mood biases position within Genre's tempo range and modifies dynamics, low-end emphasis, density, space, texture and arrangement. Vocal selections regenerate the existing performance guidance; mood phrasing explicitly preserves singer register, texture, delivery, power and effects. Notes remain separate from the generated prompt. Partial and empty projects are supported.
+
+**Gate:** `npm test` passes 128 tests (112 existing plus 16 project/composition regressions); TypeScript/Vite build and `git diff --check` pass. Edge acceptance created/named a project, entered notes, attached Genre + saved Vocal + current Mood, and showed all three sources. Editing each originating tool kept the captured brief identical until explicit replacement; replacements in all three tools changed the captured identity. Rename, open/reload equivalence, empty-project deletion with a valid neighbour retained, and exact clipboard readback passed. Recipe, Persona and Mood preset libraries survived reload. A temporary StrictMode fixture with a throwing localStorage getter mounted and composed all ingredients with session-only feedback; generated 20-second 110 Hz WAV playback, Spectrum/Waveform/Radial, pause and navigation/return worked, including the current-mood visual personality. Responsive review covered 1280/390/320 px with no horizontal overflow; final application warning/error logs were empty. The temporary fixture is removed from deliverables. Browser clipboard reads were compared after their async completion, using exact textContent rather than rendered-text normalization.
+
+**Limitations / deferred:** Source snapshots are independent of later tool edits, but catalogue/engine changes in a future release can change regenerated wording; no old-engine migration or catalogue archive is introduced. Vocal project guidance regenerates from copied selections rather than storing captured Voice DNA prose; saved Persona behaviour remains unchanged. Browser-local storage is device/origin specific, with no cross-tab synchronization or recovery after confirmed deletion. Controlled WAV verification used generated Files through the existing importer, not the native picker or external music recordings. Full v2.0 remains incomplete: Tracks/audio attachment/history, source URLs, generation records, A/B comparison, Compare/final navigation, APIs, cloud/backend/accounts, and visual preset persistence are deferred. Stage 1 does not publish to GitHub.
+
+## Previous milestone — Reactive Personality v1.9
 
 **Goal:** Keep live audio primary while a declarative visual personality makes the existing three modes respond to chosen musical characteristics.
 

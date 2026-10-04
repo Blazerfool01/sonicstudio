@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.0 Stage 1 — Compose (`2.0.0-stage.1`, 2026-10-05)
+
+- Added a versioned local StudioProject model, isolated source snapshots, and dedicated `sonic-studio.projects.v1` persistence with active-project reopen, invalid-record isolation, and storage-denial recovery.
+- Added the compact Studio composition panel with project create/open/rename/notes, source summaries, removal and inline confirmed deletion. Genre Mixer, Vocal Persona and Mood Mapper expose explicit use/replace callbacks while retaining their editing/persistence ownership.
+- Added deterministic Creation Brief composition with Genre foundation, independent Vocal performance, subordinate Mood production treatment, partial outputs and combined-prompt copy. Notes stay separate. Updated version labels and package metadata; JSON import attributes let Node tests reuse the real genre registry without duplicating catalogue assembly.
+- Fixed an existing Genre Mixer compatibility-badge overflow at 320 px by allowing the heading row to wrap; source models and relationship behaviour are unchanged.
+- Verified 128 passing tests (16 new), TypeScript/Vite build and `git diff --check`. Edge verified source-edit isolation, explicit replacement, saved-persona capture, preset survival, reload/rename/open equivalence, neighbouring project preservation on delete, exact clipboard readback, and 1280/390/320 px layout. Temporary StrictMode storage-denial/generated-WAV fixture verified session composition, playback, all three modes, live Mood personality and navigation; final application warning/error logs were empty.
+- Tracks, A/B comparison, final Studio navigation and remaining v2.0 stages stay deferred. No backend/API/cloud or playback-architecture change; no GitHub publication.
+
 ## v1.9 — Reactive Personality (2026-10-04)
 
 - Added pure `VisualPersonality` derivation from existing Mood DNA: energy → expansion, tension → stroke/detail, atmosphere → glow, motion → visual response time, weight → bass pulse, valence → palette. Classic preserves v1.7 defaults; no new saved schema or project entity.

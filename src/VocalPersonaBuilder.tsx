@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import type { VocalProjectSnapshot } from './lib/studioProject.ts'
 import { deliveries, registers, textures, vocalEffects } from './data/vocalTraits.ts'
 import { createVoiceDna, defaultVocalSelections } from './lib/voiceDna.ts'
 import type { VocalDimension, VocalSelections } from './lib/voiceDna.ts'
@@ -25,7 +26,7 @@ const sliders: { key: VocalDimension; label: string }[] = [
   { key: 'rasp', label: 'Rasp' },
 ]
 
-export default function VocalPersonaBuilder({ onNavigate }: { onNavigate: (view: 'genre' | 'mood' | 'visualiser') => void }) {
+export default function VocalPersonaBuilder({ onNavigate, onUse, projectEnabled }: { onNavigate: (view: 'genre' | 'mood' | 'visualiser') => void; onUse: (snapshot: VocalProjectSnapshot) => void; projectEnabled: boolean }) {
   const [selections, setSelections] = useState<VocalSelections>(defaultVocalSelections)
   const dna = useMemo(() => createVoiceDna(selections), [selections])
   const [personaName, setPersonaName] = useState('')
@@ -105,8 +106,9 @@ export default function VocalPersonaBuilder({ onNavigate }: { onNavigate: (view:
   return <div className="app-shell">
     <aside className="rail" aria-label="Studio navigation"><div className="brand-mark" aria-label="Sonic Studio">S<span>·</span></div><div className="rail-center"><span className="rail-tick"/><span className="rail-tick active"/><span className="rail-tick"/><span className="rail-tick"/></div><span className="rail-bottom">02 / 04</span></aside>
     <main className="main">
-      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 02</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 1.9.0</div></header>
+      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 02</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 2.0.0-stage.1</div></header>
       <nav className="tool-nav" aria-label="Studio tools"><button onClick={() => onNavigate('genre')}>01 / Genre Mixer</button><button className="active" aria-current="page">02 / Vocal Persona</button><button onClick={() => onNavigate('mood')}>03 / Mood Mapper</button><button onClick={() => onNavigate('visualiser')}>04 / Visualiser</button></nav>
+      <button className="project-use" disabled={!projectEnabled} onClick={() => onUse({ label: openedPersona?.name ?? 'Current vocal builder', sourceId: openedPersona?.id ?? null, identityDescription: openedPersona?.identityDescription ?? '', selections: openedPersona?.selections ?? selections })}>{openedPersona ? 'Use opened persona' : 'Use current voice'} in project / replace vocal</button>
       <section className="intro"><div className="eyebrow"><span>02</span> / VOCAL PERSONA BUILDER</div><div className="intro-row"><div><h1>Shape the voice<br/><em>behind the sound.</em></h1><p>Choose a vocal character and adjust its four expressive dimensions. Voice DNA updates as you work.</p></div><div className="intro-index">AN INDEPENDENT<br/>VOCAL STUDY <span>↘</span></div></div></section>
       <div className="workspace vocal-workspace">
         <section className="mix-panel" aria-labelledby="vocal-input-heading"><div className="section-heading"><div><span className="eyebrow">01 / INPUT</span><h2 id="vocal-input-heading">Build a voice</h2></div><button className="text-button" onClick={() => { setSelections(defaultVocalSelections); setOpenedPersonaId(null); setCopyMessage('') }}>↺ &nbsp; Reset voice</button></div>
