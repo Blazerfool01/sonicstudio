@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Mood presets persist source selections only
+
+v1.3 uses a dedicated `sonic-studio.mood-presets` key with a version 1 envelope, separate from Genre Mixer and Vocal Persona storage. A preset records identity, name, timestamps, and one to three cloned mood ID/integer-weight pairs. Reopening feeds those pairs through the existing Mood DNA, relationship, interpretation, and production engines rather than storing derived text or classifications. The reader rejects malformed envelopes, skips invalid or duplicate entries, and strips unexpected fields; one damaged record cannot hide valid neighbors. Live edits remain unsaved until an explicit update, which preserves the preset ID, while save-as creates a new ID. This keeps mood presets reproducible and allows future guidance changes without migrating saved prose.
+
 ## 2026-10-04 — Production guidance is a separate live view of Mood DNA
 
 v1.2.2 places the existing translator below relationship guidance. The two sections have distinct jobs: relationships explain how source moods meet; translation suggests musical consequences of their weighted Mood DNA. Priorities get visual emphasis, while the seven domains use compact rows with every signal's source values. Multi-dimension signals receive a readable combined-direction label rather than an internal rule ID. The UI does not rewrite engine prose or persist derived output. This keeps the selection and weight source model intact and prevents the averaged production direction from pretending to identify a secondary source mood.

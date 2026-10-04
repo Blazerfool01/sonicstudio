@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3 — Mood presets (2026-10-04)
+
+- Added a dedicated `sonic-studio.mood-presets` local store with `schemaVersion: 1`. Presets keep only stable ID, name, cloned mood IDs and integer weights, and timestamps. Invalid envelopes fail closed; invalid entries are skipped while valid entries remain; extra derived fields are stripped before writing.
+- Added compact Mood Mapper controls to save as new, reopen, explicitly update, and delete presets. Live edits stay separate from saved state. Reopening restores source selections and regenerates Mood DNA, relationship analysis and interpretation, and production guidance through existing engines. Other tool storage schemas are unchanged.
+- Browser-verified five review presets after an actual reload with exact Fingerprint, relationship, and production text reproduction. Also checked update across reload, save-as, targeted delete, malformed and mixed storage, and 1280/900/390/320 px layout. Verified: `npm test` (77 passing, including Genre Mixer and Vocal Persona suites) and `npm run build` (passing).
+
 ## v1.2.2 — Production guidance view (2026-10-04)
 
 - Added a live Mood Mapper production section beneath relationship guidance: overall direction, up to three ranked priorities, seven compact musical domains, dimension/value sources, and labelled combined directions. Output derives from Mood DNA and is absent with no selection; no persistence or cross-tool changes.

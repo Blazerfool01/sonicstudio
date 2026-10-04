@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Production Guidance View v1.2.2 verified · **Current milestone:** v1.3 Mood Presets next · **Last reviewed:** 2026-10-04
+**Status:** Mood Presets v1.3 verified · **Current milestone:** v1.4 reserved; v1.5 Local Audio planned next · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,7 +10,15 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns weighted emotional choices into a seven-dimensional fingerprint; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Production Guidance View v1.2.2
+## Current milestone — Mood Presets v1.3
+
+**Goal:** Reopen reusable emotional setups from saved source moods and exact weights, regenerating every Mood Mapper output.
+
+**Verified state:** A separate versioned local store holds preset ID, name, one to three mood IDs and integer weights, and timestamps. The Mood Mapper can save as new, open, explicitly update, and delete presets. Live edits show an unsaved indicator and leave the saved record unchanged until Update. Presets contain no Mood DNA, relationship result, interpretation, or production translation.
+
+**Gate:** Browser-created Serene 70, Melancholic/Vulnerable 50/50, Serene/Menacing 50/50 and 90/10, and Serene/Dreamlike/Menacing 50/30/10. After a page reload, opening each reproduced the exact Fingerprint, relationship guidance, and production section text. Explicit update survived another reload; save-as and targeted delete left the original and live state intact. Malformed JSON did not crash the app; a mixed store retained its valid preset while skipping an invalid one. The preset panel had no horizontal overflow at 1280/900/390/320 px. `npm test` passes 77 tests and `npm run build` passes. Genre Mixer and Vocal Persona storage formats are unchanged.
+
+## Previous gate — Production Guidance View v1.2.2
 
 **Goal:** Show live musical directions from Mood DNA in the independent Mood Mapper, beneath relationship guidance.
 
@@ -130,6 +138,7 @@ Complete each block independently before starting the next. v2.0 is integration 
 |2026-10-04|v1.1.3 Mood Mapper Guidance View|Verified|Live guidance reviewed across single, reinforcing, complementary, contrasting, conflicting, weighted, three-mood, and editorial stress cases. Browser interaction and four viewport widths checked; 59 tests and production build pass.|
 |2026-10-04|v1.2.1 Mood-to-Music Translation Engine|Verified|Seven-domain pure translation and seven interaction rules reviewed across seven representative profiles; 68 tests and production build pass. No UI, existing engine, or storage changes.|
 |2026-10-04|v1.2.2 Production Guidance View|Verified|Mood Mapper presents live direction, ranked priorities, seven domains, and per-signal sources beneath relationship guidance. Seven live profiles, a rendered synthetic contradiction, and 1280/900/390/320 px checks pass; 71 tests and production build pass.|
+|2026-10-04|v1.3 Mood Presets|Verified|Five presets reproduced source weights and all derived Mood Mapper sections after reload. Update, save-as, delete, malformed storage, and 1280/900/390/320 px checks pass; 77 tests and production build pass.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 
