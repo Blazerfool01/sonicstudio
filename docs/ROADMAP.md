@@ -25,9 +25,13 @@ Live and saved voices generate concise and detailed generator-neutral prompts fr
 
 The revised v1.0 scope uses up to three weighted curated moods and seven derived dimensions in an independent Mood Mapper. Selection and weights are session state; Mood DNA and description derive live. This supersedes the earlier two-axis persisted Mood Plane plan at the user's request.
 
-## Next — Mood Refinement v1.1
+## Completed — Mood Relationship Engine v1.1.1
 
-Review the 14-mood vocabulary and seven-dimensional profiles in use, then refine the deterministic emotional interpretation. Compatibility, arcs, section moods, and integration remain outside v1.0.
+A pure analyser compares each selected pair across the existing seven dimensions and accounts for their weights. A three-mood result retains all three pairs and reports an overall character. No relationship prose or UI was added.
+
+## Next — Relationship Interpretation v1.1.2
+
+Turn the structured relationship results into deterministic explanation and practical creative tension guidance. Keep selection state, curated profiles, and Mood DNA authoritative and unchanged. Song arcs, section moods, and integration remain later work.
 
 ## Later
 

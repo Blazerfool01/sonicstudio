@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Mood relationships are observational and influence-aware
+
+v1.1.1 classifies pairs from their seven curated 0–100 profiles rather than named-pair rules. A clear endpoint region is 0–40 or 60–100. Mean absolute distance at or below 0.19 with no opposition is reinforcing; opposing-distance tension at or above 0.16 is contrasting; tension at or above 0.42 plus mean distance at or above 0.50 is conflicting; the rest is complementary. Equal influence retains raw tension, while unequal influence scales it by twice the smaller weight divided by the pair total. For three moods, each pair is retained and the aggregate tension scales each pair by twice its smaller weight divided by the total selected weight, preventing two weak secondary moods from dominating the blend. Ties and axis rankings preserve dimension order. The module does not mutate selections, profiles, Mood DNA, or other tools. The classifications are descriptive; no mood combination becomes invalid. v1.1.2 can add prose and resolutions from these structured results.
+
 ## 2026-10-04 — Weighted moods replace the planned two-axis Mood Plane for v1.0
 
 The user-defined v1.0 scope supersedes the roadmap's Dark–Bright/Calm–Intense persisted plane. Fourteen curated moods have stable IDs and seven values on the existing 0–100 scale. The independent Mood Mapper keeps one to three selected IDs with 1–100 integer influence weights in view-local session state. Mood DNA uses a normalized weighted mean rounded to an integer; the largest weight determines the dominant mood, with selection order breaking ties. The brief did not require saving mood selections, so persistence and a storage schema are deferred. Description is derived from the strongest dimension endpoints and is never authoritative state. This avoids changing saved Sound DNA or Voice DNA and leaves composition for a later milestone.

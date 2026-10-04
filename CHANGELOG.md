@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.1 — Mood relationship engine (2026-10-04)
+
+- Added `src/lib/moodRelationships.ts`: pure seven-axis pair comparison, bounded distance and similarity, shared and opposed dimension details, raw relationship type, influence-aware tension/type, and an overall result retaining every pair for up to three moods. No Mood DNA or UI changes.
+- Eight review pairs: Melancholic/Vulnerable and Dreamlike/Hypnotic reinforce; Romantic/Dreamlike and Triumphant/Euphoric complement; Dreamlike/Restless and Vulnerable/Triumphant contrast; Serene/Menacing and Romantic/Aggressive conflict. Triumphant/Euphoric's relatively small total distance still includes Weight and Atmosphere opposition, explaining its complementary label.
+- Verified: `npm test` (51 passing, including Mood DNA, Genre Mixer, and Vocal Persona suites) and `npm run build` (passing).
+
 ## v1.0 — Mood Space Foundation (2026-10-04)
 
 - Added 14 curated moods, each with seven 0–100 dimension values, and pure weighted Mood DNA derivation with deterministic dominant mood and short description.

@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Mood Space Foundation v1.0 verified · **Current milestone:** v1.1 mood refinement next · **Last reviewed:** 2026-10-04
+**Status:** Mood Relationship Engine v1.1.1 verified · **Current milestone:** v1.1.2 relationship interpretation next · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,13 +10,17 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns weighted emotional choices into a seven-dimensional fingerprint; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Mood Space Foundation v1.0
+## Current milestone — Mood Relationship Engine v1.1.1
 
-**Goal:** Describe emotional identity independently through up to three weighted moods and seven derived dimensions.
+**Goal:** Analyze how one to three selected moods relate across the seven existing Mood DNA dimensions, without changing Mood DNA.
 
-**Verified state:** Fourteen curated moods each define Valence, Energy, Tension, Intimacy, Weight, Motion, and Atmosphere on a 0–100 scale. The new Mood Mapper view holds selected IDs and integer weights in local session state, derives Mood DNA and its dominant mood with pure functions, and shows a deterministic description and labelled Emotional Fingerprint. Genre Mixer and Vocal Persona do not enter the calculation; their saved formats are unchanged.
+**Verified state:** A pure relationship module reports all seven per-axis distances, shared regions, endpoint oppositions, raw pair similarity/tension, influence-aware tension and classification, and an overall three-mood character that retains all pair results. One mood returns `none`. Source selections, curated profiles, Mood DNA, Genre Mixer, and Vocal Persona remain unchanged.
 
-**Gate:** Select moods → adjust weights → see Mood DNA, all seven opposing labels, dominant mood, and summary update immediately. `npm test` passes 44 tests and `npm run build` passes. Browser interaction verified: two moods and weight change updated dominant mood and all seven values; a third selection disabled remaining choices; navigation to Vocal Persona worked. v1.1 can refine the emotional vocabulary and interpretation.
+**Gate:** Eight requested review pairs were inspected; classifications are listed in `CHANGELOG.md`. `npm test` passes 51 tests, including all pre-existing suites, and `npm run build` passes. v1.1.2 may add derived relationship prose and resolutions without changing Mood DNA.
+
+## Previous gate — Mood Space Foundation v1.0
+
+The independent 14-mood catalogue, weighted selection, seven-dimensional Mood DNA, and Emotional Fingerprint remain verified; see the v1.0 changelog entry.
 
 ## Previous gate — Vocal Prompt Output v0.9
 
@@ -54,7 +58,8 @@ The v0.9 prompt and saved-persona comparison gate remains verified; see its chan
 |v0.8|Trait Relationships|Curated relationships modify interpretation, explain dominance and resolution, and make awkward combinations coherent. Complete v0.8.1–v0.8.4 before advancing.|
 |v0.9|Vocal Prompt Output|Build contrasting singers, compare them, and preserve identity across experiments.|
 |v1.0|Mood Space Foundation|Up to three weighted curated moods deterministically produce seven-dimension Mood DNA and a summary in an independent view.|
-|v1.1|Mood Refinement|Refine the curated vocabulary and emotional interpretation based on v1.0 use, while keeping the seven-dimension source model.|
+|v1.1.1|Mood Relationship Engine|Pure dimension-by-dimension and influence-aware pair analysis; three-mood aggregate retains all pairs without changing Mood DNA.|
+|v1.1.2|Relationship Interpretation|Describe relationship patterns and creative tensions from the v1.1.1 analysis, without changing source moods or Mood DNA.|
 |v1.2|Musical Translation|Mood adds production guidance without overwriting Genre Mixer.|
 |v1.4|Mood Presets|Saved presets reproduce recognisable musical guidance.|
 |v1.5|Local Audio|Load and reliably control multiple local tracks.|
@@ -94,6 +99,8 @@ Complete each block independently before starting the next. v2.0 is integration 
 |2026-10-04|v0.9 Vocal Prompt Output|Verified|Thirty-eight tests and build pass. Browser creation of opposite Air and Stone Personas shows distinct concise/detailed prompts and an eight-trait comparison; both copy controls report success. Reload and reopen reproduce Stone's prompt and saved identity; experiment reference persists with Stone's ID. Genre Mixer weighting still updates DNA and recipe.|
 
 |2026-10-04|v1.0 Mood Space Foundation|Verified|Fourteen moods, three weighted selections, seven-dimension Mood DNA and deterministic summary. `npm test` passes 44 tests and `npm run build` passes. Genre and Vocal regression suites pass.|
+
+|2026-10-04|v1.1.1 Mood Relationship Engine|Verified|Pure seven-axis pair and weighted three-mood analysis; eight review combinations inspected. `npm test` passes 51 tests and `npm run build` passes. Mood DNA remains unchanged.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 
