@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.1.2 — Mood relationship interpretation (2026-10-04)
+
+- Added `src/data/moodInterpretationGuidance.ts` with reusable shared-quality, emotional-effect, and balanced/low-led/high-led resolution guidance for all seven dimensions.
+- Added `src/lib/moodRelationshipInterpretation.ts`, a pure derived headline, whole-blend summary, ranked supports and tensions, practical strategy, and dominant/supporting/accent roles. Raw conflict remains visible in the wording when uneven weights soften effective classification. No UI or authoritative data changes.
+- Reviewed all eight named pairs, Serene/Menacing at 50/50 and 90/10, and Serene/Dreamlike/Menacing at 50/30/10. The latter retains shared suspension alongside calm/unease tension. Vulnerable/Triumphant emphasizes motion because that is its strongest opposing dimension; this is numerically sound but may feel less distinctive than its valence and energy contrast.
+- Verified: `npm test` (59 passing, including Mood DNA, relationship, Genre Mixer, and Vocal Persona suites) and `npm run build` (passing).
+
 ## v1.1.1 — Mood relationship engine (2026-10-04)
 
 - Added `src/lib/moodRelationships.ts`: pure seven-axis pair comparison, bounded distance and similarity, shared and opposed dimension details, raw relationship type, influence-aware tension/type, and an overall result retaining every pair for up to three moods. No Mood DNA or UI changes.

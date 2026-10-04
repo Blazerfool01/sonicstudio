@@ -29,9 +29,13 @@ The revised v1.0 scope uses up to three weighted curated moods and seven derived
 
 A pure analyser compares each selected pair across the existing seven dimensions and accounts for their weights. A three-mood result retains all three pairs and reports an overall character. No relationship prose or UI was added.
 
-## Next — Relationship Interpretation v1.1.2
+## Completed — Relationship Interpretation v1.1.2
 
-Turn the structured relationship results into deterministic explanation and practical creative tension guidance. Keep selection state, curated profiles, and Mood DNA authoritative and unchanged. Song arcs, section moods, and integration remain later work.
+A pure interpreter now turns the unchanged v1.1.1 analysis into a whole-blend summary, mood roles, supporting qualities, creative tensions, and dimension-specific resolutions. It remains derived output with no UI or persistence.
+
+## Next — Mood Mapper Guidance View v1.1.3
+
+Surface the derived relationship guidance in the existing Mood Mapper view and verify live two- and three-mood interaction. Keep source selections, Mood DNA, and relationship classifications unchanged. Song arcs, section moods, and integration remain later work.
 
 ## Later
 
