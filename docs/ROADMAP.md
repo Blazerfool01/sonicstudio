@@ -45,11 +45,11 @@ The pure translator produces seven musical domains, source-traceable priorities,
 
 The Mood Mapper now shows live production direction, ranked priorities, seven musical domains, and source traceability beneath the unchanged relationship interpretation. Weighted source opposition remains in the relationship section because translation cannot reconstruct it from normalized Mood DNA.
 
-## Completed — Mood Presets v1.3
+## Completed — Mood Presets v1.3 (original blueprint v1.4 scope)
 
 Source mood selections and exact weights now persist as reusable presets. Reopening regenerates Mood DNA, relationship guidance, and production guidance. Save-as, explicit update, targeted delete, and corrupt-record handling are verified.
 
-v1.4 remains reserved and unassigned until a meaningful final Mood Mapper milestone is identified.
+This completes the Mood Mapper block through the blueprint's original v1.4 stage. The implementation shipped as v1.3; no separate v1.4 implementation milestone is planned.
 
 ## Next planned — Local Audio v1.5
 

@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Mood Presets v1.3 verified · **Current milestone:** v1.4 reserved; v1.5 Local Audio planned next · **Last reviewed:** 2026-10-04
+**Status:** Mood Mapper complete through the blueprint's original v1.4 scope, shipped as v1.3 · **Next milestone:** v1.5 Local Audio · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -17,6 +17,8 @@ Build four independently useful music tools, then connect them in v2.0 into one 
 **Verified state:** A separate versioned local store holds preset ID, name, one to three mood IDs and integer weights, and timestamps. The Mood Mapper can save as new, open, explicitly update, and delete presets. Live edits show an unsaved indicator and leave the saved record unchanged until Update. Presets contain no Mood DNA, relationship result, interpretation, or production translation.
 
 **Gate:** Browser-created Serene 70, Melancholic/Vulnerable 50/50, Serene/Menacing 50/50 and 90/10, and Serene/Dreamlike/Menacing 50/30/10. After a page reload, opening each reproduced the exact Fingerprint, relationship guidance, and production section text. Explicit update survived another reload; save-as and targeted delete left the original and live state intact. Malformed JSON did not crash the app; a mixed store retained its valid preset while skipping an invalid one. The preset panel had no horizontal overflow at 1280/900/390/320 px. `npm test` passes 77 tests and `npm run build` passes. Genre Mixer and Vocal Persona storage formats are unchanged.
+
+**Blueprint mapping:** Implementation v1.3 fulfils the original blueprint's v1.4 Mood Presets stage. The Mood Mapper block is complete through that scope; no separate v1.4 implementation milestone is pending.
 
 ## Previous gate — Production Guidance View v1.2.2
 
@@ -93,7 +95,6 @@ The v0.9 prompt and saved-persona comparison gate remains verified; see its chan
 |v1.2.1|Mood-to-Music Translation Engine|Pure Mood DNA translation yields traceable domains, priorities, and concise direction without UI or cross-tool integration.|
 |v1.2.2|Production Guidance View|Present live musical directions in Mood Mapper while preserving Mood DNA and relationship guidance.|
 |v1.3|Mood Presets|Persist source mood selections and weights as reusable presets, then regenerate Mood DNA, relationship guidance, and production guidance when reopened.|
-|v1.4|Reserved|Unassigned until a meaningful final Mood Mapper milestone is identified.|
 |v1.5|Local Audio|Load and reliably control multiple local tracks.|
 |v1.6|Audio Analysis|Debug meters distinguish silence, bass-heavy, and bright passages.|
 |v1.7|Visual Modes|Bars, waveform, and radial modes share analysis without interrupting playback.|
