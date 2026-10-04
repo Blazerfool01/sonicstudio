@@ -1,0 +1,24 @@
+{
+  "rhythm": [
+    ["a half-time pulse", "a four-on-floor pulse"],
+    ["a four-on-floor pulse", "a shuffled two-step pulse"],
+    ["a steady backbeat", "fast breakbeats"]
+  ],
+  "bass": [
+    ["a soft drone", "moving reese bass"],
+    ["a melodic bassline", "distorted sub bass"]
+  ],
+  "harmony": [],
+  "instrumentation": [],
+  "texture": [],
+  "production": [
+    ["a close, warm mix", "a wide, reverberant mix"],
+    ["a dry, punchy mix", "a wide, reverberant mix"],
+    ["a clipped, compressed mix", "a wide, reverberant mix"]
+  ],
+  "intensity": [
+    ["restrained dynamics", "large dynamic peaks"],
+    ["near-stillness", "steady forward drive"],
+    ["near-stillness", "hard accents"]
+  ]
+}

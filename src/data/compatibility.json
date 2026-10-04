@@ -1,0 +1,110 @@
+{
+  "dark-rnb": {
+    "rhythm":{"approach":"a half-time pulse","layer":"front","force":45},
+    "bass":{"approach":"rounded sub bass","layer":"front","force":55},
+    "harmony":{"approach":"emotive minor harmony","layer":"mid","force":65},
+    "instrumentation":{"approach":"intimate keys and guitar","layer":"mid","force":45},
+    "texture":{"approach":"a warm haze","layer":"whole","force":55},
+    "production":{"approach":"a close, warm mix","layer":"whole","force":35},
+    "intensity":{"approach":"restrained dynamics","layer":"whole","force":38}
+  },
+  "trap": {
+    "rhythm":{"approach":"a half-time pulse","layer":"front","force":75},
+    "bass":{"approach":"sliding sub bass","layer":"front","force":90},
+    "harmony":{"approach":"sparse minor harmony","layer":"mid","force":35},
+    "instrumentation":{"approach":"sparse electronic motifs","layer":"mid","force":45},
+    "texture":{"approach":"a gritty edge","layer":"whole","force":75},
+    "production":{"approach":"a dry, punchy mix","layer":"whole","force":85},
+    "intensity":{"approach":"hard accents","layer":"whole","force":78}
+  },
+  "phonk": {
+    "rhythm":{"approach":"a driving pulse","layer":"front","force":90},
+    "bass":{"approach":"distorted sub bass","layer":"front","force":95},
+    "harmony":{"approach":"sparse minor harmony","layer":"mid","force":45},
+    "instrumentation":{"approach":"chopped samples","layer":"mid","force":70},
+    "texture":{"approach":"a gritty edge","layer":"whole","force":90},
+    "production":{"approach":"a clipped, compressed mix","layer":"whole","force":95},
+    "intensity":{"approach":"hard accents","layer":"whole","force":92}
+  },
+  "hardwave": {
+    "rhythm":{"approach":"a half-time pulse","layer":"front","force":75},
+    "bass":{"approach":"moving reese bass","layer":"front","force":82},
+    "harmony":{"approach":"emotive minor harmony","layer":"mid","force":75},
+    "instrumentation":{"approach":"layered electronic leads","layer":"mid","force":80},
+    "texture":{"approach":"a wide electronic haze","layer":"whole","force":80},
+    "production":{"approach":"a wide, reverberant mix","layer":"whole","force":85},
+    "intensity":{"approach":"large dynamic peaks","layer":"whole","force":83}
+  },
+  "synthwave": {
+    "rhythm":{"approach":"a steady backbeat","layer":"front","force":60},
+    "bass":{"approach":"an analog synth pulse","layer":"front","force":65},
+    "harmony":{"approach":"emotive minor harmony","layer":"mid","force":70},
+    "instrumentation":{"approach":"layered electronic leads","layer":"mid","force":75},
+    "texture":{"approach":"a wide electronic haze","layer":"whole","force":65},
+    "production":{"approach":"a wide, reverberant mix","layer":"whole","force":70},
+    "intensity":{"approach":"large dynamic peaks","layer":"whole","force":62}
+  },
+  "ambient": {
+    "rhythm":{"approach":"a free-floating pulse","layer":"bed","force":10},
+    "bass":{"approach":"a soft drone","layer":"bed","force":20},
+    "harmony":{"approach":"suspended harmony","layer":"mid","force":35},
+    "instrumentation":{"approach":"atmospheric pads","layer":"bed","force":45},
+    "texture":{"approach":"an airy environment","layer":"bed","force":25},
+    "production":{"approach":"a diffuse reverb field","layer":"bed","force":20},
+    "intensity":{"approach":"near-stillness","layer":"bed","force":15}
+  },
+  "dream-pop": {
+    "rhythm":{"approach":"a steady backbeat","layer":"front","force":35},
+    "bass":{"approach":"a melodic bassline","layer":"front","force":35},
+    "harmony":{"approach":"lush harmony","layer":"mid","force":55},
+    "instrumentation":{"approach":"layered organic instruments","layer":"mid","force":60},
+    "texture":{"approach":"a wide electronic haze","layer":"whole","force":50},
+    "production":{"approach":"a wide, reverberant mix","layer":"whole","force":45},
+    "intensity":{"approach":"restrained dynamics","layer":"whole","force":35}
+  },
+  "house": {
+    "rhythm":{"approach":"a four-on-floor pulse","layer":"front","force":85},
+    "bass":{"approach":"a bouncing bassline","layer":"front","force":72},
+    "harmony":{"approach":"bright repeating harmony","layer":"mid","force":55},
+    "instrumentation":{"approach":"piano and organ hooks","layer":"mid","force":60},
+    "texture":{"approach":"a clean club surface","layer":"whole","force":55},
+    "production":{"approach":"a dry, punchy mix","layer":"whole","force":70},
+    "intensity":{"approach":"steady forward drive","layer":"whole","force":70}
+  },
+  "uk-garage": {
+    "rhythm":{"approach":"a shuffled two-step pulse","layer":"front","force":85},
+    "bass":{"approach":"a bouncing bassline","layer":"front","force":78},
+    "harmony":{"approach":"bright repeating harmony","layer":"mid","force":50},
+    "instrumentation":{"approach":"piano and organ hooks","layer":"mid","force":55},
+    "texture":{"approach":"a clean club surface","layer":"whole","force":55},
+    "production":{"approach":"a dry, punchy mix","layer":"whole","force":70},
+    "intensity":{"approach":"steady forward drive","layer":"whole","force":72}
+  },
+  "drum-bass": {
+    "rhythm":{"approach":"fast breakbeats","layer":"front","force":95},
+    "bass":{"approach":"moving reese bass","layer":"front","force":90},
+    "harmony":{"approach":"sparse minor harmony","layer":"mid","force":45},
+    "instrumentation":{"approach":"chopped samples","layer":"front","force":65},
+    "texture":{"approach":"a gritty edge","layer":"front","force":70},
+    "production":{"approach":"a dry, punchy mix","layer":"front","force":80},
+    "intensity":{"approach":"steady forward drive","layer":"front","force":95}
+  },
+  "lofi-hiphop": {
+    "rhythm":{"approach":"a swung boom-bap pulse","layer":"front","force":35},
+    "bass":{"approach":"a melodic bassline","layer":"front","force":38},
+    "harmony":{"approach":"lush harmony","layer":"mid","force":55},
+    "instrumentation":{"approach":"layered organic instruments","layer":"mid","force":50},
+    "texture":{"approach":"a warm haze","layer":"whole","force":40},
+    "production":{"approach":"a close, warm mix","layer":"whole","force":35},
+    "intensity":{"approach":"restrained dynamics","layer":"whole","force":25}
+  },
+  "cinematic": {
+    "rhythm":{"approach":"an orchestral pulse","layer":"mid","force":55},
+    "bass":{"approach":"a soft drone","layer":"bed","force":65},
+    "harmony":{"approach":"emotive minor harmony","layer":"mid","force":70},
+    "instrumentation":{"approach":"orchestral layers","layer":"front","force":75},
+    "texture":{"approach":"a wide electronic haze","layer":"whole","force":65},
+    "production":{"approach":"a wide, reverberant mix","layer":"whole","force":80},
+    "intensity":{"approach":"large dynamic peaks","layer":"whole","force":75}
+  }
+}

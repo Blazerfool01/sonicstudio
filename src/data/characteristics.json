@@ -1,0 +1,110 @@
+{
+  "dark-rnb": {
+    "rhythm": {"anchor":"a sparse, syncopated half-time pocket","accent":"soft snaps and subtle swing","strength":68},
+    "bass": {"anchor":"rounded sub bass moving between the kick accents","accent":"restrained 808 weight","strength":72},
+    "harmony": {"anchor":"minor-key chords with soulful extensions","accent":"warm suspended voicings","strength":88},
+    "instrumentation": {"anchor":"muted keys and close guitar details","accent":"hazy pads behind the melody","strength":77},
+    "texture": {"anchor":"an intimate, smoky surface","accent":"velvety softness around the edges","strength":82},
+    "production": {"anchor":"a close, warm mix with controlled reverb","accent":"a warm, close centre that softens the edges","strength":78},
+    "intensity": {"anchor":"restrained emotion with a slow burn","accent":"small dynamic swells","strength":54}
+  },
+  "trap": {
+    "rhythm": {"anchor":"a clipped half-time beat driven by rapid hats","accent":"snare accents and hat rolls","strength":87},
+    "bass": {"anchor":"sliding 808 notes beneath hard kicks","accent":"deep sub pressure","strength":94},
+    "harmony": {"anchor":"minimal minor-key motifs","accent":"cold bell tones","strength":55},
+    "instrumentation": {"anchor":"sparse bells and synth stabs","accent":"short brass punctuation","strength":62},
+    "texture": {"anchor":"a sharp, gritty surface with deliberate gaps","accent":"dark grain between hits","strength":63},
+    "production": {"anchor":"a dry, punchy drum foreground","accent":"heavy low-end compression","strength":80},
+    "intensity": {"anchor":"hard attacks separated by open space","accent":"bursts of percussive force","strength":82}
+  },
+  "phonk": {
+    "rhythm": {"anchor":"a relentless cowbell-led drive","accent":"clipped claps and Memphis-style syncopation","strength":89},
+    "bass": {"anchor":"distorted 808 movement","accent":"grinding sub pressure","strength":93},
+    "harmony": {"anchor":"ominous minor loops","accent":"short, dissonant sample fragments","strength":56},
+    "instrumentation": {"anchor":"cowbell motifs and chopped samples","accent":"shadowy keys behind the drums","strength":74},
+    "texture": {"anchor":"raw tape grit and distortion","accent":"dusty sample edges","strength":81},
+    "production": {"anchor":"hard-clipped, compressed impact","accent":"tape-worn saturation","strength":86},
+    "intensity": {"anchor":"constant forward pressure","accent":"sudden hard accents","strength":91}
+  },
+  "hardwave": {
+    "rhythm": {"anchor":"a wide half-time impact groove","accent":"rolling percussion and heavy snare accents","strength":82},
+    "bass": {"anchor":"a moving reese bass under deep drops","accent":"cinematic sub weight","strength":88},
+    "harmony": {"anchor":"emotive minor-key synth progressions","accent":"glassy suspended chords","strength":78},
+    "instrumentation": {"anchor":"supersaw leads and rising arpeggios","accent":"cinematic pads around the lead","strength":85},
+    "texture": {"anchor":"an expansive, glacial electronic surface","accent":"charged shimmer in the distance","strength":91},
+    "production": {"anchor":"a huge, sidechained stereo field","accent":"long reverbs and dramatic width","strength":94},
+    "intensity": {"anchor":"large emotional peaks and impact drops","accent":"tension-building swells","strength":88}
+  },
+  "synthwave": {
+    "rhythm": {"anchor":"a steady electronic backbeat","accent":"pulsing eighth notes and gated snares","strength":70},
+    "bass": {"anchor":"a sequenced analog bass pulse","accent":"warm sustained low notes","strength":73},
+    "harmony": {"anchor":"nostalgic minor-to-major synth changes","accent":"bright suspended chords","strength":77},
+    "instrumentation": {"anchor":"analog pads and arpeggiated leads","accent":"short melodic synth hooks","strength":84},
+    "texture": {"anchor":"a glossy neon surface","accent":"soft tape-era colour","strength":76},
+    "production": {"anchor":"chorused synth layers and gated reverb","accent":"a polished retro sheen","strength":80},
+    "intensity": {"anchor":"steady momentum with rising hooks","accent":"bright lift at transitions","strength":69}
+  },
+  "ambient": {
+    "rhythm": {"anchor":"a free-floating pulse with long gaps","accent":"slow swells between rhythmic phrases","strength":18},
+    "bass": {"anchor":"a soft low drone","accent":"subtle bass bloom beneath the space","strength":34},
+    "harmony": {"anchor":"slowly evolving suspended harmony","accent":"unresolved piano colours","strength":78},
+    "instrumentation": {"anchor":"evolving pads and field textures","accent":"isolated soft-piano notes","strength":75},
+    "texture": {"anchor":"a weightless, immersive atmosphere","accent":"air and distant environmental detail","strength":96},
+    "production": {"anchor":"a diffuse, long-reverb environment","accent":"gentle dynamics and open stereo depth","strength":95},
+    "intensity": {"anchor":"near-stillness with gradual movement","accent":"small waves of energy","strength":35}
+  },
+  "dream-pop": {
+    "rhythm": {"anchor":"a gentle backbeat beneath floating phrases","accent":"light tambourine shimmer","strength":48},
+    "bass": {"anchor":"a melodic, softly rounded bassline","accent":"warm sustained low notes","strength":53},
+    "harmony": {"anchor":"lush, bittersweet chord changes","accent":"open suspended voicings","strength":85},
+    "instrumentation": {"anchor":"chorused guitar and shimmering keys","accent":"pads that blur the edges","strength":84},
+    "texture": {"anchor":"a hazy, luminous wash","accent":"soft-focus melodic trails","strength":91},
+    "production": {"anchor":"layered reverb and chorus haze","accent":"blurred transients and broad stereo","strength":86},
+    "intensity": {"anchor":"gentle lift without hard peaks","accent":"melodic swells","strength":48}
+  },
+  "house": {
+    "rhythm": {"anchor":"a four-on-floor kick and offbeat hats","accent":"clap backbeats and repeating groove","strength":91},
+    "bass": {"anchor":"a bouncy, repeating bassline","accent":"rounded sub beneath the kick","strength":82},
+    "harmony": {"anchor":"warm repeating chord cycles","accent":"bright piano stabs","strength":68},
+    "instrumentation": {"anchor":"piano and organ stabs","accent":"short synth hooks","strength":65},
+    "texture": {"anchor":"a clean, buoyant club surface","accent":"warm rhythmic detail","strength":58},
+    "production": {"anchor":"crisp drums with sidechain movement","accent":"club-ready low-end focus","strength":84},
+    "intensity": {"anchor":"sustained dancefloor momentum","accent":"small rises into each phrase","strength":76}
+  },
+  "uk-garage": {
+    "rhythm": {"anchor":"a shuffled two-step groove","accent":"skipping hats and off-centre snares","strength":93},
+    "bass": {"anchor":"a rubbery, moving sub bassline","accent":"short low-end answers to the drums","strength":86},
+    "harmony": {"anchor":"bright chopped-chord movement","accent":"warm organ fragments","strength":65},
+    "instrumentation": {"anchor":"chopped chords and bright organ","accent":"percussive synth details","strength":68},
+    "texture": {"anchor":"a nimble, springy urban surface","accent":"small syncopated details","strength":63},
+    "production": {"anchor":"tight swing and punchy drums","accent":"short reverbs with clear low end","strength":80},
+    "intensity": {"anchor":"restless but controlled motion","accent":"quick rhythmic lifts","strength":79}
+  },
+  "drum-bass": {
+    "rhythm": {"anchor":"fast, rolling breakbeats","accent":"ghost snares and rapid syncopation","strength":98},
+    "bass": {"anchor":"a deep reese and sub-bass engine","accent":"moving low-frequency pressure","strength":94},
+    "harmony": {"anchor":"tense, sparse harmonic beds","accent":"minor-key atmospheric chords","strength":56},
+    "instrumentation": {"anchor":"sampled breaks and staccato synths","accent":"distant pads around the drums","strength":73},
+    "texture": {"anchor":"kinetic detail over dark atmosphere","accent":"edgy transient grain","strength":70},
+    "production": {"anchor":"precise break edits and controlled sub","accent":"sharp drum edges within the reverberant field","strength":81},
+    "intensity": {"anchor":"sustained high-speed drive","accent":"surges at each break transition","strength":96}
+  },
+  "lofi-hiphop": {
+    "rhythm": {"anchor":"a lazy, swung boom-bap pocket","accent":"soft snares and unhurried hats","strength":64},
+    "bass": {"anchor":"a mellow bass-guitar foundation","accent":"rounded low-end warmth","strength":60},
+    "harmony": {"anchor":"mellow jazz-chord loops","accent":"small unresolved piano colours","strength":77},
+    "instrumentation": {"anchor":"sampled guitar and jazz piano","accent":"vinyl fragments between phrases","strength":70},
+    "texture": {"anchor":"a dusty, cozy imperfection","accent":"tape-worn edges","strength":83},
+    "production": {"anchor":"soft compression and vinyl grain","accent":"gentle tape wobble","strength":81},
+    "intensity": {"anchor":"easy head-nod restraint","accent":"small rhythmic nudges","strength":45}
+  },
+  "cinematic": {
+    "rhythm": {"anchor":"a slow orchestral pulse with rising percussion","accent":"tom accents at structural turns","strength":61},
+    "bass": {"anchor":"low orchestral drones and synth foundation","accent":"deep impacts at transitions","strength":75},
+    "harmony": {"anchor":"dramatic, slowly changing harmony","accent":"tense string and brass voicings","strength":84},
+    "instrumentation": {"anchor":"strings, brass swells, and piano motifs","accent":"orchestral layers behind the motif","strength":88},
+    "texture": {"anchor":"a grand, layered soundstage","accent":"narrative tension in the background","strength":87},
+    "production": {"anchor":"a large hall with wide dynamics","accent":"dramatic depth and long decays","strength":90},
+    "intensity": {"anchor":"long builds toward clear peaks","accent":"quiet passages before impact","strength":81}
+  }
+}

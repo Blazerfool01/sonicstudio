@@ -1,0 +1,158 @@
+[
+  {
+    "id": "dark-rnb",
+    "name": "Dark R&B",
+    "family": "Nocturnal",
+    "color": "#b77a9b",
+    "description": "Intimate, slow-burning rhythm with shadowed harmony.",
+    "tempo": [
+      68,
+      96
+    ],
+    "energy": 38,
+    "darkness": 78
+  },
+  {
+    "id": "trap",
+    "name": "Trap",
+    "family": "Rhythm-driven",
+    "color": "#d38b68",
+    "description": "Hard low end, sharp hats and deliberate space.",
+    "tempo": [
+      65,
+      85
+    ],
+    "energy": 76,
+    "darkness": 72
+  },
+  {
+    "id": "phonk",
+    "name": "Phonk",
+    "family": "Rhythm-driven",
+    "color": "#c58b66",
+    "description": "Distorted low end and cowbell-led momentum.",
+    "tempo": [
+      120,
+      155
+    ],
+    "energy": 88,
+    "darkness": 82
+  },
+  {
+    "id": "hardwave",
+    "name": "Hardwave",
+    "family": "Electronic",
+    "color": "#9e90d9",
+    "description": "Massive synthetic space with emotive impact.",
+    "tempo": [
+      130,
+      155
+    ],
+    "energy": 82,
+    "darkness": 68
+  },
+  {
+    "id": "synthwave",
+    "name": "Synthwave",
+    "family": "Electronic",
+    "color": "#e187ad",
+    "description": "Retro synth motion and neon-lit nostalgia.",
+    "tempo": [
+      90,
+      125
+    ],
+    "energy": 66,
+    "darkness": 48
+  },
+  {
+    "id": "ambient",
+    "name": "Ambient",
+    "family": "Atmospheric",
+    "color": "#83b5ae",
+    "description": "Unhurried space, evolving tone and soft edges.",
+    "tempo": [
+      50,
+      85
+    ],
+    "energy": 18,
+    "darkness": 38
+  },
+  {
+    "id": "dream-pop",
+    "name": "Dream Pop",
+    "family": "Atmospheric",
+    "color": "#b6a0ce",
+    "description": "Soft-focus melody suspended in shimmer.",
+    "tempo": [
+      75,
+      115
+    ],
+    "energy": 42,
+    "darkness": 35
+  },
+  {
+    "id": "house",
+    "name": "House",
+    "family": "Club",
+    "color": "#e2b56e",
+    "description": "Steady dancefloor pulse with warm repetition.",
+    "tempo": [
+      118,
+      128
+    ],
+    "energy": 72,
+    "darkness": 28
+  },
+  {
+    "id": "uk-garage",
+    "name": "UK Garage",
+    "family": "Club",
+    "color": "#86bdba",
+    "description": "Skippy two-step swing and elastic low end.",
+    "tempo": [
+      125,
+      140
+    ],
+    "energy": 76,
+    "darkness": 42
+  },
+  {
+    "id": "drum-bass",
+    "name": "Drum & Bass",
+    "family": "Club",
+    "color": "#94bd80",
+    "description": "Fast breaks and restless low-frequency movement.",
+    "tempo": [
+      160,
+      178
+    ],
+    "energy": 91,
+    "darkness": 62
+  },
+  {
+    "id": "lofi-hiphop",
+    "name": "Lo-fi Hip-Hop",
+    "family": "Downtempo",
+    "color": "#c7aa83",
+    "description": "Dusty head-nod beats and mellow harmonic loops.",
+    "tempo": [
+      68,
+      92
+    ],
+    "energy": 32,
+    "darkness": 40
+  },
+  {
+    "id": "cinematic",
+    "name": "Cinematic",
+    "family": "Atmospheric",
+    "color": "#b9a9a2",
+    "description": "Wide-screen dynamics and narrative tension.",
+    "tempo": [
+      65,
+      125
+    ],
+    "energy": 67,
+    "darkness": 59
+  }
+]
