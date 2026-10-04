@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.8.4 — Contradiction proof (2026-10-04)
+
+- Stress-tested three awkward multi-tension voices in `tests/vocalInterpretation.test.mjs`, including the intimate, raspy, reverberant high-breath/high-power/high-warmth/high-rasp case. Clarified the warmth phrase in `src/lib/vocalInterpretation.ts` so its contribution to breath-softened peaks reads unambiguously.
+- Verified: `npm test` (33 passing), `npm run build` (passing), browser review of the primary strategy and three practical tension resolutions, saved Persona reopen after edits and reload with unchanged ID and Voice DNA, and Genre Mixer weighting/output at 60/40 and 75/25.
+
 ## v0.8.3 — Vocal guidance in the builder (2026-10-04)
 
 - Added a guidance section to `src/VocalPersonaBuilder.tsx` showing dominant quality, one performance strategy, supporting relationships, and creative tensions with specific resolutions. Guidance derives live from controls or reopened saved selections; neither Voice DNA nor Persona storage changes.

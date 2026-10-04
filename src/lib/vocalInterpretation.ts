@@ -83,7 +83,7 @@ function performanceStrategy(selections: VocalSelections, report: VocalRelations
 
   if (present('warm-air')) {
     if (present('force-grit')) tone += closeForce
-      ? ', while warmth gives their airy edge body'
+      ? ', while warmth gives the breath-softened peaks body'
       : ', while warmth gives the breath-softened notes body'
     else tone += ', with warmth giving the airy edge body'
   }

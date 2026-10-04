@@ -122,7 +122,7 @@ function GenreMixer({ onSwitch }: { onSwitch: () => void }) {
     <main className="main">
       <header className="topbar">
         <div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 01</small></div>
-        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 0.8.3</div>
+        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 0.8.4</div>
       </header>
       <nav className="tool-nav" aria-label="Studio tools"><button className="active" aria-current="page">01 / Genre Mixer</button><button onClick={onSwitch}>02 / Vocal Persona</button></nav>
 
