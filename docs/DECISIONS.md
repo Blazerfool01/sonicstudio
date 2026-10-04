@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Weighted moods replace the planned two-axis Mood Plane for v1.0
+
+The user-defined v1.0 scope supersedes the roadmap's Dark–Bright/Calm–Intense persisted plane. Fourteen curated moods have stable IDs and seven values on the existing 0–100 scale. The independent Mood Mapper keeps one to three selected IDs with 1–100 integer influence weights in view-local session state. Mood DNA uses a normalized weighted mean rounded to an integer; the largest weight determines the dominant mood, with selection order breaking ties. The brief did not require saving mood selections, so persistence and a storage schema are deferred. Description is derived from the strongest dimension endpoints and is never authoritative state. This avoids changing saved Sound DNA or Voice DNA and leaves composition for a later milestone.
+
 ## 2026-10-04 — Vocal prompts and experiment references remain derived and separate
 
 v0.9 builds generator-neutral prompt text from the active Voice DNA and the existing whole-voice interpretation. Saved Personas supply their captured DNA and selections, so reopening recreates the prompt without storing a prompt copy or changing the Persona schema. Comparison reads two saved records and highlights differing source traits. An external experiment reference stores only its own label, optional note, and Persona ID under a separate versioned local key; it never embeds or edits the Persona. This keeps vocal identity reusable and leaves genre composition for a later stage.

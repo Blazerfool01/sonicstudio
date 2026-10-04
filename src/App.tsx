@@ -7,11 +7,12 @@ import { makeMix, readSavedMixes, sourceOf, STORAGE_KEY, updateMix } from './lib
 import type { SavedMix } from './lib/savedMixes.ts'
 import { createRecipe } from './lib/recipe.ts'
 import VocalPersonaBuilder from './VocalPersonaBuilder.tsx'
+import MoodMapper from './MoodMapper.tsx'
 import './vocal.css'
 
 type Slot = 'a' | 'b'
 
-function GenreMixer({ onSwitch }: { onSwitch: () => void }) {
+function GenreMixer({ onNavigate }: { onNavigate: (view: 'vocal' | 'mood') => void }) {
   const [firstId, setFirstId] = useState('dark-rnb')
   const [secondId, setSecondId] = useState('hardwave')
   const [weight, setWeight] = useState(60)
@@ -122,9 +123,9 @@ function GenreMixer({ onSwitch }: { onSwitch: () => void }) {
     <main className="main">
       <header className="topbar">
         <div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 01</small></div>
-        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 0.9</div>
+        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 1.0</div>
       </header>
-      <nav className="tool-nav" aria-label="Studio tools"><button className="active" aria-current="page">01 / Genre Mixer</button><button onClick={onSwitch}>02 / Vocal Persona</button></nav>
+      <nav className="tool-nav" aria-label="Studio tools"><button className="active" aria-current="page">01 / Genre Mixer</button><button onClick={() => onNavigate('vocal')}>02 / Vocal Persona</button><button onClick={() => onNavigate('mood')}>03 / Mood Mapper</button></nav>
 
       <section className="intro">
         <div className="eyebrow"><span>01</span> / THE GENRE MIXER</div>
@@ -209,9 +210,10 @@ function Meter({index,title,value}:{index:string,title:string,value:number}) {
 }
 
 export default function App() {
-  const [view, setView] = useState<'genre' | 'vocal'>('genre')
+  const [view, setView] = useState<'genre' | 'vocal' | 'mood'>('genre')
   return <>
-    <div hidden={view !== 'genre'}><GenreMixer onSwitch={() => setView('vocal')}/></div>
-    <div hidden={view !== 'vocal'}><VocalPersonaBuilder onSwitch={() => setView('genre')}/></div>
+    <div hidden={view !== 'genre'}><GenreMixer onNavigate={setView}/></div>
+    <div hidden={view !== 'vocal'}><VocalPersonaBuilder onNavigate={setView}/></div>
+    <div hidden={view !== 'mood'}><MoodMapper onNavigate={setView}/></div>
   </>
 }

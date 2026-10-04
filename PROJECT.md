@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Vocal Prompt Output v0.9 verified · **Current milestone:** v1.0 Mood Plane next · **Last reviewed:** 2026-10-04
+**Status:** Mood Space Foundation v1.0 verified · **Current milestone:** v1.1 mood refinement next · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -8,15 +8,19 @@
 
 ## Goal
 
-Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns a visual position into musical direction; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
+Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns weighted emotional choices into a seven-dimensional fingerprint; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Vocal Prompt Output v0.9
+## Current milestone — Mood Space Foundation v1.0
 
-**Goal:** Turn live and saved Vocal Personas into generator-neutral prompts, compare two saved singers, and associate external experiments with the saved Persona ID used.
+**Goal:** Describe emotional identity independently through up to three weighted moods and seven derived dimensions.
 
-**Verified state:** Concise and detailed prompts derive from Voice DNA and contextual interpretation. Two contrasting saved singers show their trait differences and prompts side by side. Experiment references persist separately with a Persona ID, label, and optional note. Saving, reopening, and editing a Persona still preserve its captured identity and Voice DNA; Genre Mixer remains independent.
+**Verified state:** Fourteen curated moods each define Valence, Energy, Tension, Intimacy, Weight, Motion, and Atmosphere on a 0–100 scale. The new Mood Mapper view holds selected IDs and integer weights in local session state, derives Mood DNA and its dominant mood with pure functions, and shows a deterministic description and labelled Emotional Fingerprint. Genre Mixer and Vocal Persona do not enter the calculation; their saved formats are unchanged.
 
-**Gate:** Two opposite saved singers produce distinct prompts; reopening reproduces them. Comparison, copy controls, and experiment references work in the browser. `npm test` passes 38 tests and `npm run build` passes. v1.0 Mood Plane is next.
+**Gate:** Select moods → adjust weights → see Mood DNA, all seven opposing labels, dominant mood, and summary update immediately. `npm test` passes 44 tests and `npm run build` passes. Browser interaction verified: two moods and weight change updated dominant mood and all seven values; a third selection disabled remaining choices; navigation to Vocal Persona worked. v1.1 can refine the emotional vocabulary and interpretation.
+
+## Previous gate — Vocal Prompt Output v0.9
+
+The v0.9 prompt and saved-persona comparison gate remains verified; see its changelog entry and milestone history.
 
 ## Previous gate — Trait Relationships v0.8
 
@@ -49,8 +53,8 @@ Build four independently useful music tools, then connect them in v2.0 into one 
 |v0.7|Persona Identity|Reuse one saved persona across genres without changing its core identity.|
 |v0.8|Trait Relationships|Curated relationships modify interpretation, explain dominance and resolution, and make awkward combinations coherent. Complete v0.8.1–v0.8.4 before advancing.|
 |v0.9|Vocal Prompt Output|Build contrasting singers, compare them, and preserve identity across experiments.|
-|v1.0|Mood Plane|Dark–Bright and Calm–Intense position persists and reproduces numeric values.|
-|v1.1|Mood Dimensions|Opposite regions produce clearly different mood profiles.|
+|v1.0|Mood Space Foundation|Up to three weighted curated moods deterministically produce seven-dimension Mood DNA and a summary in an independent view.|
+|v1.1|Mood Refinement|Refine the curated vocabulary and emotional interpretation based on v1.0 use, while keeping the seven-dimension source model.|
 |v1.2|Musical Translation|Mood adds production guidance without overwriting Genre Mixer.|
 |v1.4|Mood Presets|Saved presets reproduce recognisable musical guidance.|
 |v1.5|Local Audio|Load and reliably control multiple local tracks.|
@@ -88,6 +92,8 @@ Complete each block independently before starting the next. v2.0 is integration 
 |2026-10-04|v0.8.3 Guidance Output|Verified; full v0.8 gate open|Thirty-two tests and build pass. Browser shows distinct guidance for three voices and a usable two-conflict resolution. Saved Persona create/edit/reload/reopen retains exact DNA and derives guidance from saved selections; Genre Mixer weighting still responds. Visual review confirms warm creative-tension styling.|
 |2026-10-04|v0.8.4 Contradiction Proof|Verified; full v0.8 gate complete|Thirty-three tests and build pass. Primary six-quality stress voice and two other multi-tension voices have deterministic guidance; browser confirms the primary strategy and tension cards. Saved Persona ID, identity, selections, and captured DNA survive edits and reload; Genre Mixer output responds to 60/40→75/25 weighting.|
 |2026-10-04|v0.9 Vocal Prompt Output|Verified|Thirty-eight tests and build pass. Browser creation of opposite Air and Stone Personas shows distinct concise/detailed prompts and an eight-trait comparison; both copy controls report success. Reload and reopen reproduce Stone's prompt and saved identity; experiment reference persists with Stone's ID. Genre Mixer weighting still updates DNA and recipe.|
+
+|2026-10-04|v1.0 Mood Space Foundation|Verified|Fourteen moods, three weighted selections, seven-dimension Mood DNA and deterministic summary. `npm test` passes 44 tests and `npm run build` passes. Genre and Vocal regression suites pass.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 

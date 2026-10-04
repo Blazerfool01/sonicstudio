@@ -21,9 +21,13 @@ Personas can be saved locally and reopened with stable ID, metadata, selections,
 
 Live and saved voices generate concise and detailed generator-neutral prompts from Voice DNA and contextual interpretation. Saved singers can be compared side by side; external experiment references store the Persona ID separately from the Persona.
 
-## Next — Mood Plane v1.0
+## Completed — Mood Space Foundation v1.0
 
-Create an independent Dark–Bright and Calm–Intense mood position whose numeric values persist and reproduce exactly.
+The revised v1.0 scope uses up to three weighted curated moods and seven derived dimensions in an independent Mood Mapper. Selection and weights are session state; Mood DNA and description derive live. This supersedes the earlier two-axis persisted Mood Plane plan at the user's request.
+
+## Next — Mood Refinement v1.1
+
+Review the 14-mood vocabulary and seven-dimensional profiles in use, then refine the deterministic emotional interpretation. Compatibility, arcs, section moods, and integration remain outside v1.0.
 
 ## Later
 

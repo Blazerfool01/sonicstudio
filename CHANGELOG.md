@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.0 — Mood Space Foundation (2026-10-04)
+
+- Added 14 curated moods, each with seven 0–100 dimension values, and pure weighted Mood DNA derivation with deterministic dominant mood and short description.
+- Added an independent Mood Mapper view with up to three mood selections, influence sliders, and a labelled Emotional Fingerprint. Existing Genre Mixer and Vocal Persona storage schemas and calculations remain unchanged.
+- Revised the planned v1.0 scope from a persisted two-axis plane to weighted moods at the user's direction. Selections remain session-only in this version.
+- Verified: `npm test` (44 passing, including existing Genre and Vocal suites) and `npm run build` (passing). Browser interaction verified for selection, weighting, three-mood cap, fingerprint, and navigation.
+
 ## v0.9 — Vocal prompt output and comparison (2026-10-04)
 
 - Added deterministic concise and detailed vocal prompts derived from Voice DNA and contextual interpretation, with copy controls for the live or reopened voice.
