@@ -4,8 +4,8 @@ import type { VocalSelections } from './voiceDna.ts'
 
 export type VocalInterpretation = {
   dominantQuality: string
-  supportingQualities: { relationshipId: string; explanation: string }[]
-  tensions: { relationshipId: string; kind: 'contrasting' | 'conflicting'; resolution: string }[]
+  supportingQualities: { relationshipId: string; kind: 'reinforcing' | 'complementary'; explanation: string }[]
+  tensions: { relationshipId: string; kind: 'contrasting' | 'conflicting'; explanation: string; resolution: string }[]
   strategy: string
 }
 
@@ -101,15 +101,20 @@ function isTension(relationship: VocalRelationship): relationship is VocalRelati
   return relationship.kind === 'contrasting' || relationship.kind === 'conflicting'
 }
 
+function isSupport(relationship: VocalRelationship): relationship is VocalRelationship & {
+  kind: 'reinforcing' | 'complementary'
+} {
+  return relationship.kind === 'reinforcing' || relationship.kind === 'complementary'
+}
+
 export function createVocalInterpretation(selections: VocalSelections): VocalInterpretation {
   const report = analyzeVocalRelationships(selections)
   return {
     dominantQuality: dominantQuality(selections, report),
-    supportingQualities: report.relationships
-      .filter(relationship => relationship.kind === 'reinforcing' || relationship.kind === 'complementary')
-      .map(relationship => ({ relationshipId: relationship.id, explanation: relationship.explanation })),
+    supportingQualities: report.relationships.filter(isSupport)
+      .map(relationship => ({ relationshipId: relationship.id, kind: relationship.kind, explanation: relationship.explanation })),
     tensions: report.relationships.filter(isTension)
-      .map(relationship => ({ relationshipId: relationship.id, kind: relationship.kind, resolution: relationship.resolution })),
+      .map(relationship => ({ relationshipId: relationship.id, kind: relationship.kind, explanation: relationship.explanation, resolution: relationship.resolution })),
     strategy: performanceStrategy(selections, report),
   }
 }

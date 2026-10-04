@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Show vocal conflicts as creative tension
+
+v0.8.3 presents the pure interpretation below the existing Voice DNA and derives it from saved selections when a Persona is reopened. Reinforcing and complementary relationships appear as support; contrasting and conflicting relationships appear as creative tensions with performance resolutions. Warm neutral styling avoids presenting contradictions as invalid input. No interpretation fields enter saved Persona records or captured Voice DNA, so edits to guidance cannot silently rewrite identity.
+
 ## 2026-10-04 — Whole-voice interpretation stays derived
 
 v0.8.2 combines the current selections and curated relationship report into a separate pure interpretation. It returns one linked performance strategy plus structured dominant, supporting, and tension information. The strategy uses rule matches to shape phrasing, dynamics, tone, and effect placement instead of concatenating the pairwise explanations or resolutions. Keeping it outside saved Voice DNA preserves existing Persona snapshots and leaves later UI guidance free to change without a storage migration.

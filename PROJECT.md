@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Trait Relationships v0.8 in progress; v0.8.2 verified · **Current milestone:** v0.8.3 Guidance Output · **Last reviewed:** 2026-10-04
+**Status:** Trait Relationships v0.8 in progress; v0.8.3 verified · **Current milestone:** v0.8.4 Contradiction Proof · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -14,19 +14,19 @@ Build four independently useful music tools, then connect them in v2.0 into one 
 
 **Goal:** Make vocal traits modify one another's interpretation, then explain the resulting voice coherently, including deliberately contradictory builds. v0.8 remains open until all four steps below are verified.
 
-**Existing state:** v0.7 stores reusable Persona records with stable selections and captured Voice DNA, independently of Genre Mixer. v0.8.1 adds a separate pure relationship report from curated rules. v0.8.2 adds pairwise resolutions and a pure contextual interpretation of the whole voice; saved Voice DNA remains unchanged.
+**Existing state:** v0.7 stores reusable Persona records with stable selections and captured Voice DNA, independently of Genre Mixer. v0.8.1–v0.8.2 add a pure relationship report, resolutions, and whole-voice interpretation. v0.8.3 displays this guidance live and when reopening saved Personas; saved Voice DNA remains unchanged.
 
-**Current step — v0.8.3 Guidance Output:** Surface the derived interpretation in plain English so users can see what supports what, what pulls against what, which quality dominates, and how tension resolves. Keep Persona storage, captured Voice DNA, and Genre Mixer independent.
+**Current step — v0.8.4 Contradiction Proof:** Deliberately stress awkward configurations, including very high breathiness, power, and rasp with intimate delivery, and review whether the full guidance remains coherent. Keep Persona storage, captured Voice DNA, and Genre Mixer independent.
 
 **v0.8 gates:**
 
 * [x] **v0.8.1 Relationship Model:** Curated pure data/functions classify reinforcing, complementary, contrasting, and conflicting relationships. Three distinct voices produce distinct reports, including explicit conflicts. `npm test` passed 27 tests and `npm run build` passed; selections and Voice DNA stayed unchanged.
 * [x] **v0.8.2 pairwise resolution increment:** All six contrasting/conflicting rules return curated coexistence guidance. Airy/dry, assertive/low-power, and high-breath/high-power resolutions differ and repeat deterministically; `npm test` passes 29 tests and `npm run build` passes.
 * [x] **v0.8.2 Modifier Logic:** A pure derived interpretation combines the relationship report into one strategy. High breathiness with high power becomes force softened by audible breath; a multi-tension voice links power, breath, rasp, warmth, and reverb without copying rule texts. `npm test` passes 32 tests and `npm run build` passes.
-* [ ] **v0.8.3 Guidance Output:** Plain English explains what supports and opposes what, which quality dominates, and how tension resolves. Contradictions become guidance rather than errors.
+* [x] **v0.8.3 Guidance Output:** The Vocal Persona view shows dominant quality, performance strategy, supporting relationships, and creative tensions with resolutions. Browser checks covered airy/warm/intimate, forceful/raspy/assertive, and contradictory voices; saving, editing, reloading, and reopening preserved saved identity and guidance, and Genre Mixer weighting still worked. `npm test` passes 32 tests and `npm run build` passes.
 * [ ] **v0.8.4 Contradiction Proof:** Deliberately awkward builds, including very high breathiness, power, and rasp with intimate delivery, yield a coherent vocal strategy under tests and review.
 
-**Gate:** v0.8.1 and v0.8.2 are verified; v0.8.3–v0.8.4 remain open. v0.9 Vocal Prompt Output follows the full v0.8 gate.
+**Gate:** v0.8.1–v0.8.3 are verified; v0.8.4 remains open. v0.9 Vocal Prompt Output follows the full v0.8 gate.
 
 ## Roadmap and gates
 
@@ -77,6 +77,7 @@ Complete each block independently before starting the next. v2.0 is integration 
 |2026-10-04|Trait Relationships v0.8.1|Verified; full v0.8 gate open|Twenty-seven tests and build pass. Three contrasting selection sets yielded reinforcing, complementary, contrasting, and conflicting reports; source selections and Voice DNA stayed unchanged. The earlier v0.8 completion claim covered only this first step.|
 |2026-10-04|v0.8.2 pairwise resolution increment|Verified; full v0.8.2 gate open|Twenty-nine tests and build pass. Six tension rules now yield deterministic coexistence guidance, including distinct airy/dry, assertive/low-power, and high-breath/high-power resolutions. Voice DNA and saved records remain unchanged.|
 |2026-10-04|v0.8.2 Modifier Logic|Verified; full v0.8 gate open|Thirty-two tests and build pass. Pure derived strategy combines high breath with high power; multi-tension voice produces linked guidance rather than copied rule texts. Voice DNA and Persona records remain unchanged; no UI output added.|
+|2026-10-04|v0.8.3 Guidance Output|Verified; full v0.8 gate open|Thirty-two tests and build pass. Browser shows distinct guidance for three voices and a usable two-conflict resolution. Saved Persona create/edit/reload/reopen retains exact DNA and derives guidance from saved selections; Genre Mixer weighting still responds. Visual review confirms warm creative-tension styling.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 

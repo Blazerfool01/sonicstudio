@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.8.3 — Vocal guidance in the builder (2026-10-04)
+
+- Added a guidance section to `src/VocalPersonaBuilder.tsx` showing dominant quality, one performance strategy, supporting relationships, and creative tensions with specific resolutions. Guidance derives live from controls or reopened saved selections; neither Voice DNA nor Persona storage changes.
+- Styled tension as a creative choice with warm colors, updated the visible app version label, and made the browser title apply to both tools. Genre Mixer behavior remains unchanged.
+- Verified: `npm test` (32 passing), `npm run build` (passing), and connected-browser checks of airy/warm/intimate, forceful/raspy/assertive, and contradictory builds, saved Persona create/edit/reload/reopen, and Genre Mixer weighting. Visual review confirmed readable guidance and resolution cards.
+
 ## v0.8.2 — Contextual vocal interpretation (2026-10-04)
 
 - Added `src/lib/vocalInterpretation.ts`, a pure derived interpretation that uses current selections and the relationship report to produce one linked performance strategy, dominant quality, supporting qualities, and resolved tensions.

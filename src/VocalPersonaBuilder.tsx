@@ -5,6 +5,7 @@ import type { VocalDimension, VocalSelections } from './lib/voiceDna.ts'
 import { createVocalPersona } from './lib/vocalPersona.ts'
 import type { VocalPersona } from './lib/vocalPersona.ts'
 import { readSavedPersonas, writeSavedPersonas } from './lib/savedPersonas.ts'
+import { createVocalInterpretation } from './lib/vocalInterpretation.ts'
 
 const groups = [
   { key: 'register', label: 'Register', options: registers },
@@ -29,6 +30,7 @@ export default function VocalPersonaBuilder({ onSwitch }: { onSwitch: () => void
   const [creationMessage, setCreationMessage] = useState('')
   const openedPersona = personas.find(persona => persona.id === openedPersonaId)
   const displayedDna = openedPersona?.voiceDna ?? dna
+  const guidance = useMemo(() => createVocalInterpretation(openedPersona?.selections ?? selections), [openedPersona, selections])
 
   function change<K extends keyof VocalSelections>(key: K, value: VocalSelections[K]) {
     setSelections(previous => ({ ...previous, [key]: value }))
@@ -61,7 +63,7 @@ export default function VocalPersonaBuilder({ onSwitch }: { onSwitch: () => void
   return <div className="app-shell">
     <aside className="rail" aria-label="Studio navigation"><div className="brand-mark" aria-label="Sonic Studio">S<span>·</span></div><div className="rail-center"><span className="rail-tick"/><span className="rail-tick active"/><span className="rail-tick"/><span className="rail-tick"/></div><span className="rail-bottom">02 / 04</span></aside>
     <main className="main">
-      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 02</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 0.7</div></header>
+      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 02</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 0.8.3</div></header>
       <nav className="tool-nav" aria-label="Studio tools"><button onClick={onSwitch}>01 / Genre Mixer</button><button className="active" aria-current="page">02 / Vocal Persona</button></nav>
       <section className="intro"><div className="eyebrow"><span>02</span> / VOCAL PERSONA BUILDER</div><div className="intro-row"><div><h1>Shape the voice<br/><em>behind the sound.</em></h1><p>Choose a vocal character and adjust its four expressive dimensions. Voice DNA updates as you work.</p></div><div className="intro-index">AN INDEPENDENT<br/>VOCAL STUDY <span>↘</span></div></div></section>
       <div className="workspace vocal-workspace">
@@ -76,7 +78,11 @@ export default function VocalPersonaBuilder({ onSwitch }: { onSwitch: () => void
           <div className="output-foot"><span>BUILT FROM VOCAL TRAIT DATA</span><span>NO RANDOMNESS · NO API</span></div>
         </section>
       </div>
-      <section className="persona-panel" aria-labelledby="persona-heading"><div className="persona-panel-head"><span className="eyebrow">03 / PERSONA IDENTITY</span><h2 id="persona-heading">Give this voice an identity<span className="heading-period">.</span></h2><p>Create a persona from the current Voice DNA and keep it on this device.</p></div>
+      <section className="guidance-panel" aria-labelledby="vocal-guidance-heading"><div className="guidance-head"><span className="eyebrow">03 / VOCAL GUIDANCE</span><h2 id="vocal-guidance-heading">How this voice holds together<span className="heading-period">.</span></h2><p>{openedPersona ? `Derived from ${openedPersona.name}'s saved selections.` : 'A live interpretation of the selected vocal qualities.'}</p></div>
+        <div className="guidance-strategy"><span>DOMINANT QUALITY</span><strong>{guidance.dominantQuality}</strong><span>PERFORMANCE STRATEGY</span><p>{guidance.strategy}</p></div>
+        <div className="guidance-groups"><div className="guidance-group"><h3>Supporting qualities <span>{guidance.supportingQualities.length}</span></h3>{guidance.supportingQualities.length === 0 ? <p className="guidance-empty">No curated supporting pair is active for this voice.</p> : guidance.supportingQualities.map(item => <article className="guidance-item support" key={item.relationshipId}><span>{item.kind}</span><p>{item.explanation}</p></article>)}</div><div className="guidance-group"><h3>Creative tensions <span>{guidance.tensions.length}</span></h3>{guidance.tensions.length === 0 ? <p className="guidance-empty">No contrasting or conflicting pair needs a resolution.</p> : guidance.tensions.map(item => <article className="guidance-item tension" key={item.relationshipId}><span>Creative tension · {item.kind}</span><p>{item.explanation}</p><div className="guidance-resolution"><strong>How it resolves</strong><p>{item.resolution}</p></div></article>)}</div></div>
+      </section>
+      <section className="persona-panel" aria-labelledby="persona-heading"><div className="persona-panel-head"><span className="eyebrow">04 / PERSONA IDENTITY</span><h2 id="persona-heading">Give this voice an identity<span className="heading-period">.</span></h2><p>Create a persona from the current Voice DNA and keep it on this device.</p></div>
         {openedPersona && <div className="persona-opened"><span>OPEN IN BUILDER</span><strong>{openedPersona.name}</strong><code>{openedPersona.id}</code><p>{openedPersona.identityDescription}</p></div>}
         <form className="persona-form" onSubmit={createPersona}><label>PERSONA NAME<input maxLength={80} value={personaName} onChange={event => setPersonaName(event.target.value)} placeholder="A name for this voice" required/></label><label>SHORT IDENTITY DESCRIPTION<textarea maxLength={240} rows={3} value={identityDescription} onChange={event => setIdentityDescription(event.target.value)} placeholder="What makes this singer recognisable?" required/></label><button type="submit">Create and save</button></form>
         <p className="persona-message" role="status">{creationMessage}</p>
