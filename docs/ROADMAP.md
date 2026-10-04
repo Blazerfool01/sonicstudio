@@ -55,9 +55,13 @@ This completes the Mood Mapper block through the blueprint's original v1.4 stage
 
 The independent Visualiser now loads and controls multiple local tracks in one browser session. Import, switching, progress, duration, seeking, error feedback, and temporary URL cleanup are verified. Composition, song arcs, and section moods remain later work.
 
-## Next planned — Audio Analysis v1.6
+## Completed — Audio Analysis v1.6
 
-Add truthful diagnostic meters for silence, bass-heavy, and bright passages using the existing playback source. Keep analysis separate from rendering and leave visual modes to v1.7.
+The existing player now exposes reusable live waveform and spectrum buffers, RMS amplitude, and low/mid/high energy with plain diagnostic meters. Controlled browser WAV signals distinguished silence, quiet bass, louder bass, and bright treble; playback and graph reuse remained stable.
+
+## Next planned — Visual Modes v1.7
+
+Build bars, waveform, and radial views over the v1.6 analysis data, keeping audio processing in the existing analysis layer.
 
 ## Later
 

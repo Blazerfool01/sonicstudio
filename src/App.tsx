@@ -124,7 +124,7 @@ function GenreMixer({ onNavigate }: { onNavigate: (view: 'vocal' | 'mood' | 'vis
     <main className="main">
       <header className="topbar">
         <div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 01</small></div>
-        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 1.5</div>
+        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 1.6</div>
       </header>
       <nav className="tool-nav" aria-label="Studio tools"><button className="active" aria-current="page">01 / Genre Mixer</button><button onClick={() => onNavigate('vocal')}>02 / Vocal Persona</button><button onClick={() => onNavigate('mood')}>03 / Mood Mapper</button><button onClick={() => onNavigate('visualiser')}>04 / Visualiser</button></nav>
 
@@ -216,6 +216,6 @@ export default function App() {
     <div hidden={view !== 'genre'}><GenreMixer onNavigate={setView}/></div>
     <div hidden={view !== 'vocal'}><VocalPersonaBuilder onNavigate={setView}/></div>
     <div hidden={view !== 'mood'}><MoodMapper onNavigate={setView}/></div>
-    <div hidden={view !== 'visualiser'}><Visualiser onNavigate={setView}/></div>
+    <div hidden={view !== 'visualiser'}><Visualiser active={view === 'visualiser'} onNavigate={setView}/></div>
   </>
 }

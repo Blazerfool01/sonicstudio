@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6 — Audio Analysis (2026-10-04)
+
+- Added `src/lib/audioAnalysis.ts`: one lazily created media-element source → analyser → destination graph, 2048-point FFT, reusable 2048-sample Float32 waveform and 1024-bin Uint8 spectrum, RMS amplitude, and Hz-derived low/mid/high energy in the 0–1 range.
+- Added plain live meters to the Visualiser. One requestAnimationFrame loop reads buffers during playback and publishes only four values to React about every 65 ms. Pause, end, selection, removal, and leaving the view stop/idle the loop and zero readings. The context is suspended when leaving; graph nodes/context close on unmount with a deferred cleanup to preserve React StrictMode effect replay.
+- Browser-verified silence (all 0), quiet 80 Hz (amplitude ~0.085, low ~0.429), loud 80 Hz (~0.53, low ~0.59), and 6 kHz (~0.53, high ~0.10, low 0), plus play/pause, seek, track switching, removal, graph reuse (one creation), 2048/1024 buffers, and return after context suspension. Added four pure calculation tests and a graph wiring/cleanup test; `npm test` passes 86 and `npm run build` passes. No v1.7 visual modes were added.
+
 ## v1.5 — Local Audio (2026-10-04)
 
 - Added the independent Visualiser player with session-only multi-file import, selection, play/pause, seeking, progress, duration, removal, and track switching. Imported metadata/selection is separated from one browser audio element and its playback state; temporary object URLs are revoked on removal and unmount.

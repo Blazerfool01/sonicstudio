@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** v1.5 Local Audio verified; Visualiser Block 4 foundation complete · **Next milestone:** v1.6 Audio Analysis · **Last reviewed:** 2026-10-04
+**Status:** v1.6 Audio Analysis verified; Visualiser diagnostics complete · **Next milestone:** v1.7 Visual Modes · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,7 +10,15 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns weighted emotional choices into a seven-dimensional fingerprint; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Local Audio v1.5
+## Current milestone — Audio Analysis v1.6
+
+**Goal:** Read truthful waveform, spectrum, RMS amplitude, and low/mid/high frequency energy from the v1.5 local player, without building visual modes.
+
+**Verified state:** A lazily created Web Audio graph routes the one HTML audio element through one analyser to the destination. It keeps reusable Float32 time-domain and Uint8 frequency buffers outside React; a single animation loop updates only four diagnostic meter values at roughly 15 Hz. Selection and switching retain one graph, while pause/end/removal zero the meters. Leaving the Visualiser pauses playback and suspends the context; actual unmount cancels frames, disconnects nodes, and closes the context. The v1.5 file metadata and URL lifecycle remain separate.
+
+**Gate:** Four browser-imported 20-second WAV signals were checked. Silence read 0.000 on every meter. Quiet 80 Hz audio read about 0.085 amplitude / 0.429 low; louder 80 Hz about 0.53 / 0.59 low. A 6 kHz signal settled near 0.53 amplitude / 0.10 high, with low at zero. Play/pause, seeking forward and backward, end, switching during playback, active-track removal, and leaving/returning kept the graph count at one and zeroed idle meters. Waveform length was 2048 and spectrum length 1024. `npm test` passes 86 tests and `npm run build` passes (TypeScript and Vite). Manual signal proof used WAV; encoded-format decoder support remains browser-dependent. Physical speaker audibility was not captured by an external recorder, although playback ran and the graph connects to the destination.
+
+## Previous milestone — Local Audio v1.5
 
 **Goal:** Import multiple local audio files and reliably select, play, pause, seek, and switch tracks in a session-only Visualiser player.
 
