@@ -210,5 +210,8 @@ function Meter({index,title,value}:{index:string,title:string,value:number}) {
 
 export default function App() {
   const [view, setView] = useState<'genre' | 'vocal'>('genre')
-  return view === 'genre' ? <GenreMixer onSwitch={() => setView('vocal')}/> : <VocalPersonaBuilder onSwitch={() => setView('genre')}/>
+  return <>
+    <div hidden={view !== 'genre'}><GenreMixer onSwitch={() => setView('vocal')}/></div>
+    <div hidden={view !== 'vocal'}><VocalPersonaBuilder onSwitch={() => setView('genre')}/></div>
+  </>
 }

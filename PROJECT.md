@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Vocal Persona Builder v0.6 implemented; browser verification pending · **Current milestone:** Vocal Persona Builder v0.6 · **Last reviewed:** 2026-10-04  
+**Status:** Vocal Persona Builder v0.6 verified · **Current milestone:** Vocal Persona Builder v0.6 · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -22,9 +22,9 @@ Build four independently useful music tools, then connect them in v2.0 into one 
 
 * [x] Two deliberately opposite vocal selections yield deterministic, structurally and descriptively distinct Voice DNA.
 * [x] `npm test` passes 20 tests, including the existing Genre Mixer tests; `npm run build` passes.
-* [ ] Running browser interaction and responsive layout verification. The browser tooling could not connect to the local dev server in this session.
+* [x] In the running browser, high/airy/intimate/reverb with breathiness 90, power 15, warmth 90, rasp 5 differs clearly from low/raspy/assertive/doubled with breathiness 10, power 95, warmth 20, rasp 90. Switching tools retains independent in-progress state.
 
-**Gate:** v0.6 implementation and automated checks pass. Browser verification remains before the v0.6 gate can be fully closed; v0.7 Persona Identity follows it.
+**Gate:** v0.6 verified. The next planned stage is v0.7 Persona Identity.
 
 ## Roadmap and gates
 
@@ -69,7 +69,7 @@ Complete each block independently before starting the next. v2.0 is integration 
 |2026-10-04|Genre Mixer v0.3|Verified|Twelve tests pass; all 66 pairs classified at 20/50/80; build passes; four review cases checked in code output and browser. Details in `docs/v0.3-change-record.md`.|
 |2026-10-04|Genre Mixer v0.4|Verified|Fifteen tests pass; build passes; browser save/refresh/reopen/update/duplicate/delete flow checked with two mixes. Malformed/old data parser tests pass.|
 |2026-10-04|Genre Mixer v0.5|Verified|Seventeen tests pass, including recipes for 66 pairs at three weights; build passes; browser verified two saved recipes, refresh/reopen, update/delete, regenerated text, and both clipboard outputs.|
-|2026-10-04|Vocal Persona Builder v0.6|Implementation verified; browser pending|Twenty tests pass, including opposite voice DNA and existing Genre Mixer coverage; build passes. Browser verification blocked by unavailable `agent-browser` command and local tab navigation timeout.|
+|2026-10-04|Vocal Persona Builder v0.6|Verified|Twenty tests and build pass. Connected Edge browser confirms opposite Voice DNA descriptions and navigation retains in-progress state for both tools. Narrow viewport was not checked.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 
