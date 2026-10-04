@@ -2,8 +2,7 @@
 
 **Status:** Genre Mixer v0.5 implemented and verified · **Current milestone:** Genre Mixer v0.5 · **Last reviewed:** 2026-10-04  
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
-**Status authority:** This file records local implementation state and verification. The Notion blueprint defines product intent; reconcile any change to its scope here before work begins.
-Leave a separate file detailing what was changed. or, use GitHub. You have my permission to do that if that is what you do. 
+**Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
 **Latest change record:** [CHANGELOG.md](CHANGELOG.md)
 

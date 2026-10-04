@@ -14,4 +14,21 @@
 - Added persistence tests in `tests/savedMixes.test.mjs` and responsive styles in `src/style.css`.
 - Verified: `npm test` (15 passing), `npm run build` (passing), browser save/refresh/reopen/update/duplicate/delete flow with two distinct mixes.
 
-Earlier milestone details remain in `PROJECT.md`, `docs/sanity-mixes.md`, and `docs/v0.3-change-record.md`.
+## v0.3 — Compatibility Logic (2026-10-04)
+
+- Added seven-dimension compatibility profiles, explicit opposing approaches, and deterministic reinforcing/complementary/contrasting/conflicting explanations in `src/data/` and `src/lib/compatibility.ts`.
+- Added weighted role and resolution guidance to the mixer interface without changing Sound DNA.
+- Verified: `npm test` (12 passing), `npm run build` (passing), browser review of contrasting and easy pairs. Details: `docs/v0.3-change-record.md`.
+
+## v0.2 — Musical DNA refinement (2026-10-04)
+
+- Added structured musical roles for all twelve genres in `src/data/characteristics.json` and weighted lead/support relationships in `src/lib/merge.ts`.
+- Reviewed three contrasting mixes in `docs/sanity-mixes.md`.
+- Verified: `npm test` (5 passing across all 66 pairs at three weights), `npm run build` (passing), and running-browser review of the three mixes.
+
+## v0.1 — Two-genre mixer (2026-10-04)
+
+- Added twelve curated genre profiles, two selectable source slots, a weight control, reset, and deterministic first Sound DNA output in `src/`.
+- Verified: `npm test` (3 passing across all 66 pairs), `npm run build` (passing), and browser selection, weighting, source change, and reset checks.
+
+The v0.1–v0.3 entries were added retrospectively from `PROJECT.md` and their review records. Git began with one v0.5 project snapshot; these entries document earlier milestones without implying separate historical code commits.
