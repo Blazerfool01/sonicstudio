@@ -5,11 +5,14 @@ import type { MoodSelection } from './lib/moodDna.ts'
 import { describeMoodDna } from './lib/moodDescription.ts'
 import { analyzeMoodRelationships } from './lib/moodRelationships.ts'
 import { interpretMoodRelationships } from './lib/moodRelationshipInterpretation.ts'
+import { productionGuidanceForMoodDna } from './lib/moodProductionGuidance.ts'
+import MoodProductionGuidance from './MoodProductionGuidance.tsx'
 import './mood.css'
 
 export default function MoodMapper({ onNavigate }: { onNavigate: (view: 'genre' | 'vocal') => void }) {
   const [selections, setSelections] = useState<MoodSelection[]>([])
   const dna = useMemo(() => deriveMoodDna(selections), [selections])
+  const translation = useMemo(() => productionGuidanceForMoodDna(dna), [dna])
   const relationship = useMemo(() => analyzeMoodRelationships(selections), [selections])
   const guidance = useMemo(() => interpretMoodRelationships(relationship, selections), [relationship, selections])
   const relationshipLabel = relationship.overall.type === 'none' ? null : relationship.overall.type[0].toUpperCase() + relationship.overall.type.slice(1)
@@ -23,7 +26,7 @@ export default function MoodMapper({ onNavigate }: { onNavigate: (view: 'genre' 
   return <div className="app-shell">
     <aside className="rail" aria-label="Studio navigation"><div className="brand-mark" aria-label="Sonic Studio">S<span>·</span></div><div className="rail-center"><span className="rail-tick"/><span className="rail-tick"/><span className="rail-tick active"/><span className="rail-tick"/></div><span className="rail-bottom">03 / 04</span></aside>
     <main className="main">
-      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 03</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 1.1.3</div></header>
+      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 03</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 1.2.2</div></header>
       <nav className="tool-nav" aria-label="Studio tools"><button onClick={() => onNavigate('genre')}>01 / Genre Mixer</button><button onClick={() => onNavigate('vocal')}>02 / Vocal Persona</button><button className="active" aria-current="page">03 / Mood Mapper</button></nav>
       <section className="intro"><div className="eyebrow"><span>03</span> / THE MOOD MAPPER</div><div className="intro-row"><div><h1>Shape the feeling<br/><em>behind the sound.</em></h1><p>Choose up to three moods, set their influence, and explore their shared emotional fingerprint.</p></div><div className="intro-index">A CREATIVE TOOL<br/>FOR EMOTIONAL IDENTITY <span>↘</span></div></div></section>
       <div className="workspace mood-workspace">
@@ -45,6 +48,7 @@ export default function MoodMapper({ onNavigate }: { onNavigate: (view: 'genre' 
           </div>}
         </>}
       </section>}
+      <MoodProductionGuidance translation={translation}/>
       <footer className="page-footer"><span>SONIC STUDIO / MOOD MAPPER</span><span>FIND THE FEELING.</span></footer>
     </main>
   </div>

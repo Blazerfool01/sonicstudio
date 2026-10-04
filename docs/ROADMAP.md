@@ -41,9 +41,13 @@ The existing relationship interpretation is now visible beneath the Emotional Fi
 
 The pure translator produces seven musical domains, source-traceable priorities, and a concise production direction from Mood DNA. Genre Mixer retains Sound DNA ownership; no UI or cross-tool composition was added.
 
-## Next — Production Guidance View v1.2.2
+## Completed — Production Guidance View v1.2.2
 
-Show the translation in Mood Mapper alongside the existing relationship interpretation, with live source traceability and responsive review. Keep weighted source-opposition language in the relationship view; translation alone cannot reconstruct it from normalized Mood DNA. Composition, persistence, song arcs, and section moods remain later work.
+The Mood Mapper now shows live production direction, ranked priorities, seven musical domains, and source traceability beneath the unchanged relationship interpretation. Weighted source opposition remains in the relationship section because translation cannot reconstruct it from normalized Mood DNA.
+
+## Next — Mood Presets v1.4
+
+Persist source moods and weights as reusable presets, then regenerate Mood DNA and production guidance when reopened. Keep composition, song arcs, and section moods for later work.
 
 ## Later
 

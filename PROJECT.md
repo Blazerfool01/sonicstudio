@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Mood-to-Music Translation Engine v1.2.1 verified · **Current milestone:** v1.2.2 production guidance view next · **Last reviewed:** 2026-10-04
+**Status:** Production Guidance View v1.2.2 verified · **Current milestone:** v1.4 Mood Presets next · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,7 +10,15 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns weighted emotional choices into a seven-dimensional fingerprint; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Mood-to-Music Translation Engine v1.2.1
+## Current milestone — Production Guidance View v1.2.2
+
+**Goal:** Show live musical directions from Mood DNA in the independent Mood Mapper, beneath relationship guidance.
+
+**Verified state:** The production section displays the translator's overall direction, up to three ranked priorities, all seven musical domains, compact dimension/value sources for every signal, and a label for combined directions. It is absent with no mood and updates from selections and weights without persistence. Relationship guidance remains separate and unchanged.
+
+**Gate:** Browser review covered Serene, Aggressive, Dreamlike, Brooding/Haunting, Serene/Menacing at 50/50 and 90/10, and Dreamlike/Restless, plus selection cap, removal, reset, and responsive widths 1280/900/390/320 without overflow. A temporary browser harness verified rendered high-Energy/low-Motion guidance, then was removed; the catalogue has no selectable profile with that combination. `npm test` passes 71 tests and `npm run build` passes. No Sound DNA, Voice DNA, or storage changes.
+
+## Previous gate — Mood-to-Music Translation Engine v1.2.1
 
 **Goal:** Translate Mood DNA into deterministic, traceable musical production directions without changing genre or vocal identity.
 
@@ -120,6 +128,7 @@ Complete each block independently before starting the next. v2.0 is integration 
 |2026-10-04|v1.1.2 Relationship Interpretation|Verified|Eight pairs and two weight balances plus a three-mood stress blend reviewed. `npm test` passes 59 tests and `npm run build` passes. No UI or source-model changes.|
 |2026-10-04|v1.1.3 Mood Mapper Guidance View|Verified|Live guidance reviewed across single, reinforcing, complementary, contrasting, conflicting, weighted, three-mood, and editorial stress cases. Browser interaction and four viewport widths checked; 59 tests and production build pass.|
 |2026-10-04|v1.2.1 Mood-to-Music Translation Engine|Verified|Seven-domain pure translation and seven interaction rules reviewed across seven representative profiles; 68 tests and production build pass. No UI, existing engine, or storage changes.|
+|2026-10-04|v1.2.2 Production Guidance View|Verified|Mood Mapper presents live direction, ranked priorities, seven domains, and per-signal sources beneath relationship guidance. Seven live profiles, a rendered synthetic contradiction, and 1280/900/390/320 px checks pass; 71 tests and production build pass.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 

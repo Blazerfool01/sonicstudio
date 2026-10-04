@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Production guidance is a separate live view of Mood DNA
+
+v1.2.2 places the existing translator below relationship guidance. The two sections have distinct jobs: relationships explain how source moods meet; translation suggests musical consequences of their weighted Mood DNA. Priorities get visual emphasis, while the seven domains use compact rows with every signal's source values. Multi-dimension signals receive a readable combined-direction label rather than an internal rule ID. The UI does not rewrite engine prose or persist derived output. This keeps the selection and weight source model intact and prevents the averaged production direction from pretending to identify a secondary source mood.
+
 ## 2026-10-04 — Musical translation reads Mood DNA only
 
 v1.2.1 treats the seven 0–100 Mood DNA dimensions as the translator's complete input. Five centralized regions (0–14, 15–39, 40–60, 61–85, 86–100) select reusable domain guidance; interaction conditions use explicit 30/70 cutoffs. Each domain signal, priority, and overall direction retains the source dimension values that justify it. Priority strength is distance from 50, with stable dimension order breaking ties. Seven small interaction rules add coexistence strategies for combinations that individual axes would not express, including controlled unease and energy without drive. The translator never inspects named moods, source weights, or another tool. Consequently, a weighted mean can hide opposing source moods: translation must not claim to recover that lost detail; Mood Mapper's separate relationship interpretation can carry it in a future combined view.

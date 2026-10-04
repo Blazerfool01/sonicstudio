@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.2 — Production guidance view (2026-10-04)
+
+- Added a live Mood Mapper production section beneath relationship guidance: overall direction, up to three ranked priorities, seven compact musical domains, dimension/value sources, and labelled combined directions. Output derives from Mood DNA and is absent with no selection; no persistence or cross-tool changes.
+- Added a pure view boundary and structural tests for empty, single, weighted, source, and interaction cases. Browser-reviewed Serene, Aggressive, Dreamlike, Brooding/Haunting, Serene/Menacing at 50/50 and 90/10, and Dreamlike/Restless. At 1280, 900, 390, and 320 px the new section stacked cleanly without horizontal overflow. A temporary browser harness rendered high-Energy/low-Motion guidance, then was removed; no current mood selection reaches that region.
+- Verified: `npm test` (71 passing, including Genre Mixer and Vocal Persona suites) and `npm run build` (passing).
+
 ## v1.2.1 — Mood-to-Music translation engine (2026-10-04)
 
 - Added `src/data/moodTranslationGuidance.ts` with explicit seven-dimension mapping into harmony, rhythm, dynamics, density, space, texture, and arrangement; five named numeric regions; and seven compact multi-dimension production rules.
