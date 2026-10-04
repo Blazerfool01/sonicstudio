@@ -17,9 +17,13 @@ Personas can be saved locally and reopened with stable ID, metadata, selections,
 3. **v0.8.3 Guidance Output — verified.** The Vocal Persona view now shows support, creative tension, dominance, strategy, and resolution live and for reopened saved selections.
 4. **v0.8.4 Contradiction Proof — verified.** The high-breath/high-power/high-rasp intimate voice and two other multi-tension builds produce coherent, deterministic strategies and practical resolutions; saved Persona and Genre Mixer regression checks pass.
 
-## After v0.8 — Vocal Prompt Output v0.9
+## Completed — Vocal Prompt Output v0.9
 
-Use vocal identity and relationship guidance to produce contrasting generator-ready vocal descriptions while preserving saved identity.
+Live and saved voices generate concise and detailed generator-neutral prompts from Voice DNA and contextual interpretation. Saved singers can be compared side by side; external experiment references store the Persona ID separately from the Persona.
+
+## Next — Mood Plane v1.0
+
+Create an independent Dark–Bright and Calm–Intense mood position whose numeric values persist and reproduce exactly.
 
 ## Later
 

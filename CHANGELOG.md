@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.9 — Vocal prompt output and comparison (2026-10-04)
+
+- Added deterministic concise and detailed vocal prompts derived from Voice DNA and contextual interpretation, with copy controls for the live or reopened voice.
+- Added side-by-side comparison of two saved Personas across eight vocal traits and both prompt variants. Added a separate local experiment-reference record containing a Persona ID, label, and optional note; Persona storage remains unchanged.
+- Verified: `npm test` (38 passing), `npm run build` (passing), browser creation/comparison of opposite Air and Stone singers, both copy success states, saved prompt reproduction and experiment reference after reload, and Genre Mixer weighting/output. The browser's virtual clipboard did not expose copied text for independent readback.
+
 ## v0.8.4 — Contradiction proof (2026-10-04)
 
 - Stress-tested three awkward multi-tension voices in `tests/vocalInterpretation.test.mjs`, including the intimate, raspy, reverberant high-breath/high-power/high-warmth/high-rasp case. Clarified the warmth phrase in `src/lib/vocalInterpretation.ts` so its contribution to breath-softened peaks reads unambiguously.

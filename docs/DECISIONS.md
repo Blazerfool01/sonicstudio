@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Vocal prompts and experiment references remain derived and separate
+
+v0.9 builds generator-neutral prompt text from the active Voice DNA and the existing whole-voice interpretation. Saved Personas supply their captured DNA and selections, so reopening recreates the prompt without storing a prompt copy or changing the Persona schema. Comparison reads two saved records and highlights differing source traits. An external experiment reference stores only its own label, optional note, and Persona ID under a separate versioned local key; it never embeds or edits the Persona. This keeps vocal identity reusable and leaves genre composition for a later stage.
+
 ## 2026-10-04 — Show vocal conflicts as creative tension
 
 v0.8.3 presents the pure interpretation below the existing Voice DNA and derives it from saved selections when a Persona is reopened. Reinforcing and complementary relationships appear as support; contrasting and conflicting relationships appear as creative tensions with performance resolutions. Warm neutral styling avoids presenting contradictions as invalid input. No interpretation fields enter saved Persona records or captured Voice DNA, so edits to guidance cannot silently rewrite identity.
