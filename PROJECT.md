@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Trait Relationships v0.8 verified · **Current milestone:** Trait Relationships v0.8 · **Last reviewed:** 2026-10-04
+**Status:** Trait Relationships v0.8 in progress; v0.8.1 verified · **Current milestone:** v0.8.2 Modifier Logic · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -12,20 +12,20 @@ Build four independently useful music tools, then connect them in v2.0 into one 
 
 ## Current milestone — Trait Relationships v0.8
 
-**Goal:** Classify important vocal trait and dimension combinations with short, deterministic explanations.
+**Goal:** Make vocal traits modify one another's interpretation, then explain the resulting voice coherently, including deliberately contradictory builds. v0.8 remains open until all four steps below are verified.
 
-**Existing state:** v0.7 stores reusable Persona records with stable selections and captured Voice DNA, independently of Genre Mixer.
+**Existing state:** v0.7 stores reusable Persona records with stable selections and captured Voice DNA, independently of Genre Mixer. v0.8.1 adds a separate pure relationship report from curated rules; Voice DNA remains additive.
 
-**Allowed scope:** Curated relationship rules and pure analysis of selected vocal traits and numeric dimensions. Persona records, persistence, Voice DNA, Genre Mixer, and current UI remain unchanged.
+**Current step — v0.8.2 Modifier Logic:** Let one selected trait or dimension change how another is interpreted. For example, high breathiness with high power should resolve to forceful delivery softened by persistent air, rather than two unrelated adjectives. Preserve saved Persona records and storage schema; define and verify any derived interpretation separately before changing existing Voice DNA behavior.
 
-**Acceptance tests:**
+**v0.8 gates:**
 
-* [x] Airy/warm/intimate, powerful/raspy/assertive, and contradictory voices produce meaningfully different structured reports.
-* [x] The contradictory voice reports explicit conflicts between airy/dry and assertive/restrained selections.
-* [x] Analysis leaves selections and Voice DNA untouched; all existing 24 tests continue to pass.
-* [x] `npm test` passes 27 tests and `npm run build` passes.
+* [x] **v0.8.1 Relationship Model:** Curated pure data/functions classify reinforcing, complementary, contrasting, and conflicting relationships. Three distinct voices produce distinct reports, including explicit conflicts. `npm test` passed 27 tests and `npm run build` passed; selections and Voice DNA stayed unchanged.
+* [ ] **v0.8.2 Modifier Logic:** Trait interactions yield a contextual interpretation in which one quality modifies another. Verify high breathiness with high power produces a coherent combined interpretation, not an additive list.
+* [ ] **v0.8.3 Guidance Output:** Plain English explains what supports and opposes what, which quality dominates, and how tension resolves. Contradictions become guidance rather than errors.
+* [ ] **v0.8.4 Contradiction Proof:** Deliberately awkward builds, including very high breathiness, power, and rasp with intimate delivery, yield a coherent vocal strategy under tests and review.
 
-**Gate:** v0.8 verified. The next planned stage is v0.9 Vocal Prompt Output.
+**Gate:** v0.8.1 verified; v0.8.2–v0.8.4 remain open. v0.9 Vocal Prompt Output follows the full v0.8 gate.
 
 ## Roadmap and gates
 
@@ -38,7 +38,7 @@ Build four independently useful music tools, then connect them in v2.0 into one 
 |v0.5|Exportable Recipe|Reproduce structured prompts from saved mixes and copy/export them.|
 |v0.6|Vocal Persona Builder|Two voices remain distinct with the same genre setting.|
 |v0.7|Persona Identity|Reuse one saved persona across genres without changing its core identity.|
-|v0.8|Trait Relationships|Contradictory traits produce guidance instead of incoherent prompts.|
+|v0.8|Trait Relationships|Curated relationships modify interpretation, explain dominance and resolution, and make awkward combinations coherent. Complete v0.8.1–v0.8.4 before advancing.|
 |v0.9|Vocal Prompt Output|Build contrasting singers, compare them, and preserve identity across experiments.|
 |v1.0|Mood Plane|Dark–Bright and Calm–Intense position persists and reproduces numeric values.|
 |v1.1|Mood Dimensions|Opposite regions produce clearly different mood profiles.|
@@ -73,7 +73,7 @@ Complete each block independently before starting the next. v2.0 is integration 
 |2026-10-04|Vocal Persona Builder v0.6|Verified|Twenty tests and build pass. Connected Edge browser confirms opposite Voice DNA descriptions and navigation retains in-progress state for both tools. Narrow viewport was not checked.|
 |2026-10-04|Persona Identity v0.7 foundation|Verified; full gate open|Twenty-two tests and build pass. Browser creation of Ember captured exact airy/warm DNA with UUID; changing live controls left the record intact. Genre Mixer view checked. Persistence intentionally deferred.|
 |2026-10-04|Persona Identity v0.7|Verified|Twenty-four tests and build pass. Browser save/reload/reopen of Ember preserved ID, metadata, traits, and numeric DNA; builder edits left the saved record unchanged. Genre Mixer weighting still updated its output.|
-|2026-10-04|Trait Relationships v0.8|Verified|Twenty-seven tests and build pass. Three contrasting selection sets yielded reinforcing, complementary, contrasting, and conflicting reports; source selections and Voice DNA stayed unchanged. No UI change was requested.|
+|2026-10-04|Trait Relationships v0.8.1|Verified; full v0.8 gate open|Twenty-seven tests and build pass. Three contrasting selection sets yielded reinforcing, complementary, contrasting, and conflicting reports; source selections and Voice DNA stayed unchanged. The earlier v0.8 completion claim covered only this first step.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 

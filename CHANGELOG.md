@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.8.1 — Milestone scope correction (2026-10-04)
+
+- Corrected `PROJECT.md` and `docs/ROADMAP.md`: the relationship analyzer completes v0.8.1, while contextual modifier logic, guidance output, and contradiction proof remain in v0.8.
+- The preceding v0.8 entry records the implemented analyzer and its passing tests, but its full-milestone label was premature. No application behavior changed in this correction.
+
 ## v0.8 — Vocal trait relationships (2026-10-04)
 
 - Added curated vocal relationship rules and a pure analyzer in `src/data/vocalRelationships.ts` and `src/lib/vocalRelationships.ts`. Results identify the participating fields, classify each matched relationship, and give a short explanation.

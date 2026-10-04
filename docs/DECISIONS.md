@@ -1,8 +1,12 @@
 # Decisions
 
+## 2026-10-04 — v0.8 requires contextual interpretation and contradiction proof
+
+The pure relationship analyzer is v0.8.1, not the complete Trait Relationships milestone. v0.8 also requires modifier logic, plain-English dominance and resolution guidance, and proof that awkward combinations form a coherent vocal strategy. This corrects the prior completion claim without changing the v0.8.1 design: its report remains derived and does not mutate Persona storage or captured Voice DNA. v0.9 begins only after all four v0.8 steps are verified.
+
 ## 2026-10-04 — Vocal relationships are derived guidance
 
-v0.8 evaluates a finite curated rule list against existing selections and returns relationship kind, participating fields, and explanation. Numeric bands use the same 0–33, 34–66, and 67–100 boundaries as Voice DNA wording. Unlisted combinations make no claim. The report is computed on demand and is absent from Persona storage and Voice DNA, so future guidance changes cannot mutate a saved identity. This stage adds no prompt output or UI.
+v0.8.1 evaluates a finite curated rule list against existing selections and returns relationship kind, participating fields, and explanation. Numeric bands use the same 0–33, 34–66, and 67–100 boundaries as Voice DNA wording. Unlisted combinations make no claim. The report is computed on demand and is absent from Persona storage and Voice DNA, so future guidance changes cannot mutate a saved identity. This step adds no prompt output or UI.
 
 ## 2026-10-04 — Versioned persona storage preserves the captured DNA
 

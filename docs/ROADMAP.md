@@ -10,11 +10,14 @@ The builder and contrasting Voice DNA are verified in the running browser. Vocal
 
 Personas can be saved locally and reopened with stable ID, metadata, selections, and captured Voice DNA. Genre remains outside the persona object.
 
-## Completed — Trait Relationships v0.8
+## In progress — Trait Relationships v0.8
 
-Curated pure analysis now classifies selected vocal combinations without changing the persona's source identity.
+1. **v0.8.1 Relationship Model — verified.** Curated pure data and functions classify selected vocal combinations without changing the persona's source identity or Voice DNA.
+2. **v0.8.2 Modifier Logic — next.** Let traits change one another's interpretation, so high breathiness with high power becomes a coherent combined quality rather than two additive labels.
+3. **v0.8.3 Guidance Output — planned.** Explain support, tension, dominance, and resolution in plain English; turn contradictions into usable guidance.
+4. **v0.8.4 Contradiction Proof — planned.** Test awkward combinations, including very high breathiness, power, and rasp with intimate delivery, for a coherent vocal strategy.
 
-## Next — Vocal Prompt Output v0.9
+## After v0.8 — Vocal Prompt Output v0.9
 
 Use vocal identity and relationship guidance to produce contrasting generator-ready vocal descriptions while preserving saved identity.
 
