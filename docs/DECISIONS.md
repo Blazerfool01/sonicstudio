@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Versioned persona storage preserves the captured DNA
+
+v0.7 stores full Persona records under `sonic-studio.saved-personas`, separate from Genre Mixer's `sonic-studio.saved-mixes`. A `schemaVersion: 1` envelope identifies the stored collection. The reader skips malformed or invalid records and duplicate IDs. Reopening uses the saved selections for builder controls and displays the saved Voice DNA snapshot exactly; a later builder edit returns to live derived DNA without changing the stored record. This preserves a persona's identity even if curated wording changes in a later version.
+
 ## 2026-10-04 — Created personas capture a Voice DNA snapshot
 
 The first Persona Identity step creates a session-only record with a UUID, identity metadata, source selections, and the exact Voice DNA at creation. The record does not follow subsequent builder edits. Capturing both selections and DNA keeps the current identity inspectable and gives later persistence work an explicit source and output to reconcile. No local storage schema is introduced in this step; the full v0.7 reuse gate remains open.

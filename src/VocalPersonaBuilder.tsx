@@ -4,6 +4,7 @@ import { createVoiceDna, defaultVocalSelections } from './lib/voiceDna.ts'
 import type { VocalDimension, VocalSelections } from './lib/voiceDna.ts'
 import { createVocalPersona } from './lib/vocalPersona.ts'
 import type { VocalPersona } from './lib/vocalPersona.ts'
+import { readSavedPersonas, writeSavedPersonas } from './lib/savedPersonas.ts'
 
 const groups = [
   { key: 'register', label: 'Register', options: registers },
@@ -23,48 +24,63 @@ export default function VocalPersonaBuilder({ onSwitch }: { onSwitch: () => void
   const dna = useMemo(() => createVoiceDna(selections), [selections])
   const [personaName, setPersonaName] = useState('')
   const [identityDescription, setIdentityDescription] = useState('')
-  const [personas, setPersonas] = useState<VocalPersona[]>([])
+  const [personas, setPersonas] = useState<VocalPersona[]>(() => readSavedPersonas(localStorage))
+  const [openedPersonaId, setOpenedPersonaId] = useState<string | null>(null)
   const [creationMessage, setCreationMessage] = useState('')
+  const openedPersona = personas.find(persona => persona.id === openedPersonaId)
+  const displayedDna = openedPersona?.voiceDna ?? dna
 
   function change<K extends keyof VocalSelections>(key: K, value: VocalSelections[K]) {
     setSelections(previous => ({ ...previous, [key]: value }))
+    setOpenedPersonaId(null)
+    setCreationMessage('Builder changed. Saved personas remain unchanged.')
   }
 
   function createPersona(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     try {
       const persona = createVocalPersona(personaName, identityDescription, selections)
-      setPersonas(previous => [persona, ...previous])
+      const next = [persona, ...personas]
+      writeSavedPersonas(localStorage, next)
+      setPersonas(next)
+      setOpenedPersonaId(persona.id)
       setPersonaName('')
       setIdentityDescription('')
-      setCreationMessage(`Created ${persona.name} for this session.`)
+      setCreationMessage(`Saved ${persona.name} on this device.`)
     } catch (error) {
-      setCreationMessage(error instanceof Error ? error.message : 'Could not create persona.')
+      setCreationMessage(error instanceof Error && error.message.startsWith('Enter') ? error.message : 'Could not save persona. Check local storage and try again.')
     }
+  }
+
+  function openPersona(persona: VocalPersona) {
+    setSelections({ ...persona.selections })
+    setOpenedPersonaId(persona.id)
+    setCreationMessage(`Opened ${persona.name}. Its saved record is unchanged.`)
   }
 
   return <div className="app-shell">
     <aside className="rail" aria-label="Studio navigation"><div className="brand-mark" aria-label="Sonic Studio">S<span>·</span></div><div className="rail-center"><span className="rail-tick"/><span className="rail-tick active"/><span className="rail-tick"/><span className="rail-tick"/></div><span className="rail-bottom">02 / 04</span></aside>
     <main className="main">
-      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 02</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 0.6</div></header>
+      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 02</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 0.7</div></header>
       <nav className="tool-nav" aria-label="Studio tools"><button onClick={onSwitch}>01 / Genre Mixer</button><button className="active" aria-current="page">02 / Vocal Persona</button></nav>
       <section className="intro"><div className="eyebrow"><span>02</span> / VOCAL PERSONA BUILDER</div><div className="intro-row"><div><h1>Shape the voice<br/><em>behind the sound.</em></h1><p>Choose a vocal character and adjust its four expressive dimensions. Voice DNA updates as you work.</p></div><div className="intro-index">AN INDEPENDENT<br/>VOCAL STUDY <span>↘</span></div></div></section>
       <div className="workspace vocal-workspace">
-        <section className="mix-panel" aria-labelledby="vocal-input-heading"><div className="section-heading"><div><span className="eyebrow">01 / INPUT</span><h2 id="vocal-input-heading">Build a voice</h2></div><button className="text-button" onClick={() => setSelections(defaultVocalSelections)}>↺ &nbsp; Reset voice</button></div>
+        <section className="mix-panel" aria-labelledby="vocal-input-heading"><div className="section-heading"><div><span className="eyebrow">01 / INPUT</span><h2 id="vocal-input-heading">Build a voice</h2></div><button className="text-button" onClick={() => { setSelections(defaultVocalSelections); setOpenedPersonaId(null) }}>↺ &nbsp; Reset voice</button></div>
           <p className="section-lead">Select one trait in each group, then adjust the dimensions.</p>
           {groups.map(group => <fieldset className="vocal-fieldset" key={group.key}><legend>{group.label}</legend><div className="vocal-options">{group.options.map(option => <button type="button" key={option.id} className={selections[group.key] === option.id ? 'vocal-option selected' : 'vocal-option'} aria-pressed={selections[group.key] === option.id} onClick={() => change(group.key, option.id)} title={option.description}>{option.label}</button>)}</div></fieldset>)}
           <div className="vocal-sliders">{sliders.map(({ key, label }) => <label className="vocal-slider" key={key}><span>{label}<strong>{selections[key]} / 100</strong></span><input type="range" min="0" max="100" step="1" value={selections[key]} onChange={event => change(key, Number(event.target.value))}/></label>)}</div>
         </section>
-        <section className="output-panel" aria-labelledby="voice-dna-heading"><div className="output-head"><div className="eyebrow">02 / THE RESULT <span className="live-pill"><i/> LIVE DNA</span></div><h2 id="voice-dna-heading">Voice DNA<span className="heading-period">.</span></h2><p>A structured vocal identity derived from the current controls.</p></div>
-          <div className="dna-identity"><span>VOCAL CHARACTER</span><strong>{dna.register.label} · {dna.texture.label} · {dna.delivery.label}</strong><div><span>{dna.effect.label} effect</span></div></div>
-          <div className="dna-content vocal-dna-content"><p className="vocal-summary">{dna.description}</p>{groups.map(group => { const trait = dna[group.key]; return <div className="dna-field" key={group.key}><div className="field-index">{group.label.toUpperCase()} / {trait.label.toUpperCase()}</div><p className="relationship-text">{trait.description}</p></div> })}<div className="vocal-dimensions">{sliders.map(({ key, label }) => <div className="dna-field" key={key}><div className="field-index">{label.toUpperCase()} / {dna.dimensions[key].value}</div><p className="relationship-text">{dna.dimensions[key].description}</p></div>)}</div></div>
+        <section className="output-panel" aria-labelledby="voice-dna-heading"><div className="output-head"><div className="eyebrow">02 / THE RESULT <span className="live-pill"><i/> {openedPersona ? 'SAVED DNA' : 'LIVE DNA'}</span></div><h2 id="voice-dna-heading">Voice DNA<span className="heading-period">.</span></h2><p>{openedPersona ? 'The exact Voice DNA captured with this persona.' : 'A structured vocal identity derived from the current controls.'}</p></div>
+          <div className="dna-identity"><span>VOCAL CHARACTER</span><strong>{displayedDna.register.label} · {displayedDna.texture.label} · {displayedDna.delivery.label}</strong><div><span>{displayedDna.effect.label} effect</span></div></div>
+          <div className="dna-content vocal-dna-content"><p className="vocal-summary">{displayedDna.description}</p>{groups.map(group => { const trait = displayedDna[group.key]; return <div className="dna-field" key={group.key}><div className="field-index">{group.label.toUpperCase()} / {trait.label.toUpperCase()}</div><p className="relationship-text">{trait.description}</p></div> })}<div className="vocal-dimensions">{sliders.map(({ key, label }) => <div className="dna-field" key={key}><div className="field-index">{label.toUpperCase()} / {displayedDna.dimensions[key].value}</div><p className="relationship-text">{displayedDna.dimensions[key].description}</p></div>)}</div></div>
           <div className="output-foot"><span>BUILT FROM VOCAL TRAIT DATA</span><span>NO RANDOMNESS · NO API</span></div>
         </section>
       </div>
-      <section className="persona-panel" aria-labelledby="persona-heading"><div className="persona-panel-head"><span className="eyebrow">03 / PERSONA IDENTITY</span><h2 id="persona-heading">Give this voice an identity<span className="heading-period">.</span></h2><p>Create a record from the current Voice DNA. Records stay in this session only.</p></div>
-        <form className="persona-form" onSubmit={createPersona}><label>PERSONA NAME<input maxLength={80} value={personaName} onChange={event => setPersonaName(event.target.value)} placeholder="A name for this voice" required/></label><label>SHORT IDENTITY DESCRIPTION<textarea maxLength={240} rows={3} value={identityDescription} onChange={event => setIdentityDescription(event.target.value)} placeholder="What makes this singer recognisable?" required/></label><button type="submit">Create persona</button></form>
+      <section className="persona-panel" aria-labelledby="persona-heading"><div className="persona-panel-head"><span className="eyebrow">03 / PERSONA IDENTITY</span><h2 id="persona-heading">Give this voice an identity<span className="heading-period">.</span></h2><p>Create a persona from the current Voice DNA and keep it on this device.</p></div>
+        {openedPersona && <div className="persona-opened"><span>OPEN IN BUILDER</span><strong>{openedPersona.name}</strong><code>{openedPersona.id}</code><p>{openedPersona.identityDescription}</p></div>}
+        <form className="persona-form" onSubmit={createPersona}><label>PERSONA NAME<input maxLength={80} value={personaName} onChange={event => setPersonaName(event.target.value)} placeholder="A name for this voice" required/></label><label>SHORT IDENTITY DESCRIPTION<textarea maxLength={240} rows={3} value={identityDescription} onChange={event => setIdentityDescription(event.target.value)} placeholder="What makes this singer recognisable?" required/></label><button type="submit">Create and save</button></form>
         <p className="persona-message" role="status">{creationMessage}</p>
-        <div className="persona-records"><h3>Created this session <span>{personas.length}</span></h3>{personas.length === 0 ? <p>No personas created yet.</p> : personas.map(persona => <article className="persona-record" key={persona.id}><div className="persona-record-top"><strong>{persona.name}</strong><code>{persona.id}</code></div><p>{persona.identityDescription}</p><div className="persona-record-dna"><span>CAPTURED VOICE DNA</span><p>{persona.voiceDna.description}</p></div></article>)}</div>
+        <div className="persona-records"><h3>Saved persona library <span>{personas.length}</span></h3>{personas.length === 0 ? <p>No saved personas yet.</p> : personas.map(persona => <article className="persona-record" key={persona.id}><div className="persona-record-top"><strong>{persona.name}</strong><code>{persona.id}</code></div><p>{persona.identityDescription}</p><div className="persona-record-dna"><span>CAPTURED VOICE DNA</span><p>{persona.voiceDna.description}</p><div className="persona-record-traits"><span>{persona.voiceDna.register.label} register</span><span>{persona.voiceDna.texture.label} texture</span><span>{persona.voiceDna.delivery.label} delivery</span><span>{persona.voiceDna.effect.label} effect</span>{sliders.map(({key,label}) => <span key={key}>{label} {persona.voiceDna.dimensions[key].value}/100</span>)}</div></div><button type="button" className="persona-open-button" onClick={() => openPersona(persona)}>Open in builder</button></article>)}</div>
       </section>
       <footer className="page-footer"><span>SONIC STUDIO / VOCAL PERSONA</span><span>EXPLORE THE VOICE.</span></footer>
     </main>

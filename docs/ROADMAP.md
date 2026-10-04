@@ -6,9 +6,13 @@ The current implemented state and gate results live in `PROJECT.md`. Planned wor
 
 The builder and contrasting Voice DNA are verified in the running browser. Vocal identity stays separate from genre and mood data.
 
-## Next — Persona Identity v0.7
+## Completed — Persona Identity v0.7
 
-The identity record and session-only creation flow are implemented. Next, add local persistence and reopening so a persona can be reused without changing its core identity. Keep genre outside the persona object.
+Personas can be saved locally and reopened with stable ID, metadata, selections, and captured Voice DNA. Genre remains outside the persona object.
+
+## Next — Trait Relationships v0.8
+
+Add guidance when vocal trait combinations pull in different directions, while keeping the persona's source identity intact.
 
 ## Later
 
