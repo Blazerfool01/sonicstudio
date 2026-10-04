@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Relationship Interpretation v1.1.2 verified · **Current milestone:** v1.1.3 Mood Mapper guidance view next · **Last reviewed:** 2026-10-04
+**Status:** Mood Mapper Guidance View v1.1.3 verified · **Current milestone:** v1.2 Musical Translation next · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,13 +10,17 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns weighted emotional choices into a seven-dimensional fingerprint; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Relationship Interpretation v1.1.2
+## Current milestone — Mood Mapper Guidance View v1.1.3
 
-**Goal:** Derive a musically useful emotional explanation from selected moods, weights, Mood DNA, and the unchanged v1.1.1 relationship analysis.
+**Goal:** Present the existing relationship analysis and interpretation inside Mood Mapper as live, useful guidance.
 
-**Verified state:** A pure interpreter returns a headline, one whole-blend summary, ordered mood roles, ranked shared qualities, ranked creative tensions with dimension-specific resolutions, and a practical strategy. Equal and uneven weights yield different language while retaining underlying profile conflict. The seven reusable guidance records live separately from the interpreter. No UI, source selection, mood profile, Mood DNA, relationship classification, Genre Mixer, or Vocal Persona changes were made.
+**Verified state:** The Mood Mapper derives Mood DNA, relationship analysis, and interpretation from its session-only selections and weights. Below the Emotional Fingerprint, one mood shows only its character; multiple moods show the relationship label, summary, roles, meaningful shared qualities, creative tensions with distinct resolutions, and a practical direction. No guidance text is stored. Mood profiles, DNA, classifications, Genre Mixer, Vocal Persona, and saved schemas are unchanged.
 
-**Gate:** Eight named pairs, 50/50 and 90/10 Serene/Menacing, and a Serene/Dreamlike/Menacing three-mood stress blend were reviewed. `npm test` passes 59 tests, including all prior suites, and `npm run build` passes. v1.1.3 may surface the guidance in Mood Mapper.
+**Gate:** Browser review covered Serene alone; Melancholic/Vulnerable, Romantic/Dreamlike, Dreamlike/Restless, Serene/Menacing at 50/50 and 90/10, Serene/Dreamlike/Menacing at 50/30/10, and Vulnerable/Triumphant. Add/remove/reset, the fourth-option cap, Mood DNA updates, navigation, and Genre/Vocal interactions worked. At 1280, 900, 390, and 320 px, guidance columns and role rows adapted with no horizontal overflow. `npm test` passes 59 tests and `npm run build` passes.
+
+## Previous gate — Relationship Interpretation v1.1.2
+
+The pure interpretation and eight-pair review remain verified and unchanged; see the v1.1.2 changelog entry.
 
 ## Previous gate — Mood Relationship Engine v1.1.1
 
@@ -108,6 +112,7 @@ Complete each block independently before starting the next. v2.0 is integration 
 |2026-10-04|v1.1.1 Mood Relationship Engine|Verified|Pure seven-axis pair and weighted three-mood analysis; eight review combinations inspected. `npm test` passes 51 tests and `npm run build` passes. Mood DNA remains unchanged.|
 
 |2026-10-04|v1.1.2 Relationship Interpretation|Verified|Eight pairs and two weight balances plus a three-mood stress blend reviewed. `npm test` passes 59 tests and `npm run build` passes. No UI or source-model changes.|
+|2026-10-04|v1.1.3 Mood Mapper Guidance View|Verified|Live guidance reviewed across single, reinforcing, complementary, contrasting, conflicting, weighted, three-mood, and editorial stress cases. Browser interaction and four viewport widths checked; 59 tests and production build pass.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 

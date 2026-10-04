@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.1.3 — Mood Mapper guidance view (2026-10-04)
+
+- Connected the existing relationship analysis and interpretation to live Mood Mapper selections and weights. A new section below the Emotional Fingerprint shows a readable relationship type, whole-blend summary, mood roles, ranked shared qualities, creative tensions with practical resolutions, and creative direction. Single moods show their own character without invented pair guidance; empty selections show no relationship section.
+- Added responsive guidance cards and role rows with neutral creative-tension styling. Updated the visible app version; Mood DNA, mood profiles, relationship rules, saved Sound DNA, and saved Voice DNA formats are unchanged.
+- Browser-reviewed the specified single, reinforcing, complementary, contrasting, conflicting, 90/10, three-mood, and Vulnerable/Triumphant cases. Verified selection cap, remove/reset, live fingerprint, navigation, Genre Mixer and Vocal Persona controls. At 1280, 900, 390, and 320 px there was no horizontal overflow. Vulnerable/Triumphant's Motion-led direction is technically valid but editorially less distinctive than its Energy/Valence contrast; no model change made.
+- Verified: `npm test` (59 passing) and `npm run build` (passing).
+
 ## v1.1.2 — Mood relationship interpretation (2026-10-04)
 
 - Added `src/data/moodInterpretationGuidance.ts` with reusable shared-quality, emotional-effect, and balanced/low-led/high-led resolution guidance for all seven dimensions.

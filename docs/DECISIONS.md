@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Mood guidance stays a live view over source selections
+
+v1.1.3 places relationship guidance below the Emotional Fingerprint and derives it from the same session-only mood IDs and weights as Mood DNA. The UI displays the existing interpreter's headline, summary, roles, supports, tensions, resolutions, and strategy without generating new prose or saving it. One mood receives only single-character guidance, and empty state receives no relationship section. Distinct but neutral visual treatments make relationship categories scannable without ranking conflict as failure. The underlying model and other tools remain unchanged; future composition must continue to treat the selected moods and weights as authoritative.
+
 ## 2026-10-04 — Mood interpretation remains derived from the unchanged analysis
 
 v1.1.2 accepts current selections and their v1.1.1 relationship report, validates that the pair IDs and weights match, and derives Mood DNA only to describe the combined emotional character. It ranks strong shared dimensions and opposing dimensions by pair impact, returns up to three of each, and assigns the largest weight the dominant role; a mood below 40% of that weight is an accent, with input order breaking ties. Pair ratios at or above 75% use balanced resolution guidance; otherwise the stronger mood's endpoint leads. The seven dimension rules are reusable data, not named-pair overrides. Underlying raw conflict remains described when a lighter secondary influence softens the effective classification. The output is never stored and does not change Mood DNA, relationship rules, or any other tool. v1.1.3 can present this output in the existing Mood Mapper view.
