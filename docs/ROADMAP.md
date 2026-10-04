@@ -13,8 +13,8 @@ Personas can be saved locally and reopened with stable ID, metadata, selections,
 ## In progress — Trait Relationships v0.8
 
 1. **v0.8.1 Relationship Model — verified.** Curated pure data and functions classify selected vocal combinations without changing the persona's source identity or Voice DNA.
-2. **v0.8.2 Modifier Logic — in progress.** Curated pairwise resolutions now say how contrasting or conflicting qualities coexist. The remaining gate is a contextual voice interpretation that combines traits, so high breathiness with high power becomes a coherent quality rather than two additive labels.
-3. **v0.8.3 Guidance Output — planned.** Explain support, tension, dominance, and resolution in plain English; turn contradictions into usable guidance.
+2. **v0.8.2 Modifier Logic — verified.** Pairwise resolutions feed a separate pure interpretation that combines traits into one vocal strategy without changing saved Voice DNA.
+3. **v0.8.3 Guidance Output — next.** Surface support, tension, dominance, and resolution in plain English; turn contradictions into usable guidance.
 4. **v0.8.4 Contradiction Proof — planned.** Test awkward combinations, including very high breathiness, power, and rasp with intimate delivery, for a coherent vocal strategy.
 
 ## After v0.8 — Vocal Prompt Output v0.9

@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.8.2 — Contextual vocal interpretation (2026-10-04)
+
+- Added `src/lib/vocalInterpretation.ts`, a pure derived interpretation that uses current selections and the relationship report to produce one linked performance strategy, dominant quality, supporting qualities, and resolved tensions.
+- Verified high breathiness and high power as one modified quality, and a multi-tension voice as a coherent strategy without copying rule text. Saved Persona records, Voice DNA, Genre Mixer, persistence, and UI were unchanged.
+- Verified: `npm test` (32 passing) and `npm run build` (passing).
+
 ## v0.8.2 in progress — Pairwise resolution guidance (2026-10-04)
 
 - Added curated `resolution` text for every contrasting and conflicting vocal rule and exposed it in the pure relationship report. Reinforcing and complementary results return `null` for this field.

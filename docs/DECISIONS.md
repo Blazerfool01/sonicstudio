@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Whole-voice interpretation stays derived
+
+v0.8.2 combines the current selections and curated relationship report into a separate pure interpretation. It returns one linked performance strategy plus structured dominant, supporting, and tension information. The strategy uses rule matches to shape phrasing, dynamics, tone, and effect placement instead of concatenating the pairwise explanations or resolutions. Keeping it outside saved Voice DNA preserves existing Persona snapshots and leaves later UI guidance free to change without a storage migration.
+
 ## 2026-10-04 — Tension rules carry curated coexistence guidance
 
 Contrasting and conflicting vocal rules require a distinct `resolution` alongside their explanation. The explanation identifies why the traits pull apart; the resolution names a dominant quality or assigns each quality a place in the performance. Reinforcing and complementary results use `null` because they need no tension resolution. This keeps guidance deterministic and derived from selections without changing Voice DNA or saved Persona records. A later v0.8.2 step must combine pairwise guidance into a coherent interpretation of the whole voice.
