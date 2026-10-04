@@ -45,9 +45,11 @@ The pure translator produces seven musical domains, source-traceable priorities,
 
 The Mood Mapper now shows live production direction, ranked priorities, seven musical domains, and source traceability beneath the unchanged relationship interpretation. Weighted source opposition remains in the relationship section because translation cannot reconstruct it from normalized Mood DNA.
 
-## Next — Mood Presets v1.4
+## Next — Mood Presets v1.3
 
-Persist source moods and weights as reusable presets, then regenerate Mood DNA and production guidance when reopened. Keep composition, song arcs, and section moods for later work.
+Persist source mood selections and weights as reusable presets, then regenerate Mood DNA, relationship guidance, and production guidance when reopened. Keep composition, song arcs, and section moods for later work.
+
+v1.4 is reserved and unassigned until a meaningful final Mood Mapper milestone is identified. The Visualiser remains planned to begin at v1.5.
 
 ## Later
 

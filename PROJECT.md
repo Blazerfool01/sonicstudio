@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Production Guidance View v1.2.2 verified · **Current milestone:** v1.4 Mood Presets next · **Last reviewed:** 2026-10-04
+**Status:** Production Guidance View v1.2.2 verified · **Current milestone:** v1.3 Mood Presets next · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -84,7 +84,8 @@ The v0.9 prompt and saved-persona comparison gate remains verified; see its chan
 |v1.2|Musical Translation|Mood adds production guidance without overwriting Genre Mixer.|
 |v1.2.1|Mood-to-Music Translation Engine|Pure Mood DNA translation yields traceable domains, priorities, and concise direction without UI or cross-tool integration.|
 |v1.2.2|Production Guidance View|Present live musical directions in Mood Mapper while preserving Mood DNA and relationship guidance.|
-|v1.4|Mood Presets|Saved presets reproduce recognisable musical guidance.|
+|v1.3|Mood Presets|Persist source mood selections and weights as reusable presets, then regenerate Mood DNA, relationship guidance, and production guidance when reopened.|
+|v1.4|Reserved|Unassigned until a meaningful final Mood Mapper milestone is identified.|
 |v1.5|Local Audio|Load and reliably control multiple local tracks.|
 |v1.6|Audio Analysis|Debug meters distinguish silence, bass-heavy, and bright passages.|
 |v1.7|Visual Modes|Bars, waveform, and radial modes share analysis without interrupting playback.|
