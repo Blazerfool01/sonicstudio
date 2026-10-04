@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Musical translation reads Mood DNA only
+
+v1.2.1 treats the seven 0–100 Mood DNA dimensions as the translator's complete input. Five centralized regions (0–14, 15–39, 40–60, 61–85, 86–100) select reusable domain guidance; interaction conditions use explicit 30/70 cutoffs. Each domain signal, priority, and overall direction retains the source dimension values that justify it. Priority strength is distance from 50, with stable dimension order breaking ties. Seven small interaction rules add coexistence strategies for combinations that individual axes would not express, including controlled unease and energy without drive. The translator never inspects named moods, source weights, or another tool. Consequently, a weighted mean can hide opposing source moods: translation must not claim to recover that lost detail; Mood Mapper's separate relationship interpretation can carry it in a future combined view.
+
 ## 2026-10-04 — Mood guidance stays a live view over source selections
 
 v1.1.3 places relationship guidance below the Emotional Fingerprint and derives it from the same session-only mood IDs and weights as Mood DNA. The UI displays the existing interpreter's headline, summary, roles, supports, tensions, resolutions, and strategy without generating new prose or saving it. One mood receives only single-character guidance, and empty state receives no relationship section. Distinct but neutral visual treatments make relationship categories scannable without ranking conflict as failure. The underlying model and other tools remain unchanged; future composition must continue to treat the selected moods and weights as authoritative.

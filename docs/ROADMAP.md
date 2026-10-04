@@ -37,9 +37,13 @@ A pure interpreter now turns the unchanged v1.1.1 analysis into a whole-blend su
 
 The existing relationship interpretation is now visible beneath the Emotional Fingerprint and updates with mood selections and influence. Browser checks covered single, two-mood, weighted, and three-mood blends without changing the source model.
 
-## Next — Musical Translation v1.2
+## Completed — Mood-to-Music Translation Engine v1.2.1
 
-Plan how independent Mood DNA could become production guidance while preserving Genre Mixer ownership of Sound DNA. Composition and persistence require their own scope and verification; song arcs and section moods remain later work.
+The pure translator produces seven musical domains, source-traceable priorities, and a concise production direction from Mood DNA. Genre Mixer retains Sound DNA ownership; no UI or cross-tool composition was added.
+
+## Next — Production Guidance View v1.2.2
+
+Show the translation in Mood Mapper alongside the existing relationship interpretation, with live source traceability and responsive review. Keep weighted source-opposition language in the relationship view; translation alone cannot reconstruct it from normalized Mood DNA. Composition, persistence, song arcs, and section moods remain later work.
 
 ## Later
 

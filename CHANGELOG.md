@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.2.1 — Mood-to-Music translation engine (2026-10-04)
+
+- Added `src/data/moodTranslationGuidance.ts` with explicit seven-dimension mapping into harmony, rhythm, dynamics, density, space, texture, and arrangement; five named numeric regions; and seven compact multi-dimension production rules.
+- Added pure `src/lib/moodTranslation.ts`: structured per-domain signals with Mood DNA source values, relative intensity, ranked priorities based on distance from neutral, and a concise overall direction. No named-mood lookup, UI, persistence, or changes to Mood DNA, relationship analysis, genre, or vocal systems.
+- Reviewed Serene, Aggressive, Dreamlike, Brooding/Haunting, Serene/Menacing at 50/50 and 90/10, and Dreamlike/Restless. The equal Serene/Menacing translation keeps a stable harmonic centre with unresolved colour; 90/10 keeps a calm surface with fleeting unresolved colour. Dreamlike/Restless keeps a measured pulse under ambience. Source opposition softened by weighted averaging cannot be reconstructed from Mood DNA alone; later UI can display existing relationship interpretation alongside translation.
+- Verified: `npm test` (68 passing, including prior suites) and `npm run build` (passing).
+
 ## v1.1.3 — Mood Mapper guidance view (2026-10-04)
 
 - Connected the existing relationship analysis and interpretation to live Mood Mapper selections and weights. A new section below the Emotional Fingerprint shows a readable relationship type, whole-blend summary, mood roles, ranked shared qualities, creative tensions with practical resolutions, and creative direction. Single moods show their own character without invented pair guidance; empty selections show no relationship section.

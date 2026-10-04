@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Mood Mapper Guidance View v1.1.3 verified · **Current milestone:** v1.2 Musical Translation next · **Last reviewed:** 2026-10-04
+**Status:** Mood-to-Music Translation Engine v1.2.1 verified · **Current milestone:** v1.2.2 production guidance view next · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,13 +10,17 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns weighted emotional choices into a seven-dimensional fingerprint; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Mood Mapper Guidance View v1.1.3
+## Current milestone — Mood-to-Music Translation Engine v1.2.1
 
-**Goal:** Present the existing relationship analysis and interpretation inside Mood Mapper as live, useful guidance.
+**Goal:** Translate Mood DNA into deterministic, traceable musical production directions without changing genre or vocal identity.
 
-**Verified state:** The Mood Mapper derives Mood DNA, relationship analysis, and interpretation from its session-only selections and weights. Below the Emotional Fingerprint, one mood shows only its character; multiple moods show the relationship label, summary, roles, meaningful shared qualities, creative tensions with distinct resolutions, and a practical direction. No guidance text is stored. Mood profiles, DNA, classifications, Genre Mixer, Vocal Persona, and saved schemas are unchanged.
+**Verified state:** A pure translator maps the seven Mood DNA values into harmony, rhythm, dynamics, density, space, texture, and arrangement. Centralized five-region thresholds, seven interaction rules, per-domain signals, source values, ranked priorities, and a concise direction live in new data and library modules. It reads only Mood DNA dimensions and changes no source state, existing calculation, storage format, React view, Genre Mixer, or Vocal Persona.
 
-**Gate:** Browser review covered Serene alone; Melancholic/Vulnerable, Romantic/Dreamlike, Dreamlike/Restless, Serene/Menacing at 50/50 and 90/10, Serene/Dreamlike/Menacing at 50/30/10, and Vulnerable/Triumphant. Add/remove/reset, the fourth-option cap, Mood DNA updates, navigation, and Genre/Vocal interactions worked. At 1280, 900, 390, and 320 px, guidance columns and role rows adapted with no horizontal overflow. `npm test` passes 59 tests and `npm run build` passes.
+**Gate:** Serene, Aggressive, Dreamlike, Brooding/Haunting, Serene/Menacing at 50/50 and 90/10, and Dreamlike/Restless were reviewed. Neutral values avoid strong claims; opposite dimensions retain separate signals. `npm test` passes 68 tests, including all Mood DNA, relationship, Genre Mixer, and Vocal Persona suites; `npm run build` passes. Weighted Mood DNA cannot reveal secondary source opposition once normalized; the existing relationship interpretation remains the source for that nuance in a later view.
+
+## Previous gate — Mood Mapper Guidance View v1.1.3
+
+The live relationship guidance, browser interaction, and responsive checks remain verified and unchanged; see the v1.1.3 changelog entry.
 
 ## Previous gate — Relationship Interpretation v1.1.2
 
@@ -70,6 +74,8 @@ The v0.9 prompt and saved-persona comparison gate remains verified; see its chan
 |v1.1.2|Relationship Interpretation|Derive whole-blend summaries, mood roles, shared qualities, creative tensions, and practical resolutions from the unchanged relationship analysis.|
 |v1.1.3|Mood Mapper Guidance View|Present the derived relationship interpretation in Mood Mapper without changing source selections or Mood DNA.|
 |v1.2|Musical Translation|Mood adds production guidance without overwriting Genre Mixer.|
+|v1.2.1|Mood-to-Music Translation Engine|Pure Mood DNA translation yields traceable domains, priorities, and concise direction without UI or cross-tool integration.|
+|v1.2.2|Production Guidance View|Present live musical directions in Mood Mapper while preserving Mood DNA and relationship guidance.|
 |v1.4|Mood Presets|Saved presets reproduce recognisable musical guidance.|
 |v1.5|Local Audio|Load and reliably control multiple local tracks.|
 |v1.6|Audio Analysis|Debug meters distinguish silence, bass-heavy, and bright passages.|
@@ -113,6 +119,7 @@ Complete each block independently before starting the next. v2.0 is integration 
 
 |2026-10-04|v1.1.2 Relationship Interpretation|Verified|Eight pairs and two weight balances plus a three-mood stress blend reviewed. `npm test` passes 59 tests and `npm run build` passes. No UI or source-model changes.|
 |2026-10-04|v1.1.3 Mood Mapper Guidance View|Verified|Live guidance reviewed across single, reinforcing, complementary, contrasting, conflicting, weighted, three-mood, and editorial stress cases. Browser interaction and four viewport widths checked; 59 tests and production build pass.|
+|2026-10-04|v1.2.1 Mood-to-Music Translation Engine|Verified|Seven-domain pure translation and seven interaction rules reviewed across seven representative profiles; 68 tests and production build pass. No UI, existing engine, or storage changes.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 
