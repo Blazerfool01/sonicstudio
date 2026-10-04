@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5 — Local Audio (2026-10-04)
+
+- Added the independent Visualiser player with session-only multi-file import, selection, play/pause, seeking, progress, duration, removal, and track switching. Imported metadata/selection is separated from one browser audio element and its playback state; temporary object URLs are revoked on removal and unmount.
+- Added validation for common audio file extensions and browser MIME support, with clear feedback for unsupported, empty, and unreadable files. No file upload, persistence, analysis, or visual effects were added.
+- Verified three WAV files with different durations in the browser: play/pause, seeking while playing and paused, switching during playback, playing each track, active-track removal and fallback, invalid text and corrupt MP3, and session reset on reload. `npm test` passes 81 tests, including four new track-library tests; `npm run build` passes TypeScript and Vite. Other tools remain available through navigation.
+
 ## v1.3 — Mood presets (2026-10-04)
 
 - Added a dedicated `sonic-studio.mood-presets` local store with `schemaVersion: 1`. Presets keep only stable ID, name, cloned mood IDs and integer weights, and timestamps. Invalid envelopes fail closed; invalid entries are skipped while valid entries remain; extra derived fields are stripped before writing.

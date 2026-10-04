@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Mood Mapper complete through the blueprint's original v1.4 scope, shipped as v1.3 · **Next milestone:** v1.5 Local Audio · **Last reviewed:** 2026-10-04
+**Status:** v1.5 Local Audio verified; Visualiser Block 4 foundation complete · **Next milestone:** v1.6 Audio Analysis · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,7 +10,15 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns weighted emotional choices into a seven-dimensional fingerprint; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Mood Presets v1.3
+## Current milestone — Local Audio v1.5
+
+**Goal:** Import multiple local audio files and reliably select, play, pause, seek, and switch tracks in a session-only Visualiser player.
+
+**Verified state:** The independent Visualiser shows filename, type, size, selection, progress, and duration for the active track. A pure track library owns metadata and selection; one HTML audio element owns playback and timing. Object URLs are kept separately and revoked on removal or unmount. Files are never uploaded or permanently stored. Unsupported/empty files are skipped, and unreadable audio reports a playback error.
+
+**Gate:** Browser-imported three WAV tracks with distinct 8/6/4-second durations; played, paused, sought while playing and paused, switched during playback, played each track, and removed a playing track with a paused fallback and reset timing. Invalid text was skipped; corrupt MP3 reported an error without crashing; reload cleared the session. `npm test` passes 81 tests and `npm run build` passes (TypeScript and Vite). Browser codec support varies; MP3, OGG, M4A/AAC are accepted when the browser reports support, but only WAV was manually played in this gate.
+
+## Previous milestone — Mood Presets v1.3
 
 **Goal:** Reopen reusable emotional setups from saved source moods and exact weights, regenerating every Mood Mapper output.
 

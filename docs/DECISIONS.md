@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Local track metadata and playback have separate owners
+
+v1.5 keeps imported track identity, filename, display name, MIME type, and size in a pure session-only library. An ID-to-object-URL map owns temporary file handles, while a single HTML audio element and component state own selection playback, current time, duration, seeking, and errors. Selecting another track pauses and unloads the previous source before loading the new one; removing a track revokes its URL, and unmount revokes any remaining URLs. The browser handles decoding and codec support. This avoids storing playback state in track records and leaves a clear later boundary for Web Audio analysis without adding analyser nodes in v1.5. Files are neither uploaded nor persisted.
+
 ## 2026-10-04 — Mood presets persist source selections only
 
 v1.3 uses a dedicated `sonic-studio.mood-presets` key with a version 1 envelope, separate from Genre Mixer and Vocal Persona storage. A preset records identity, name, timestamps, and one to three cloned mood ID/integer-weight pairs. Reopening feeds those pairs through the existing Mood DNA, relationship, interpretation, and production engines rather than storing derived text or classifications. The reader rejects malformed envelopes, skips invalid or duplicate entries, and strips unexpected fields; one damaged record cannot hide valid neighbors. Live edits remain unsaved until an explicit update, which preserves the preset ID, while save-as creates a new ID. This keeps mood presets reproducible and allows future guidance changes without migrating saved prose.

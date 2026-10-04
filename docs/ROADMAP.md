@@ -51,9 +51,13 @@ Source mood selections and exact weights now persist as reusable presets. Reopen
 
 This completes the Mood Mapper block through the blueprint's original v1.4 stage. The implementation shipped as v1.3; no separate v1.4 implementation milestone is planned.
 
-## Next planned — Local Audio v1.5
+## Completed — Local Audio v1.5
 
-Begin the independent Visualiser with reliable loading and playback control for multiple local tracks. Composition, song arcs, and section moods remain later work.
+The independent Visualiser now loads and controls multiple local tracks in one browser session. Import, switching, progress, duration, seeking, error feedback, and temporary URL cleanup are verified. Composition, song arcs, and section moods remain later work.
+
+## Next planned — Audio Analysis v1.6
+
+Add truthful diagnostic meters for silence, bass-heavy, and bright passages using the existing playback source. Keep analysis separate from rendering and leave visual modes to v1.7.
 
 ## Later
 

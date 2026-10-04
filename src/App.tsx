@@ -8,11 +8,12 @@ import type { SavedMix } from './lib/savedMixes.ts'
 import { createRecipe } from './lib/recipe.ts'
 import VocalPersonaBuilder from './VocalPersonaBuilder.tsx'
 import MoodMapper from './MoodMapper.tsx'
+import Visualiser from './Visualiser.tsx'
 import './vocal.css'
 
 type Slot = 'a' | 'b'
 
-function GenreMixer({ onNavigate }: { onNavigate: (view: 'vocal' | 'mood') => void }) {
+function GenreMixer({ onNavigate }: { onNavigate: (view: 'vocal' | 'mood' | 'visualiser') => void }) {
   const [firstId, setFirstId] = useState('dark-rnb')
   const [secondId, setSecondId] = useState('hardwave')
   const [weight, setWeight] = useState(60)
@@ -123,9 +124,9 @@ function GenreMixer({ onNavigate }: { onNavigate: (view: 'vocal' | 'mood') => vo
     <main className="main">
       <header className="topbar">
         <div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 01</small></div>
-        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 1.3</div>
+        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 1.5</div>
       </header>
-      <nav className="tool-nav" aria-label="Studio tools"><button className="active" aria-current="page">01 / Genre Mixer</button><button onClick={() => onNavigate('vocal')}>02 / Vocal Persona</button><button onClick={() => onNavigate('mood')}>03 / Mood Mapper</button></nav>
+      <nav className="tool-nav" aria-label="Studio tools"><button className="active" aria-current="page">01 / Genre Mixer</button><button onClick={() => onNavigate('vocal')}>02 / Vocal Persona</button><button onClick={() => onNavigate('mood')}>03 / Mood Mapper</button><button onClick={() => onNavigate('visualiser')}>04 / Visualiser</button></nav>
 
       <section className="intro">
         <div className="eyebrow"><span>01</span> / THE GENRE MIXER</div>
@@ -210,10 +211,11 @@ function Meter({index,title,value}:{index:string,title:string,value:number}) {
 }
 
 export default function App() {
-  const [view, setView] = useState<'genre' | 'vocal' | 'mood'>('genre')
+  const [view, setView] = useState<'genre' | 'vocal' | 'mood' | 'visualiser'>('genre')
   return <>
     <div hidden={view !== 'genre'}><GenreMixer onNavigate={setView}/></div>
     <div hidden={view !== 'vocal'}><VocalPersonaBuilder onNavigate={setView}/></div>
     <div hidden={view !== 'mood'}><MoodMapper onNavigate={setView}/></div>
+    <div hidden={view !== 'visualiser'}><Visualiser onNavigate={setView}/></div>
   </>
 }
