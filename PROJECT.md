@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** v1.7.1 Playback Stabilisation verified locally · **Next milestone:** v1.9 Reactive Personality · **Last reviewed:** 2026-10-04
+**Status:** v1.9 Reactive Personality verified locally · **Next milestone:** v2.0 Integrated Studio · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,7 +10,19 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns weighted emotional choices into a seven-dimensional fingerprint; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Playback Stabilisation v1.7.1
+## Current milestone — Reactive Personality v1.9
+
+**Goal:** Keep live audio primary while a declarative visual personality makes the existing three modes respond to chosen musical characteristics.
+
+**Implemented state:** `visualPersonality.ts` derives a small typed renderer configuration from existing 0–100 Mood DNA. Energy controls expansion (0.55–1.70×); tension controls line weight (0.65–1.75×) and spectral detail (45–100%); atmosphere controls waveform glow (2–18); motion controls the visual bass/treble response time (220–0 ms); weight controls bass-driven expansion (0–70%); valence controls signal/fill hue (15–170°). Non-finite/missing axes use neutral 50; finite extremes clamp to 0–100. With no source or Classic selected, the original colours, geometry, glow, and immediate response remain the default. Intimacy is not mapped; Genre and Vocal identity are unchanged.
+
+Mood Mapper retains all source selections and publishes only its current derived fingerprint through a minimal read-only App handoff. Visualiser chooses Current mood, Classic, or two existing catalogue previews (Dreamlike/Aggressive); previews do not edit the blend. Its compact diagnostic shows source axes and resulting dimensions. The renderer knows only `VisualPersonality`, raw buffers, and visual bass/high envelopes. The existing RAF owns time-based response in a ref; silence immediately clears those envelopes. Spectral detail never creates energy in a silent bin. Audio analysis, PlaybackIntent, graph/URL ownership, session tracks, and persistence schemas are unchanged.
+
+**Gate:** 112 tests pass (104 existing plus eight personality regressions), TypeScript/Vite build passes, and `git diff --check` passes. Controlled Edge review used generated 180-second PCM WAV Files through the existing importer in a temporary external StrictMode fixture. With the identical three-tone composite, Dreamlike (0.85× expansion, 0.87× line weight, 185 ms response) and Aggressive (1.67×, 1.60×, 9 ms) visibly changed Spectrum height, Waveform displacement/stroke/glow, and Radial expansion. Personality switching kept the selected object URL and advancing playback time; one context, one media source, and a maximum of one outstanding Visualiser RAF remained throughout. With Dreamlike fixed, 80 Hz bass and 6 kHz treble gave different frequency positions/shapes and waveform density; the composite is a controlled proxy, not an external music recording. Pause held the measured frame with RAF zero; navigation suspended the context and return resumed the same track/graph. Reduced-motion preference remained active with drawing at or below eight updates per second. Current Mood read the selected Dreamlike fingerprint and a Dreamlike 1 / Aggressive 50 blend (Energy 96, Tension 85, Atmosphere 21, Motion 94, Weight 93, Valence 20). A held resume released after navigation settled suspended with zero RAFs; returning reused the same graph. Real unmount closed the context, left zero RAFs, and revoked all three URLs. Responsive review at 1280/390/320 px and console checks passed. Native picker automation remained unavailable; no browser permission change was needed.
+
+**Limitations / deferred:** Motion smooths visual modulation envelopes rather than changing analyser smoothing or adding autonomous animation. Colour is descriptive, not a claim of perceptual mood calibration. Genre-to-personality mappings, visual editing/persistence, project entities, captured experiments, A/B comparison, and combined creation briefs are deferred to v2.0 scope decisions. DPR-only display-change handling remains deferred. No v2.0 implementation was started; these changes are local and publication is outside this task.
+
+## Previous milestone — Playback Stabilisation v1.7.1
 
 **Goal:** Prevent obsolete playback startup from overriding current intent, reconcile navigation with pending Web Audio operations, and keep the studio usable when browser storage access is denied. Preserve the v1.7 architecture and scope.
 

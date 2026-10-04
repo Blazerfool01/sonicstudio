@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.9 — Reactive Personality (2026-10-04)
+
+- Added pure `VisualPersonality` derivation from existing Mood DNA: energy → expansion, tension → stroke/detail, atmosphere → glow, motion → visual response time, weight → bass pulse, valence → palette. Classic preserves v1.7 defaults; no new saved schema or project entity.
+- Spectrum, Waveform, and Radial consume the same configuration boundary. Existing raw buffers and metrics stay authoritative; one RAF updates reusable visual envelope refs. Musical configuration modifies signal expression without inventing motion during silence or changing playback/analysis ownership.
+- Mood Mapper publishes its derived fingerprint through a read-only App handoff. Visualiser shows source/mapping diagnostics and allows Current mood, Classic, and contrasting read-only Dreamlike/Aggressive catalogue previews during playback. Package and visible version labels are 1.9.0.
+- Verified 112 passing tests (eight new derivation/geometry/response regressions), TypeScript/Vite build, and `git diff --check`. Edge controlled comparisons showed personality differences in all three modes using the same composite audio, and distinct bass/treble output with one personality. Track, progress, one graph/source, and one RAF survived personality switching. Pause/navigation/return, reduced motion, live Mood Mapper handoff, and 1280/390/320 px layout passed; warning/error logs were empty. Generated WAV Files and browser instrumentation stayed outside the repository.
+- Genre mapping, project/preset persistence, creation briefs, experiment capture, A/B comparison, and DPR-only display-change handling remain deferred. No v2.0 work or GitHub publication.
+
 ## v1.7.1 — Playback Stabilisation (2026-10-04)
 
 - Added a small playback-intent owner and synchronous cancellation wiring in `Visualiser.tsx`. Stale startup completions cannot pause newer playback or publish UI state; context operations reconcile current intent after late resume/suspend completion. Pending startup remains cancellable, paused/inactive playback suspends the reused graph, and unmount still closes it with StrictMode-safe deferred disposal. Media events and the existing RAF guard consult current intent.

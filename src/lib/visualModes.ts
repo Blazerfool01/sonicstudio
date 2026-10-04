@@ -1,3 +1,6 @@
+import { DEFAULT_PERSONALITY } from './visualPersonality.ts'
+import type { VisualPersonality } from './visualPersonality.ts'
+
 export type VisualMode = 'spectrum' | 'waveform' | 'radial'
 
 export const VISUAL_MODES: ReadonlyArray<{ id: VisualMode, label: string }> = [
@@ -81,14 +84,11 @@ export function radialRadius(magnitude: number, innerRadius: number, outerRadius
   return inner + clamp01(magnitude) * (outer - inner)
 }
 
-const INK = '#10130f'
 const LINE = 'rgba(191, 214, 150, 0.22)'
-const SIGNAL = '#c8da90'
-const SIGNAL_SOFT = 'rgba(200, 218, 144, 0.2)'
 
-function prepare(ctx: CanvasRenderingContext2D, width: number, height: number) {
+function prepare(ctx: CanvasRenderingContext2D, width: number, height: number, personality: Readonly<VisualPersonality>) {
   ctx.clearRect(0, 0, width, height)
-  ctx.fillStyle = INK
+  ctx.fillStyle = personality.background
   ctx.fillRect(0, 0, width, height)
   ctx.strokeStyle = 'rgba(218, 232, 196, 0.07)'
   ctx.lineWidth = 1
@@ -98,14 +98,14 @@ function prepare(ctx: CanvasRenderingContext2D, width: number, height: number) {
   ctx.stroke()
 }
 
-function drawSpectrum(ctx: CanvasRenderingContext2D, width: number, height: number, values: ArrayLike<number>) {
+function drawSpectrum(ctx: CanvasRenderingContext2D, width: number, height: number, values: ArrayLike<number>, personality: Readonly<VisualPersonality>, pulse: number, high: number) {
   const gap = Math.max(2, Math.min(6, width / (values.length * 10)))
   const barWidth = Math.max(1, (width - gap * (values.length - 1)) / values.length)
   const maxHeight = height * 0.82
-  ctx.fillStyle = SIGNAL
+  ctx.fillStyle = personality.signal
   for (let index = 0; index < values.length; index++) {
     const value = values[index]
-    const barHeight = clamp01(value) * maxHeight
+    const barHeight = visualMagnitude(value, personality, pulse, high, index / Math.max(1, values.length - 1)) * maxHeight
     const x = index * (barWidth + gap)
     ctx.globalAlpha = 0.54 + clamp01(value) * 0.46
     ctx.fillRect(x, height - barHeight, barWidth, barHeight)
@@ -113,24 +113,24 @@ function drawSpectrum(ctx: CanvasRenderingContext2D, width: number, height: numb
   ctx.globalAlpha = 1
 }
 
-function drawWaveform(ctx: CanvasRenderingContext2D, width: number, height: number, samples: ArrayLike<number>) {
+function drawWaveform(ctx: CanvasRenderingContext2D, width: number, height: number, samples: ArrayLike<number>, personality: Readonly<VisualPersonality>, pulse: number) {
   if (!samples.length) return
   ctx.beginPath()
   for (let index = 0; index < samples.length; index++) {
     const x = samples.length === 1 ? width / 2 : index / (samples.length - 1) * width
-    const y = waveformY(samples[index], height)
+    const y = waveformY(samples[index] * personality.gain * (1 + pulse * personality.bassPulse), height)
     if (index === 0) ctx.moveTo(x, y)
     else ctx.lineTo(x, y)
   }
-  ctx.strokeStyle = SIGNAL
-  ctx.lineWidth = 1.8
-  ctx.shadowColor = SIGNAL
-  ctx.shadowBlur = 8
+  ctx.strokeStyle = personality.signal
+  ctx.lineWidth = 1.8 * personality.stroke
+  ctx.shadowColor = personality.signal
+  ctx.shadowBlur = personality.glow
   ctx.stroke()
   ctx.shadowBlur = 0
 }
 
-function drawRadial(ctx: CanvasRenderingContext2D, width: number, height: number, values: ArrayLike<number>) {
+function drawRadial(ctx: CanvasRenderingContext2D, width: number, height: number, values: ArrayLike<number>, personality: Readonly<VisualPersonality>, pulse: number, high: number) {
   const cx = width / 2
   const cy = height / 2
   const inner = Math.min(width, height) * 0.1
@@ -144,17 +144,17 @@ function drawRadial(ctx: CanvasRenderingContext2D, width: number, height: number
   for (let index = 0; index < values.length; index++) {
     const value = values[index]
     const angle = radialAngle(index, values.length)
-    const radius = radialRadius(value, inner, outer)
+    const radius = radialRadius(visualMagnitude(value, personality, pulse, high, index / Math.max(1, values.length - 1)), inner, outer)
     const x = cx + Math.cos(angle) * radius
     const y = cy + Math.sin(angle) * radius
     if (index === 0) ctx.moveTo(x, y)
     else ctx.lineTo(x, y)
   }
   ctx.closePath()
-  ctx.fillStyle = SIGNAL_SOFT
+  ctx.fillStyle = personality.fill
   ctx.fill()
-  ctx.strokeStyle = SIGNAL
-  ctx.lineWidth = 1.6
+  ctx.strokeStyle = personality.signal
+  ctx.lineWidth = 1.6 * personality.stroke
   ctx.stroke()
 }
 
@@ -167,28 +167,37 @@ export function drawVisualFrame(
   spectrum: ArrayLike<number>,
   sampleRate: number,
   fftSize: number,
+  personality: Readonly<VisualPersonality> = DEFAULT_PERSONALITY,
+  bass = 0,
+  high = 0,
 ): void {
   if (width <= 0 || height <= 0) return
-  prepare(ctx, width, height)
-  if (mode === 'waveform') drawWaveform(ctx, width, height, waveform)
+  prepare(ctx, width, height, personality)
+  if (mode === 'waveform') drawWaveform(ctx, width, height, waveform, personality, bass)
   else {
     if (mode === 'radial') {
       fillSpectrumBands(spectrum, sampleRate, fftSize, radialBands)
-      drawRadial(ctx, width, height, radialBands)
+      drawRadial(ctx, width, height, radialBands, personality, bass, high)
     } else {
       fillSpectrumBands(spectrum, sampleRate, fftSize, spectrumBands)
-      drawSpectrum(ctx, width, height, spectrumBands)
+      drawSpectrum(ctx, width, height, spectrumBands, personality, bass, high)
     }
   }
 }
 
-export function drawVisualIdle(ctx: CanvasRenderingContext2D, width: number, height: number): void {
+export function drawVisualIdle(ctx: CanvasRenderingContext2D, width: number, height: number, personality: Readonly<VisualPersonality> = DEFAULT_PERSONALITY): void {
   if (width <= 0 || height <= 0) return
-  prepare(ctx, width, height)
+  prepare(ctx, width, height, personality)
   ctx.strokeStyle = 'rgba(200, 218, 144, 0.56)'
   ctx.lineWidth = 1.5
   ctx.beginPath()
   ctx.moveTo(0, height / 2)
   ctx.lineTo(width, height / 2)
   ctx.stroke()
+}
+
+/** Detail shapes spectral response; it cannot create energy in a silent bin. */
+export function visualMagnitude(magnitude: number, personality: Readonly<VisualPersonality>, bass: number, high: number, position: number): number {
+  const detail = 1 - clamp01(position) * (1 - personality.detail) * (1 - clamp01(high))
+  return clamp01(clamp01(magnitude) * personality.gain * (1 + clamp01(bass) * personality.bassPulse) * detail)
 }

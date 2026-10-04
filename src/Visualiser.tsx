@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { addTracks, audioCandidate, displayName, removeTrack, selectTrack } from './lib/localTracks.ts'
 import type { LocalTrack, TrackLibrary } from './lib/localTracks.ts'
 import { AudioAnalyzer, SILENT_METRICS } from './lib/audioAnalysis.ts'
@@ -6,6 +6,8 @@ import type { SignalMetrics } from './lib/audioAnalysis.ts'
 import { drawVisualFrame, drawVisualIdle, VISUAL_MODES } from './lib/visualModes.ts'
 import type { VisualMode } from './lib/visualModes.ts'
 import { PlaybackIntent } from './lib/playbackIntent.ts'
+import { deriveVisualPersonality, responseStep } from './lib/visualPersonality.ts'
+import type { MusicalCharacteristics } from './lib/visualPersonality.ts'
 import './visualiser.css'
 
 function timeLabel(seconds: number): string {
@@ -16,13 +18,21 @@ function timeLabel(seconds: number): string {
 
 const emptyLibrary: TrackLibrary = { tracks: [], selectedId: null }
 
-export default function Visualiser({ active, onNavigate }: { active: boolean, onNavigate: (view: 'genre' | 'vocal' | 'mood') => void }) {
+export default function Visualiser({ active, onNavigate, characteristics, characterName, previews }: { previews: readonly { id: string, label: string, characteristics: MusicalCharacteristics }[], characteristics: MusicalCharacteristics | null, characterName: string | null, active: boolean, onNavigate: (view: 'genre' | 'vocal' | 'mood') => void }) {
   const [library, setLibrary] = useState<TrackLibrary>(emptyLibrary)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [message, setMessage] = useState('')
   const [metrics, setMetrics] = useState<SignalMetrics>(SILENT_METRICS)
+  const [personalitySource, setPersonalitySource] = useState('current')
+  const preview = previews.find(item => item.id === personalitySource)
+  const activeCharacteristics = preview?.characteristics ?? (personalitySource === 'current' ? characteristics : null)
+  const activeCharacterName = preview ? `${preview.label} preview` : activeCharacteristics ? `${characterName} influence` : 'Classic signal'
+  const personality = useMemo(() => deriveVisualPersonality(activeCharacteristics), [activeCharacteristics])
+  const personalityRef = useRef(personality)
+  personalityRef.current = personality
+  const responseRef = useRef({ bass: 0, high: 0, time: 0 })
   const [visualMode, setVisualMode] = useState<VisualMode>('spectrum')
   const [hasRenderedSignal, setHasRenderedSignal] = useState(false)
   const [analysisError, setAnalysisError] = useState('')
@@ -55,7 +65,7 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (canvas && ctx) {
-      drawVisualFrame(ctx, canvas.clientWidth, canvas.clientHeight, mode, analyzer.waveform, analyzer.spectrum, analyzer.context.sampleRate, analyzer.analyser.fftSize)
+      drawVisualFrame(ctx, canvas.clientWidth, canvas.clientHeight, mode, analyzer.waveform, analyzer.spectrum, analyzer.context.sampleRate, analyzer.analyser.fftSize, personalityRef.current, responseRef.current.bass, responseRef.current.high)
     }
   }
 
@@ -63,6 +73,7 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
     if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
     frameRef.current = null
     lastDisplayRef.current = 0
+    responseRef.current.time = 0
     setMetrics(SILENT_METRICS)
   }
 
@@ -79,6 +90,11 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
       if (!hasSignalFrameRef.current) setHasRenderedSignal(true)
       hasSignalFrameRef.current = true
       if (!reducedMotionRef.current || now - lastVisualRef.current >= 125) {
+        const response = responseRef.current
+        const elapsed = response.time ? now - response.time : 16
+        response.bass = responseStep(response.bass, next.low, elapsed, personalityRef.current.responseMs)
+        response.high = responseStep(response.high, next.high, elapsed, personalityRef.current.responseMs)
+        response.time = now
         drawSignalFrame(analyzer)
         lastVisualRef.current = now
       }
@@ -103,6 +119,8 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
     setDuration(0)
     setAnalysisError('')
     hasSignalFrameRef.current = false
+    responseRef.current.bass = 0
+    responseRef.current.high = 0
     setHasRenderedSignal(false)
     drawIdle()
     if (library.selectedId) {
@@ -279,7 +297,7 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
   return <div className="app-shell">
     <aside className="rail" aria-label="Studio navigation"><div className="brand-mark" aria-label="Sonic Studio">S<span>·</span></div><div className="rail-center"><span className="rail-tick"/><span className="rail-tick"/><span className="rail-tick"/><span className="rail-tick active"/></div><span className="rail-bottom">04 / 04</span></aside>
     <main className="main visualiser-main">
-      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small>V1.7.1 / VISUAL MODES</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION</div></header>
+      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small>V1.9.0 / REACTIVE PERSONALITY</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION</div></header>
       <nav className="tool-nav" aria-label="Studio tools"><button onClick={() => navigate('genre')}>01 / Genre Mixer</button><button onClick={() => navigate('vocal')}>02 / Vocal Persona</button><button onClick={() => navigate('mood')}>03 / Mood Mapper</button><button className="active" aria-current="page">04 / Visualiser</button></nav>
       <section className="intro"><div className="eyebrow">BLOCK 04 / VISUAL MODES</div><div className="intro-row"><div><h1>Listen <em>locally.</em></h1><p>Import a few tracks, choose one, and inspect their live signal. Your files stay in this browser session.</p></div><div className="intro-index">SONIC STUDIO<span>04 / 04</span></div></div></section>
       <div className="visualiser-layout">
@@ -300,8 +318,14 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
         <div className="visualiser-canvas-wrap"><canvas ref={canvasRef} className="visualiser-canvas" role="img" aria-label={`${visualMode} visualisation of ${selected?.name ?? 'no selected track'}`}/>{!selected || !playing ? <span className="visualiser-canvas-status" aria-hidden="true">{selected ? hasRenderedSignal ? 'SIGNAL HELD / PAUSED' : 'READY / PAUSED' : 'AWAITING AUDIO'}</span> : null}</div>
         {visualMode === 'spectrum' ? <div className="visualiser-frequency-scale" aria-hidden="true"><span>LOW / 20 HZ</span><span>HIGH / 20 KHZ</span></div> : visualMode === 'radial' ? <p className="visualiser-radial-key">LOW TO HIGH FREQUENCY / CLOCKWISE FROM TOP</p> : null}
       </section>
+      <section className="visualiser-personality" aria-labelledby="personality-heading">
+        <div><span className="eyebrow">VISUAL PERSONALITY</span><h2 id="personality-heading">{activeCharacterName}</h2><p>{personalitySource === 'classic' ? 'Original signal styling.' : preview ? 'Read-only catalogue preview. Your Mood Mapper blend stays as selected.' : characteristics ? 'Read-only from your current Mood Mapper blend. The audio remains the source of every shape.' : 'Select moods in Mood Mapper or preview a catalogue character. Classic styling is active.'}</p></div>
+        <label className="personality-select">Visual character<select aria-label="Visual character" value={personalitySource} onChange={event => setPersonalitySource(event.target.value)}><option value="current">Current mood{characterName ? ` / ${characterName}` : ' / none selected'}</option><option value="classic">Classic signal</option>{previews.map(item => <option key={item.id} value={item.id}>{item.label} preview</option>)}</select></label>
+        {activeCharacteristics ? <p className="personality-sources">Energy {activeCharacteristics.energy} · Tension {activeCharacteristics.tension} · Atmosphere {activeCharacteristics.atmosphere} · Motion {activeCharacteristics.motion} · Weight {activeCharacteristics.weight} · Valence {activeCharacteristics.valence}</p> : null}
+        <p className="personality-sources">Expansion {personality.gain.toFixed(2)}× · Line weight {personality.stroke.toFixed(2)}× · Glow {personality.glow.toFixed(0)} · Detail {Math.round(personality.detail * 100)}% · Response {Math.round(personality.responseMs)} ms · Bass pulse {Math.round(personality.bassPulse * 100)}%</p>
+      </section>
       <section className="visualiser-diagnostics" aria-labelledby="analysis-heading"><div className="section-heading"><div><span className="eyebrow">04 / ANALYSIS</span><h2 id="analysis-heading">Audio diagnostics<span className="heading-period">.</span></h2></div><span className="visualiser-count">{playing ? analyzerRef.current ? 'ANALYSING' : 'UNAVAILABLE' : 'IDLE'}</span></div><p>Live levels from the selected track. Readings settle to zero when playback stops.</p><div className="visualiser-meter-grid">{([['amplitude', 'Overall amplitude'], ['low', 'Low · 20–250 Hz'], ['mid', 'Mid · 250–2,000 Hz'], ['high', 'High · 2,000–10,000 Hz']] as const).map(([key, label]) => <div className="visualiser-meter" key={key}><div><span>{label}</span><strong>{metrics[key].toFixed(3)}</strong></div><div className="visualiser-meter-track"><span style={{ width: `${metrics[key] * 100}%` }}/></div></div>)}</div><small>0 = no measured signal · 1 = maximum normalised level. Every visual mode reads these same reusable analyser buffers.</small></section>
-      <footer className="page-footer"><span>SONIC STUDIO / VISUAL MODES</span><span>GENERIC SIGNAL RENDERING / V1.7.1.</span></footer>
+      <footer className="page-footer"><span>SONIC STUDIO / VISUAL MODES</span><span>AUDIO × MUSICAL CHARACTER / V1.9.0.</span></footer>
     </main>
   </div>
 }
