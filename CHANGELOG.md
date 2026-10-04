@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7.1 — Playback Stabilisation (2026-10-04)
+
+- Added a small playback-intent owner and synchronous cancellation wiring in `Visualiser.tsx`. Stale startup completions cannot pause newer playback or publish UI state; context operations reconcile current intent after late resume/suspend completion. Pending startup remains cancellable, paused/inactive playback suspends the reused graph, and unmount still closes it with StrictMode-safe deferred disposal. Media events and the existing RAF guard consult current intent.
+- Guarded browser storage-property acquisition for Genre, Persona, vocal-experiment, and Mood preset initialization. Live tools remain usable if storage is denied; existing write failure feedback and malformed-data/schema handling remain intact. Updated package/lockfile and visible version labels to 1.7.1.
+- Added 13 deterministic lifecycle/storage regressions using controlled promises and throwing storage getters. `npm test`: 104 passing; TypeScript/Vite build and `git diff --check`: passing. Edge verified rapid playback, held startup across navigation/return, track switch/removal, real React unmount, graph reuse (one context/source), one Visualiser RAF, URL cleanup, all three visual modes, seeking/end, reduced motion, and session controls/save failures with storage denied. Temporary browser instrumentation and generated PCM Files stayed outside the repository; native OS file-picker automation was unavailable. No v1.9 or v2.0 implementation.
+
 ## v1.7 — Visual Modes (2026-10-04)
 
 - Added one responsive Canvas output with Spectrum, Waveform, and Radial modes, driven by the existing AudioAnalyzer buffers. Mode changes do not recreate audio nodes or add animation loops; reduced-motion mode lowers canvas refresh frequency, and the existing diagnostic meters remain available.

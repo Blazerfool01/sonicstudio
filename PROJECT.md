@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** v1.7 Visual Modes verified · **Next milestone:** v1.9 Reactive Personality · **Last reviewed:** 2026-10-04
+**Status:** v1.7.1 Playback Stabilisation verified locally · **Next milestone:** v1.9 Reactive Personality · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,7 +10,15 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns weighted emotional choices into a seven-dimensional fingerprint; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Visual Modes v1.7
+## Current milestone — Playback Stabilisation v1.7.1
+
+**Goal:** Prevent obsolete playback startup from overriding current intent, reconcile navigation with pending Web Audio operations, and keep the studio usable when browser storage access is denied. Preserve the v1.7 architecture and scope.
+
+**Implemented state:** A small `PlaybackIntent` owner coordinates request tokens, pending Play cancellation, and context activity. Obsolete media-start continuations return without changing playback or UI. Context settlements independently reconcile current intent, including a resume completing after navigation and a suspend completing after a newer Play. Pause, selection, selected removal, navigation, and unmount invalidate startup synchronously; queued media events observe the current media state and intent. Paused/inactive playback now suspends the same graph; canvas pause behaviour remains unchanged. Graph creation/disposal, URL ownership, buffers, rendering, and the guarded RAF remain in their existing owners. A shared browser-storage acquisition guard protects Genre, Persona, vocal-experiment, and Mood preset initialization without changing schemas or persistence writers.
+
+**Gate:** `npm test` passes 104 tests (91 existing plus 13 lifecycle/storage regressions); `npm run build` passes TypeScript and Vite; `git diff --check` passes. In Edge, a temporary external verification fixture loaded the actual App under StrictMode, generated three PCM WAV File objects through the existing importer, and exposed real context/source/RAF/URL counts. Repeated rapid playback and immediate double-click cancellation passed. Holding startup while pausing/replaying, navigating/returning, switching tracks, and removing the selected track left the latest intent authoritative. Navigation settled to suspended after held resume release; return resumed analysis. React unmount during held startup closed the context, revoked all URLs, and left zero RAFs. One context/source graph remained reused throughout; the maximum outstanding Visualiser RAF was one. Spectrum, Waveform, Radial, seek-to-end/backward seek, idle metrics, and reduced-motion preference changes worked. A throwing storage property still allowed mounting and live Genre/Vocal/Mood edits; save attempts failed gracefully. Browser warning/error logs were empty. Native file-picker automation was unavailable without an extension permission change, so browser import verification used in-browser generated Files rather than the OS picker. No v1.9/v2.0 behaviour was added; publication to GitHub is outside this local milestone task.
+
+## Previous milestone — Visual Modes v1.7
 
 **Goal:** Render spectrum bars, waveform, and radial spectrum from the existing v1.6 analysis buffers without taking ownership of audio processing.
 

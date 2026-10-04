@@ -9,6 +9,7 @@ import { createRecipe } from './lib/recipe.ts'
 import VocalPersonaBuilder from './VocalPersonaBuilder.tsx'
 import MoodMapper from './MoodMapper.tsx'
 import Visualiser from './Visualiser.tsx'
+import { readBrowserStorage } from './lib/browserStorage.ts'
 import './vocal.css'
 
 type Slot = 'a' | 'b'
@@ -19,7 +20,7 @@ function GenreMixer({ onNavigate }: { onNavigate: (view: 'vocal' | 'mood' | 'vis
   const [weight, setWeight] = useState(60)
   const [activeSlot, setActiveSlot] = useState<Slot>('a')
   const [savedMixes, setSavedMixes] = useState<SavedMix[]>(() => {
-    try { return readSavedMixes(localStorage, genres.map(genre => genre.id)) } catch { return [] }
+    return readBrowserStorage(storage => readSavedMixes(storage, genres.map(genre => genre.id)), [])
   })
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [mixName, setMixName] = useState('')
@@ -124,7 +125,7 @@ function GenreMixer({ onNavigate }: { onNavigate: (view: 'vocal' | 'mood' | 'vis
     <main className="main">
       <header className="topbar">
         <div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 01</small></div>
-        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 1.7</div>
+        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 1.7.1</div>
       </header>
       <nav className="tool-nav" aria-label="Studio tools"><button className="active" aria-current="page">01 / Genre Mixer</button><button onClick={() => onNavigate('vocal')}>02 / Vocal Persona</button><button onClick={() => onNavigate('mood')}>03 / Mood Mapper</button><button onClick={() => onNavigate('visualiser')}>04 / Visualiser</button></nav>
 

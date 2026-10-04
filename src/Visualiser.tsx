@@ -5,6 +5,7 @@ import { AudioAnalyzer, SILENT_METRICS } from './lib/audioAnalysis.ts'
 import type { SignalMetrics } from './lib/audioAnalysis.ts'
 import { drawVisualFrame, drawVisualIdle, VISUAL_MODES } from './lib/visualModes.ts'
 import type { VisualMode } from './lib/visualModes.ts'
+import { PlaybackIntent } from './lib/playbackIntent.ts'
 import './visualiser.css'
 
 function timeLabel(seconds: number): string {
@@ -38,7 +39,10 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
   const lastVisualRef = useRef(0)
   const disposeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const urlsRef = useRef(new Map<string, string>())
-  const playRequestRef = useRef(0)
+  const [playback] = useState(() => new PlaybackIntent(() => {
+    setPlaying(false)
+    setAnalysisError('Web Audio could not change playback state. Try Play again.')
+  }))
   const selected = library.tracks.find(track => track.id === library.selectedId)
 
   function drawIdle() {
@@ -63,9 +67,9 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
   }
 
   function startAnalysis() {
-    if (frameRef.current !== null || !analyzerRef.current) return
+    if (!playback.playing || frameRef.current !== null || !analyzerRef.current) return
     const tick = (now: number) => {
-      if (audioRef.current?.paused || !analyzerRef.current) {
+      if (!playback.playing || !audioRef.current || audioRef.current.paused || !analyzerRef.current) {
         frameRef.current = null
         setMetrics(SILENT_METRICS)
         return
@@ -90,9 +94,8 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
-    ++playRequestRef.current
+    playback.cancel()
     stopAnalysis()
-    audio.pause()
     audio.removeAttribute('src')
     audio.load()
     setPlaying(false)
@@ -109,11 +112,10 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
   }, [library.selectedId])
 
   useEffect(() => {
+    playback.setActive(active)
     if (active) return
-    ++playRequestRef.current
-    audioRef.current?.pause()
+    setPlaying(false)
     stopAnalysis()
-    if (analyzerRef.current?.context.state === 'running') void analyzerRef.current.context.suspend()
   }, [active])
 
   useEffect(() => {
@@ -157,16 +159,17 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
   }, [visualMode, playing])
 
   useEffect(() => {
+    const audio = audioRef.current
+    if (audio) playback.mount(audio, active)
     // StrictMode replays effects on the same DOM audio element. Defer graph
     // disposal one task so that replay can cancel it before the source closes.
     if (disposeTimerRef.current !== null) clearTimeout(disposeTimerRef.current)
     disposeTimerRef.current = null
     return () => {
-      ++playRequestRef.current
+      playback.unmount()
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
       frameRef.current = null
       hasSignalFrameRef.current = false
-      audioRef.current?.pause()
       for (const url of urlsRef.current.values()) URL.revokeObjectURL(url)
       urlsRef.current.clear()
       disposeTimerRef.current = setTimeout(() => {
@@ -199,15 +202,18 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
 
   function choose(id: string) {
     if (id === library.selectedId) return
+    playback.cancel()
+    setPlaying(false)
+    stopAnalysis()
     setMessage('')
     setLibrary(current => selectTrack(current, id))
   }
 
   function remove(id: string) {
     if (id === library.selectedId) {
-      ++playRequestRef.current
+      playback.cancel()
+      setPlaying(false)
       stopAnalysis()
-      audioRef.current?.pause()
       hasSignalFrameRef.current = false
       setHasRenderedSignal(false)
       drawIdle()
@@ -222,46 +228,50 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
   async function togglePlayback() {
     const audio = audioRef.current
     if (!audio || !selected) return
-    if (!audio.paused) {
-      ++playRequestRef.current
-      audio.pause()
+    if (playback.playing) {
+      playback.cancel()
       setPlaying(false)
+      stopAnalysis()
       return
     }
-    const request = ++playRequestRef.current
     try {
-      if (typeof AudioContext === 'undefined') {
-        await audio.play()
-        if (request !== playRequestRef.current) { audio.pause(); return }
-        setPlaying(true)
-        setAnalysisError('Web Audio is unavailable in this browser. Playback continues without diagnostics.')
-        return
-      }
-      if (!analyzerRef.current) {
+      if (typeof AudioContext !== 'undefined' && !analyzerRef.current) {
         analyzerRef.current = new AudioAnalyzer(audio)
         graphCreationsRef.current++
       }
-      // Both calls start inside the same click gesture, satisfying browser
-      // restrictions on AudioContext resume and HTML media playback.
-      const resumed = analyzerRef.current.resume()
-      const started = audio.play()
-      await Promise.all([resumed, started])
-      if (request !== playRequestRef.current) { audio.pause(); return }
-      setPlaying(true)
-      setMessage('')
-      setAnalysisError('')
     } catch {
-      if (request === playRequestRef.current) {
-        audio.pause()
-        setPlaying(false)
-        if (audio.error) {
-          setAnalysisError('')
-          setMessage('This file could not be read or played in this browser.')
-        } else {
-          setAnalysisError('Playback or Web Audio analysis could not start in this browser.')
-        }
-      }
+      // Only synchronous graph construction can reach this recovery path.
+      playback.cancel()
+      showStartupError(audio)
+      return
     }
+    const { request, completion } = playback.start(analyzerRef.current?.context ?? null)
+    // A pending Play is already user intent, so another click can cancel it.
+    setPlaying(playback.playing)
+    const result = await completion
+    if (!playback.isCurrent(request) || result === 'stale') return
+    if (result === 'failed') {
+      showStartupError(audio)
+      return
+    }
+    setMessage('')
+    setAnalysisError(analyzerRef.current ? '' : 'Web Audio is unavailable in this browser. Playback continues without diagnostics.')
+  }
+
+  function showStartupError(audio: HTMLAudioElement) {
+    setPlaying(false)
+    stopAnalysis()
+    if (audio.error) {
+      setAnalysisError('')
+      setMessage('This file could not be read or played in this browser.')
+    } else setAnalysisError('Playback or Web Audio analysis could not start in this browser.')
+  }
+
+  function navigate(view: 'genre' | 'vocal' | 'mood') {
+    playback.setActive(false)
+    setPlaying(false)
+    stopAnalysis()
+    onNavigate(view)
   }
 
   const progress = duration > 0 ? Math.min(100, currentTime / duration * 100) : 0
@@ -269,15 +279,15 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
   return <div className="app-shell">
     <aside className="rail" aria-label="Studio navigation"><div className="brand-mark" aria-label="Sonic Studio">S<span>·</span></div><div className="rail-center"><span className="rail-tick"/><span className="rail-tick"/><span className="rail-tick"/><span className="rail-tick active"/></div><span className="rail-bottom">04 / 04</span></aside>
     <main className="main visualiser-main">
-      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small>V1.7 / VISUAL MODES</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION</div></header>
-      <nav className="tool-nav" aria-label="Studio tools"><button onClick={() => onNavigate('genre')}>01 / Genre Mixer</button><button onClick={() => onNavigate('vocal')}>02 / Vocal Persona</button><button onClick={() => onNavigate('mood')}>03 / Mood Mapper</button><button className="active" aria-current="page">04 / Visualiser</button></nav>
+      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small>V1.7.1 / VISUAL MODES</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION</div></header>
+      <nav className="tool-nav" aria-label="Studio tools"><button onClick={() => navigate('genre')}>01 / Genre Mixer</button><button onClick={() => navigate('vocal')}>02 / Vocal Persona</button><button onClick={() => navigate('mood')}>03 / Mood Mapper</button><button className="active" aria-current="page">04 / Visualiser</button></nav>
       <section className="intro"><div className="eyebrow">BLOCK 04 / VISUAL MODES</div><div className="intro-row"><div><h1>Listen <em>locally.</em></h1><p>Import a few tracks, choose one, and inspect their live signal. Your files stay in this browser session.</p></div><div className="intro-index">SONIC STUDIO<span>04 / 04</span></div></div></section>
       <div className="visualiser-layout">
         <section className="visualiser-panel" aria-labelledby="player-heading"><div className="section-heading"><div><span className="eyebrow">01 / PLAYER</span><h2 id="player-heading">Now playing<span className="heading-period">.</span></h2></div></div>
           <div className="visualiser-current"><span>SELECTED TRACK</span><strong>{selected?.name ?? 'No track selected'}</strong><small>{selected?.filename ?? 'Import audio to begin'}</small></div>
           <div className="visualiser-controls"><button type="button" onClick={togglePlayback} disabled={!selected} aria-label={playing ? 'Pause' : 'Play'}>{playing ? 'Pause' : 'Play'}</button><div className="visualiser-seek"><input type="range" min="0" max={duration || 0} step="0.01" value={Math.min(currentTime, duration || 0)} disabled={!selected || !duration} aria-label="Seek through track" style={{ '--progress': `${progress}%` } as React.CSSProperties} onChange={event => { const audio = audioRef.current; if (!audio) return; const next = Number(event.target.value); audio.currentTime = next; setCurrentTime(next) }}/><div className="visualiser-times"><span>{timeLabel(currentTime)}</span><span>{timeLabel(duration)}</span></div></div></div>
           <p className="visualiser-message" role="status">{analysisError || message}</p>
-        <audio ref={audioRef} preload="metadata" onLoadedMetadata={event => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onDurationChange={event => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onTimeUpdate={event => setCurrentTime(event.currentTarget.currentTime)} onPause={() => { setPlaying(false); stopAnalysis() }} onPlay={() => { setPlaying(true); startAnalysis() }} onEnded={() => { setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setCurrentTime(audioRef.current?.duration || 0) }} onError={() => { if (selected) { setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setMessage('This file could not be read or played in this browser.') } }}/>
+        <audio ref={audioRef} preload="metadata" onLoadedMetadata={event => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onDurationChange={event => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onTimeUpdate={event => setCurrentTime(event.currentTarget.currentTime)} onPause={event => { if (!event.currentTarget.paused) return; playback.cancel(); setPlaying(false); stopAnalysis() }} onPlay={event => { if (!playback.playing) { playback.cancel(); return }; if (event.currentTarget.paused) return; setPlaying(true); startAnalysis() }} onEnded={() => { playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setCurrentTime(audioRef.current?.duration || 0) }} onError={() => { if (selected) { playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setMessage('This file could not be read or played in this browser.') } }}/>
         </section>
         <section className="visualiser-panel" aria-labelledby="tracks-heading"><div className="section-heading"><div><span className="eyebrow">02 / IMPORTED TRACKS</span><h2 id="tracks-heading">Your session<span className="heading-period">.</span></h2></div><span className="visualiser-count">{library.tracks.length} TRACKS</span></div>
           <label className="visualiser-import">Import audio files<input type="file" accept="audio/*,.mp3,.wav,.ogg,.oga,.m4a,.aac,.mp4" multiple onChange={event => { importFiles(event.target.files); event.target.value = '' }}/></label>
@@ -291,7 +301,7 @@ export default function Visualiser({ active, onNavigate }: { active: boolean, on
         {visualMode === 'spectrum' ? <div className="visualiser-frequency-scale" aria-hidden="true"><span>LOW / 20 HZ</span><span>HIGH / 20 KHZ</span></div> : visualMode === 'radial' ? <p className="visualiser-radial-key">LOW TO HIGH FREQUENCY / CLOCKWISE FROM TOP</p> : null}
       </section>
       <section className="visualiser-diagnostics" aria-labelledby="analysis-heading"><div className="section-heading"><div><span className="eyebrow">04 / ANALYSIS</span><h2 id="analysis-heading">Audio diagnostics<span className="heading-period">.</span></h2></div><span className="visualiser-count">{playing ? analyzerRef.current ? 'ANALYSING' : 'UNAVAILABLE' : 'IDLE'}</span></div><p>Live levels from the selected track. Readings settle to zero when playback stops.</p><div className="visualiser-meter-grid">{([['amplitude', 'Overall amplitude'], ['low', 'Low · 20–250 Hz'], ['mid', 'Mid · 250–2,000 Hz'], ['high', 'High · 2,000–10,000 Hz']] as const).map(([key, label]) => <div className="visualiser-meter" key={key}><div><span>{label}</span><strong>{metrics[key].toFixed(3)}</strong></div><div className="visualiser-meter-track"><span style={{ width: `${metrics[key] * 100}%` }}/></div></div>)}</div><small>0 = no measured signal · 1 = maximum normalised level. Every visual mode reads these same reusable analyser buffers.</small></section>
-      <footer className="page-footer"><span>SONIC STUDIO / VISUAL MODES</span><span>GENERIC SIGNAL RENDERING / V1.7.</span></footer>
+      <footer className="page-footer"><span>SONIC STUDIO / VISUAL MODES</span><span>GENERIC SIGNAL RENDERING / V1.7.1.</span></footer>
     </main>
   </div>
 }

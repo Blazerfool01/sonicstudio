@@ -10,6 +10,7 @@ import { createVocalPrompts } from './lib/vocalPrompts.ts'
 import { compareVocalPersonas } from './lib/vocalComparison.ts'
 import { createVocalExperiment, readVocalExperiments, writeVocalExperiments } from './lib/vocalExperiments.ts'
 import type { VocalExperiment } from './lib/vocalExperiments.ts'
+import { readBrowserStorage } from './lib/browserStorage.ts'
 
 const groups = [
   { key: 'register', label: 'Register', options: registers },
@@ -29,13 +30,13 @@ export default function VocalPersonaBuilder({ onNavigate }: { onNavigate: (view:
   const dna = useMemo(() => createVoiceDna(selections), [selections])
   const [personaName, setPersonaName] = useState('')
   const [identityDescription, setIdentityDescription] = useState('')
-  const [personas, setPersonas] = useState<VocalPersona[]>(() => readSavedPersonas(localStorage))
+  const [personas, setPersonas] = useState<VocalPersona[]>(() => readBrowserStorage(readSavedPersonas, []))
   const [openedPersonaId, setOpenedPersonaId] = useState<string | null>(null)
   const [creationMessage, setCreationMessage] = useState('')
   const [copyMessage, setCopyMessage] = useState('')
   const [compareFirstId, setCompareFirstId] = useState('')
   const [compareSecondId, setCompareSecondId] = useState('')
-  const [experiments, setExperiments] = useState<VocalExperiment[]>(() => readVocalExperiments(localStorage))
+  const [experiments, setExperiments] = useState<VocalExperiment[]>(() => readBrowserStorage(readVocalExperiments, []))
   const [experimentLabel, setExperimentLabel] = useState('')
   const [experimentNote, setExperimentNote] = useState('')
   const [experimentPersonaId, setExperimentPersonaId] = useState('')
@@ -104,7 +105,7 @@ export default function VocalPersonaBuilder({ onNavigate }: { onNavigate: (view:
   return <div className="app-shell">
     <aside className="rail" aria-label="Studio navigation"><div className="brand-mark" aria-label="Sonic Studio">S<span>·</span></div><div className="rail-center"><span className="rail-tick"/><span className="rail-tick active"/><span className="rail-tick"/><span className="rail-tick"/></div><span className="rail-bottom">02 / 04</span></aside>
     <main className="main">
-      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 02</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 1.7</div></header>
+      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 02</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION <span className="top-divider"/> V 1.7.1</div></header>
       <nav className="tool-nav" aria-label="Studio tools"><button onClick={() => onNavigate('genre')}>01 / Genre Mixer</button><button className="active" aria-current="page">02 / Vocal Persona</button><button onClick={() => onNavigate('mood')}>03 / Mood Mapper</button><button onClick={() => onNavigate('visualiser')}>04 / Visualiser</button></nav>
       <section className="intro"><div className="eyebrow"><span>02</span> / VOCAL PERSONA BUILDER</div><div className="intro-row"><div><h1>Shape the voice<br/><em>behind the sound.</em></h1><p>Choose a vocal character and adjust its four expressive dimensions. Voice DNA updates as you work.</p></div><div className="intro-index">AN INDEPENDENT<br/>VOCAL STUDY <span>↘</span></div></div></section>
       <div className="workspace vocal-workspace">

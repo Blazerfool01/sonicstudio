@@ -6,13 +6,14 @@ import {
 } from './lib/moodPresetStorage.ts'
 import type { MoodPreset } from './lib/moodPresetStorage.ts'
 import './moodPresets.css'
+import { readBrowserStorage } from './lib/browserStorage.ts'
 
 function sameSelections(a: readonly MoodSelection[], b: readonly MoodSelection[]) {
   return a.length === b.length && a.every((item, index) => item.moodId === b[index].moodId && item.weight === b[index].weight)
 }
 
 export default function MoodPresetLibrary({ selections, onOpen }: { selections: readonly MoodSelection[]; onOpen: (selections: MoodSelection[]) => void }) {
-  const [presets, setPresets] = useState<MoodPreset[]>(() => readMoodPresets(localStorage))
+  const [presets, setPresets] = useState<MoodPreset[]>(() => readBrowserStorage(readMoodPresets, []))
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
