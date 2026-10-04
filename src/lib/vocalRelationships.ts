@@ -8,6 +8,7 @@ export type VocalRelationship = {
   kind: VocalRelationshipKind
   fields: readonly [keyof VocalSelections, keyof VocalSelections]
   explanation: string
+  resolution: string | null
 }
 
 export type VocalRelationshipReport = {
@@ -32,6 +33,7 @@ export function analyzeVocalRelationships(selections: VocalSelections): VocalRel
       kind: rule.kind,
       fields: [rule.conditions[0].field, rule.conditions[1].field] as const,
       explanation: rule.explanation,
+      resolution: 'resolution' in rule ? rule.resolution : null,
     }))
   const counts: VocalRelationshipReport['counts'] = {
     reinforcing: 0, complementary: 0, contrasting: 0, conflicting: 0,

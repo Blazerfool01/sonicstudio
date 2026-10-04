@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.8.2 in progress — Pairwise resolution guidance (2026-10-04)
+
+- Added curated `resolution` text for every contrasting and conflicting vocal rule and exposed it in the pure relationship report. Reinforcing and complementary results return `null` for this field.
+- Airy/dry, assertive/low-power, and high-breath/high-power now give distinct performance instructions. Saved Personas, Voice DNA, Genre Mixer, and UI behavior are unchanged.
+- Verified: `npm test` (29 passing) and `npm run build` (passing). Full contextual interpretation and later v0.8 gates remain open.
+
 ## v0.8.1 — Milestone scope correction (2026-10-04)
 
 - Corrected `PROJECT.md` and `docs/ROADMAP.md`: the relationship analyzer completes v0.8.1, while contextual modifier logic, guidance output, and contradiction proof remain in v0.8.

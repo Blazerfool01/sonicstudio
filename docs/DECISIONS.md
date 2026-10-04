@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Tension rules carry curated coexistence guidance
+
+Contrasting and conflicting vocal rules require a distinct `resolution` alongside their explanation. The explanation identifies why the traits pull apart; the resolution names a dominant quality or assigns each quality a place in the performance. Reinforcing and complementary results use `null` because they need no tension resolution. This keeps guidance deterministic and derived from selections without changing Voice DNA or saved Persona records. A later v0.8.2 step must combine pairwise guidance into a coherent interpretation of the whole voice.
+
 ## 2026-10-04 — v0.8 requires contextual interpretation and contradiction proof
 
 The pure relationship analyzer is v0.8.1, not the complete Trait Relationships milestone. v0.8 also requires modifier logic, plain-English dominance and resolution guidance, and proof that awkward combinations form a coherent vocal strategy. This corrects the prior completion claim without changing the v0.8.1 design: its report remains derived and does not mutate Persona storage or captured Voice DNA. v0.9 begins only after all four v0.8 steps are verified.
