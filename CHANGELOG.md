@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7 — Visual Modes (2026-10-04)
+
+- Added one responsive Canvas output with Spectrum, Waveform, and Radial modes, driven by the existing AudioAnalyzer buffers. Mode changes do not recreate audio nodes or add animation loops; reduced-motion mode lowers canvas refresh frequency, and the existing diagnostic meters remain available.
+- Added pure tests for logarithmic spectrum aggregation, waveform coordinates, radial angle/radius mapping, silence, invalid values, and mode labels. `npm test` passes 91 tests, `npm run build` passes TypeScript and Vite, and `git diff --check` passes.
+- Browser-verified generated PCM WAV silence, 80 Hz bass, 6 kHz treble, and a broad-spectrum composite; checked all modes during playback, track switching, seek, pause/resume, end, selected-track removal, and Visualiser return. Responsive checks at 320/390 px had no overflow; DPR 2 used a 2× bitmap; reduced-motion mode preserved playback. Console/page errors were empty. The composite is a controlled signal proxy rather than an external music recording.
+
 ## v1.6 — Audio Analysis (2026-10-04)
 
 - Added `src/lib/audioAnalysis.ts`: one lazily created media-element source → analyser → destination graph, 2048-point FFT, reusable 2048-sample Float32 waveform and 1024-bin Uint8 spectrum, RMS amplitude, and Hz-derived low/mid/high energy in the 0–1 range.

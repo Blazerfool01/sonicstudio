@@ -59,9 +59,9 @@ The independent Visualiser now loads and controls multiple local tracks in one b
 
 The existing player now exposes reusable live waveform and spectrum buffers, RMS amplitude, and low/mid/high energy with plain diagnostic meters. Controlled browser WAV signals distinguished silence, quiet bass, louder bass, and bright treble; playback and graph reuse remained stable.
 
-## Next planned — Visual Modes v1.7
+## Completed — Visual Modes v1.7
 
-Build bars, waveform, and radial views over the v1.6 analysis data, keeping audio processing in the existing analysis layer.
+Spectrum bars, waveform, and radial views render from the shared v1.6 analysis data. Browser checks covered silence, 80 Hz bass, 6 kHz treble, a broad-spectrum composite, mode/track changes, seek, pause/resume, end, selected-track removal, returning to the Visualiser, responsive widths, DPR 2, and reduced motion. Automated tests and build pass. Project-aware and personality-driven styling remains in v1.9.
 
 ## Later
 

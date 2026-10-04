@@ -124,7 +124,7 @@ function GenreMixer({ onNavigate }: { onNavigate: (view: 'vocal' | 'mood' | 'vis
     <main className="main">
       <header className="topbar">
         <div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 01</small></div>
-        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 1.6</div>
+        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 1.7</div>
       </header>
       <nav className="tool-nav" aria-label="Studio tools"><button className="active" aria-current="page">01 / Genre Mixer</button><button onClick={() => onNavigate('vocal')}>02 / Vocal Persona</button><button onClick={() => onNavigate('mood')}>03 / Mood Mapper</button><button onClick={() => onNavigate('visualiser')}>04 / Visualiser</button></nav>
 
