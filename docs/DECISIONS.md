@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-04 — Vocal relationships are derived guidance
+
+v0.8 evaluates a finite curated rule list against existing selections and returns relationship kind, participating fields, and explanation. Numeric bands use the same 0–33, 34–66, and 67–100 boundaries as Voice DNA wording. Unlisted combinations make no claim. The report is computed on demand and is absent from Persona storage and Voice DNA, so future guidance changes cannot mutate a saved identity. This stage adds no prompt output or UI.
+
 ## 2026-10-04 — Versioned persona storage preserves the captured DNA
 
 v0.7 stores full Persona records under `sonic-studio.saved-personas`, separate from Genre Mixer's `sonic-studio.saved-mixes`. A `schemaVersion: 1` envelope identifies the stored collection. The reader skips malformed or invalid records and duplicate IDs. Reopening uses the saved selections for builder controls and displays the saved Voice DNA snapshot exactly; a later builder edit returns to live derived DNA without changing the stored record. This preserves a persona's identity even if curated wording changes in a later version.

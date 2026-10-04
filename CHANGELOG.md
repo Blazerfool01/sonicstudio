@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.8 — Vocal trait relationships (2026-10-04)
+
+- Added curated vocal relationship rules and a pure analyzer in `src/data/vocalRelationships.ts` and `src/lib/vocalRelationships.ts`. Results identify the participating fields, classify each matched relationship, and give a short explanation.
+- Kept Persona records, local storage, Voice DNA, Genre Mixer, and UI behaviour unchanged.
+- Verified: `npm test` (27 passing, including three contrasting configurations and conflicts) and `npm run build` (passing).
+
 ## v0.7 — Saved Persona library (2026-10-04)
 
 - Added a separate versioned `localStorage` library in `src/lib/savedPersonas.ts`. Invalid stored entries are skipped without affecting valid personas or Genre Mixer records.

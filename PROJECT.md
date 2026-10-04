@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** Persona Identity v0.7 verified · **Current milestone:** Persona Identity v0.7 · **Last reviewed:** 2026-10-04
+**Status:** Trait Relationships v0.8 verified · **Current milestone:** Trait Relationships v0.8 · **Last reviewed:** 2026-10-04
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -10,23 +10,22 @@
 
 Build four independently useful music tools, then connect them in v2.0 into one creation and listening workflow. Genre Mixer creates weighted musical recipes; Vocal Persona Lab creates reusable singers independent of genre; Mood Mapper turns a visual position into musical direction; Visualiser plays local audio with responsive visuals. v2.0 brings those tools together with track comparison. A stage advances only after its stated proof works, not when its UI merely exists.
 
-## Current milestone — Persona Identity v0.7
+## Current milestone — Trait Relationships v0.8
 
-**Goal:** Save a named Vocal Persona locally and reopen its exact identity and Voice DNA after an application reload.
+**Goal:** Classify important vocal trait and dimension combinations with short, deterministic explanations.
 
-**Existing state:** Vocal Persona Builder v0.6 derives deterministic Voice DNA independently of Genre Mixer. The v0.7 foundation added a UUID, name, identity description, and snapshot of selections and DNA.
+**Existing state:** v0.7 stores reusable Persona records with stable selections and captured Voice DNA, independently of Genre Mixer.
 
-**Allowed scope:** A separate versioned localStorage persona library, safe reading of stored records, and reopening into the builder. Defer duplication, branching, genre pairing, prompt output, compatibility logic, import/export, and deletion.
+**Allowed scope:** Curated relationship rules and pure analysis of selected vocal traits and numeric dimensions. Persona records, persistence, Voice DNA, Genre Mixer, and current UI remain unchanged.
 
 **Acceptance tests:**
 
-* [x] Ember saves locally with a stable UUID, identity metadata, selected vocal traits, and exact numeric and descriptive Voice DNA.
-* [x] After application reload, the library contains Ember and opening her restores the builder controls and saved Voice DNA.
-* [x] Editing the builder after opening does not alter the saved Ember record.
-* [x] Empty, malformed, unsupported, duplicate, and invalid persona records are handled safely; Genre Mixer uses a separate key and still responds to weighting changes.
-* [x] `npm test` passes 24 tests and `npm run build` passes; running-browser create/reload/reopen/edit checks pass.
+* [x] Airy/warm/intimate, powerful/raspy/assertive, and contradictory voices produce meaningfully different structured reports.
+* [x] The contradictory voice reports explicit conflicts between airy/dry and assertive/restrained selections.
+* [x] Analysis leaves selections and Voice DNA untouched; all existing 24 tests continue to pass.
+* [x] `npm test` passes 27 tests and `npm run build` passes.
 
-**Gate:** v0.7 verified. The next planned stage is v0.8 Trait Relationships.
+**Gate:** v0.8 verified. The next planned stage is v0.9 Vocal Prompt Output.
 
 ## Roadmap and gates
 
@@ -74,6 +73,7 @@ Complete each block independently before starting the next. v2.0 is integration 
 |2026-10-04|Vocal Persona Builder v0.6|Verified|Twenty tests and build pass. Connected Edge browser confirms opposite Voice DNA descriptions and navigation retains in-progress state for both tools. Narrow viewport was not checked.|
 |2026-10-04|Persona Identity v0.7 foundation|Verified; full gate open|Twenty-two tests and build pass. Browser creation of Ember captured exact airy/warm DNA with UUID; changing live controls left the record intact. Genre Mixer view checked. Persistence intentionally deferred.|
 |2026-10-04|Persona Identity v0.7|Verified|Twenty-four tests and build pass. Browser save/reload/reopen of Ember preserved ID, metadata, traits, and numeric DNA; builder edits left the saved record unchanged. Genre Mixer weighting still updated its output.|
+|2026-10-04|Trait Relationships v0.8|Verified|Twenty-seven tests and build pass. Three contrasting selection sets yielded reinforcing, complementary, contrasting, and conflicting reports; source selections and Voice DNA stayed unchanged. No UI change was requested.|
 
 For each future milestone, update the status at the top, check off acceptance tests only after verification, and add one history row with the date, result, commands or manual checks, and any known gaps. Use the next stage's goal, existing state, allowed scope, and acceptance tests as the coding handoff.
 
