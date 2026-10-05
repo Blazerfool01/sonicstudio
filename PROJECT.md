@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** SonicStudio v2.0 released / verified locally (`2.0.0`) · **Next objective:** user-selected post-v2 work · **Last reviewed:** 2026-10-05
+**Status:** SonicStudio v2.0 remains the released baseline (`2.0.0`); Phase A/B shell acceptance is verified and committed locally on `main`, not pushed to canonical GitHub `main` · **Next objective:** begin Phase C — Creative Modules after this commit review; full reference fidelity remains later-phase work · **Last reviewed:** 2026-10-05
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -23,6 +23,32 @@ Build four independently useful music tools, then connect them in v2.0 into one 
 **Regression and lifecycle proof:** Recipe/persona/mood libraries save, reopen and survive reload; project rename/create/delete/open and comparison delete retain unrelated data. Shared session sources allocate no duplicate URL; removing the final link and standalone removal revoke each URL exactly once (3 created / 3 distinct revoked). One HTML audio element, one AudioContext/media source and maximum one Visualiser RAF remain across navigation, switching and reattachment. Held AudioContext resume cannot restart playback after editing navigation; paused state reaches zero RAF. Development StrictMode separately passed ingredient removal/reattachment, mismatched-file rejection and deliberate Replace Audio without changing provenance; repeated navigation retained one live resize observer/listener and exact cleanup. Keyboard navigation, reduced motion, denied-storage composition/Classic playback, responsive surfaces at 1280/390/320 px, screenshot review and empty console warning/error logs pass. The detailed local evidence is in `docs/RELEASE_VERIFICATION.md`.
 
 **Known limitations / deferred:** Audio is session-only and metadata matching is not cryptographic file identity. Brief prose regenerates from the current engines/catalogue. Comparison position is elapsed seconds, not aligned musical sections or normalized loudness; very short remaining sections can end immediately. Device/codec/long-duration coverage remains limited to prior MP3 proof and controlled WAV release checks. Cross-tab merge and export recovery remain absent. Provider APIs, automatic generation, accounts/backend/cloud sync, remote audio, mastering/transcoding, scoring/AI judging, ABX and dual playback remain post-v2 possibilities requiring separate scope. No push or deployment is included.
+
+## Post-v2 UI/UX Overhaul — Phase A: Interaction Core
+
+**Status:** Complete; internal interaction milestone, package version remains `2.0.0`.
+
+**Interaction contract:** Generic project-track selection is session-only and scoped to the active project ID. It is separate from Compare's A/B selection, standalone session audio selection, and historical `openedTrackId` listening context. Invalid or deleted selections clear safely. Major destination changes focus the destination heading; explicit Compare attachment handoffs retain `focusTrack()` behavior and focus that track's file control. Hidden destinations continue to use the native `hidden` state.
+
+**Edit, feedback and keyboard semantics:** Project/track metadata changes persist immediately and report storage denial as session-only with reload-loss messaging. Track metadata and Compare observation forms expose explicit local dirty state; saved presets keep their existing domain-specific rules. Reusable `StatusNotice` covers success, warning, error and empty feedback with polite live status or assertive error semantics. No global shortcuts exist; any future handler must ignore editable targets and leave native editing shortcuts intact. Normal Tab and button semantics remain native.
+
+**Undo boundary:** No global Studio mutation is undoable in Phase A. Browser fields retain native undo/redo, and destructive persisted changes keep explicit confirmation. A future Studio undo proposal should be limited to explicitly reversible session actions or concrete timeline edits and must not include domain persistence by default.
+
+**Verification:** `npm test` passes 192 tests (187 existing + 5 interaction tests); `npm run build` passes. Browser verification covers navigation/focus, switching between two projects, track selection/deletion, Compare handoff/playback, native field undo, and 1280/390/320 px overflow checks. Chrome project-storage write denial was injected during a temporary project create/delete; both operations stayed in memory and displayed the session-only/reload-loss message. Storage behavior was restored and no project remains. Automated storage tests cover denied storage-property access. Browser console warning/error logs were empty. Full reference fidelity belongs to later milestones.
+
+**Next milestone:** Phase A/B acceptance is complete in the integrated shell. Phase C begins after commit review; Phase D and the one-to-one reference-fidelity gate remain later work.
+
+## Post-v2 UI/UX Overhaul — Phase B: Shell
+
+**Status:** Integrated and committed locally on `main` on 2026-10-05; not pushed to canonical GitHub `main`. Package version remains `2.0.0`.
+
+**Shell structure:** Added a persistent top bar with the existing active-project controller, persistent Create / Tracks / Compare / Visualise navigation, a separate Genre Mixer / Vocal Persona / Mood Mapper / Visualiser / Export workflow stepper, a stable central workspace, and a right context-rail layout slot. Export remains deferred; the context rail contains only structural placeholder copy. Project navigation remains session state and does not add a storage key or alter `sonic-studio.projects.v1`.
+
+**Boundaries:** Studio shell parts present navigation intent and read project context. Genre, Vocal, Mood, project, comparison, session-audio and Visualiser owners remain unchanged. Phase A selection state is wired through its session-only, project-scoped helpers. Phase B stays in modular shell components and layout styles.
+
+**Verification:** `npm test` passes 192 tests; `npm run build` and `git diff --check` pass. The integrated app was reviewed in the user's Edge tab at its available desktop viewport. Create, Tracks, Compare and Visualise rendered; the active project remained `Compose acceptance renamed`; and the creative workflow stepper stayed visible on Tracks and Compare, including its selected step on Visualise. Standalone audio verification selected `test-song.mp3`, confirmed playback advanced to 0:12 with non-zero analyser readings, paused playback, and removed the temporary session entries. In Chrome, standalone `test-song.mp3` loaded and briefly played with non-zero analyser readings; the file stayed session-only and was paused. Responsive checks at 390×844, 320×800 and 1672×941 CSS pixels passed with no page-wide horizontal overflow. Chrome warning/error logs were empty. Chrome project-storage write denial was injected during a temporary project create/delete; the app displayed the session-only/reload-loss message, no project remained, and normal storage behavior was restored. The empty-project shell and populated Visualise view were reviewed against the approved reference and Notion workflow. Phase B's foundation hierarchy and selected-step visibility are verified; the one-to-one reference composition is a later-phase fidelity gate, not a Phase B blocker.
+
+**Integration result:** `StudioShell.tsx` and `studio.css` combine the Phase A interaction behavior with Phase B presentation; `StudioComposer.tsx` no longer duplicates project switching, which lives in the persistent top bar. The verified integration is committed locally; no push or deployment was performed.
 
 ## Previous milestone — v2.0 Stage 3: A/B Compare
 

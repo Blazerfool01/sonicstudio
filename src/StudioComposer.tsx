@@ -27,7 +27,6 @@ export default function StudioComposer({ studio, onNavigate, audio, showIdentity
     <div className="studio-heading"><div><span className="eyebrow">PROJECT WORKSPACE</span><h2 id="studio-title">Project controls.</h2><p>Capture ingredients explicitly. Your tools stay independent.</p></div><span>{state.projects.length} LOCAL PROJECTS</span></div>
     <form className="studio-controls" onSubmit={e => { e.preventDefault(); const p = createProject(name); save([p, ...state.projects], p.id, 'Empty project created.'); setName('') }}>
       <label>NEW PROJECT NAME<input aria-label="New project name" maxLength={80} value={name} onChange={e => setName(e.target.value)} placeholder="Name your project"/></label><button disabled={!name.trim()}>Create project</button>
-      <label>OPEN PROJECT<select aria-label="Open project" value={state.activeId ?? ''} onChange={e => save(state.projects, e.target.value || null, 'Project opened.')}><option value="">No active project</option>{state.projects.map(p => <option value={p.id} key={p.id}>{p.name}</option>)}</select></label>
     </form>
     {active && <>
       <ProjectName key={active.id + active.name} project={active} onRename={name => update({ ...active, name, updatedAt: new Date().toISOString() })}/><button onClick={() => setDeleteId(active.id)}>Delete project</button>

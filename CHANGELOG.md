@@ -1,5 +1,50 @@
 # Changelog
 
+## UI/UX Overhaul Phase A + B — Local commit (`2.0.0`, 2026-10-05)
+
+- Committed the verified interaction core and shell integration to local `main` as `Integrate Phase A and B studio shell`. Phase A/B status and next milestone are recorded in `PROJECT.md`.
+- No push or deployment; Phase C/D remain unstarted.
+
+## UI/UX Overhaul Phase A + B — Storage denial acceptance (`2.0.0`, 2026-10-05)
+
+- Temporarily blocked writes to `sonic-studio.projects.v1` in Chrome, created then removed a test-only project, and confirmed the session-only/reload-loss message appeared while denied writes left no project persisted. Restored normal storage behavior; the browser shows zero projects and the uploaded `test-song.mp3` remains paused in the session.
+- Confirmed the Phase A/B visual review is a foundation check: the shell hierarchy passes its scope, while the one-to-one approved-reference composition remains later-phase work under the Notion workflow. The Phase A/B candidate is ready for commit review; no commit, push or deployment.
+
+## UI/UX Overhaul Phase A + B — Populated Visualise review (`2.0.0`, 2026-10-05)
+
+- The user selected `test-song.mp3` (4.60 MB) through Chrome's Visualise import. Confirmed it remained session-only, briefly played with non-zero analyser readings, then paused. With the file loaded, 390×844, 320×800 and 1672×941 CSS viewport checks showed no page-wide horizontal overflow; Chrome warning/error logs remained empty.
+- Reviewed the shell and populated Visualise view against the approved reference and Notion workflow. Phase B hierarchy is navigable, but the reference's hero, multi-card creative workspace, detailed rail and timeline are not present in this shell candidate and remain later-milestone work. Browser storage-denial injection remains open; no product code, commit, push or deployment was added in this review.
+
+## UI/UX Overhaul Phase A + B — Chrome viewport acceptance (`2.0.0`, 2026-10-05)
+
+- Verified the integrated shell at 390×844 and 320×800 CSS pixels in the user's Chrome tab. Both widths have no page-wide horizontal overflow; the creative workflow stepper is an internal horizontal scroller. Chrome page warning/error logs were empty.
+- Reviewed the empty-project shell at 1280×900 against the approved reference and Notion workflow: the Phase B hierarchy is present, while the context rail remains a structural placeholder and full reference fidelity remains open for later phases. Browser storage-denial injection also remains open. No commit, push or deployment.
+
+## UI/UX Overhaul Phase B — Shell (parallel implementation candidate, `2.0.0`, 2026-10-05)
+
+- Added modular Studio top bar, destination sidebar, creative workflow stepper and context-rail placeholder; moved project switching to the persistent top bar and added responsive shell framing in `StudioShellParts.tsx`, `StudioShell.tsx`, `StudioComposer.tsx` and `studio.css`.
+- Kept Export as a deferred destination and left context rail behavior, domain state, storage schemas and playback infrastructure with their existing owners.
+- Shared working-tree verification: `npm test` (192 passing), `npm run build` and `git diff --check` pass. Browser exercised no-project/populated project, navigation, editor steps, switching and Genre attachment. Exact 390/320 px, audio-file playback and console-log acceptance remain outstanding; no approved image was available for final matching.
+- Later shared-tree smoke during Phase A checked 1280/390/320 px with no page-wide overflow, MP3 attach/playback, Compare → Visualise → return, and empty browser warning/error logs. Reference-match and full Phase B sign-off remain open.
+- Documented as parallel Phase B work alongside Phase A. A rebase/integration review remains necessary; no merge, commit, push or deployment.
+
+## UI/UX Overhaul Phase A — Interaction Core (`2.0.0`, 2026-10-05)
+
+- Added project-scoped session track selection, safe invalidation, destination-heading focus and explicit-track focus handoff without changing project storage or audio ownership.
+- Added reusable accessible status feedback, explicit track-draft dirty labels, disabled-action reasons and pure keyboard-target / undo-boundary rules.
+- Added five focused interaction tests. `npm test`: 192 passing; `npm run build`: passing. Browser verification covered project switching, selection/deletion, destination/track focus, Compare handoff/playback, native text undo, responsive widths and empty browser warning/error logs. Storage-denial browser injection was unavailable; automated storage-denial tests pass.
+- Updated `PROJECT.md` and `docs/DECISIONS.md`. Phase B remains a separate parallel implementation candidate; package version and roadmap direction are unchanged.
+
+## UI/UX Overhaul Phase A + B — Local integration review (`2.0.0`, 2026-10-05)
+
+- Integrated the Phase B top bar, project switcher, destination sidebar, creative stepper, context slot, and responsive layout into the Phase A interaction shell. Connected project-scoped track selection to its existing pure interaction helpers and removed duplicate project switching from the composer.
+- Verified: `npm test` (192 passing), `npm run build`, and `git diff --check` pass. Running-browser checks at 1280 × 720 covered project creation/switching, Create / Tracks / Compare / Visualise, Genre / Vocal / Mood steps, Visualiser presence, and selected-track state. Narrow-width review, console capture, audio file playback, and visual reference-match remain pending. No commit, push, or deployment.
+
+## UI/UX Overhaul Phase B — Acceptance follow-up (`2.0.0`, 2026-10-05)
+
+- Kept the creative workflow stepper visible while visiting Tracks and Compare, retaining the selected creative step so the user can still identify it across product destinations. This follows the Phase B acceptance rule in the Notion workflow.
+- Re-ran `npm test` (192 passing), `npm run build`, and `git diff --check`. Edge acceptance remains pending: Windows Computer Use could not establish the browser URL, so the final shell state was not opened. Narrow-width, console, audio playback and reference-match checks remain unverified.
+
 ## SonicStudio v2.0 — Studio Release (`2.0.0`, 2026-10-05)
 
 - Replaced global lab navigation with Create / Tracks / Compare / Visualise. Added secondary Create editing access, coherent project context, focused result/experiment destinations, historical listening context and comparison return navigation.
@@ -208,3 +253,13 @@
 - Verified: `npm test` (3 passing across all 66 pairs), `npm run build` (passing), and browser selection, weighting, source change, and reset checks.
 
 The v0.1–v0.3 entries were added retrospectively from `PROJECT.md` and their review records. Git began with one v0.5 project snapshot; these entries document earlier milestones without implying separate historical code commits.
+
+## UI/UX Overhaul Phase A + B — Edge acceptance follow-up (`2.0.0`, 2026-10-05)
+
+- Reviewed the integrated shell in the user's Edge tab. Create, Tracks, Compare and Visualise rendered; the active project selector and workflow stepper remained visible, including the final stepper-persistence behavior on Tracks and Compare. Returned the app to Create without editing the existing project.
+- `npm test` (192 passing), `npm run build` and `git diff --check` pass. Narrow 390/320 px review, Edge console logs, local audio selection/playback, and screenshot-to-reference review are still open. The import control received focus, but its native file chooser did not surface; no file or project data was changed. Phase A/B remain uncommitted; Phase C/D have not started.
+
+## UI/UX Overhaul Phase B — Local playback smoke check (`2.0.0`, 2026-10-05)
+
+- In Edge, selected `test-song.mp3` in the Visualise session, confirmed playback advanced and live analyser levels became non-zero, then paused and removed the temporary session entries. The existing active project and its records were unchanged.
+- Edge's current automation path still cannot set an exact responsive viewport. 390/320 px, console-log, and screenshot-to-reference checks remain open.

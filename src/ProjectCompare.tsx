@@ -5,6 +5,8 @@ import { addComparison, createComparison, deleteComparison, editComparison, OBSE
 import { provenanceDifferences } from './lib/provenanceDifference.ts'
 import { ingredientDescription } from './lib/projectIdentity.ts'
 import type { ProjectAudioActions } from './ProjectTracks.tsx'
+import { draftStateLabel } from './lib/studioInteraction.ts'
+import StatusNotice from './StatusNotice.tsx'
 
 const observationLabels: Record<ObservationField, string> = {
   vocalIdentity: 'Vocal identity', atmosphere: 'Atmosphere', arrangement: 'Arrangement',
@@ -47,12 +49,12 @@ function ComparisonEditor({ comparison, project, update, audio, onDeleted, onAtt
       <div className="comparison-observations">{OBSERVATION_FIELDS.map(field => <label className="studio-notes" key={field}>{observationLabels[field]}<textarea aria-label={`${observationLabels[field]} observations`} rows={2} maxLength={2000} value={observations[field]} onChange={e => setObservations({ ...observations, [field]: e.target.value })}/></label>)}</div>
       <label className="studio-notes comparison-preference">Preferred version<select aria-label="Preferred track" value={preferred ?? ''} onChange={e => setPreferred(e.target.value || null)}><option value="">No preference / undecided</option><option value={a.id}>A · {trackLabel(a)}</option><option value={b.id}>B · {trackLabel(b)}</option></select></label>
       <label className="studio-notes">Conclusion / free notes<textarea aria-label="Comparison conclusion" rows={3} maxLength={4000} value={conclusion} onChange={e => setConclusion(e.target.value)}/></label>
-      <p>{dirty ? 'Unsaved observations' : 'Saved comparison'} · Created {comparison.createdAt}</p>
+      <p>{draftStateLabel(dirty, 'Saved comparison')} · Created {comparison.createdAt}</p>
       <button type="submit">Save comparison</button>
     </form>
     <button type="button" onClick={() => setConfirmDelete(true)}>Delete comparison</button>
     {confirmDelete && <div role="group" aria-label="Confirm comparison deletion"><p>Delete this comparison and its observations? Both tracks will remain.</p><button type="button" onClick={() => { update(deleteComparison(project, comparison.id)); onDeleted() }}>Confirm delete comparison</button><button type="button" onClick={() => setConfirmDelete(false)}>Keep comparison</button></div>}
-    <p role="status">{message}</p>
+    <StatusNotice tone={message.startsWith('Could not') ? 'error' : 'success'}>{message}</StatusNotice>
   </div>
 }
 export default function ProjectCompare({ project, update, audio, onAttach }: { onAttach: (id: string) => void; project: StudioProject; update: (p: StudioProject) => void; audio: ProjectAudioActions }) {
@@ -68,10 +70,10 @@ export default function ProjectCompare({ project, update, audio, onAttach }: { o
   }
   return <section className="project-compare" aria-labelledby="project-compare-heading">
     <span className="eyebrow">LISTENING EXPERIMENT</span><h2 id="project-compare-heading">Compare your results.</h2><p>Select a deliberate experiment. Record what improved, what regressed, and why you prefer a version.</p>
-    {project.tracks.length < 2 && <p>Add at least two project tracks to create a comparison. Audio is optional for note-taking.</p>}
-    <form className="studio-controls" onSubmit={e => { e.preventDefault(); create() }}><label>Track A<select aria-label="Comparison Track A" value={trackAId} onChange={e => { setTrackAId(e.target.value); if (e.target.value === trackBId) setTrackBId('') }}><option value="">Choose A</option>{project.tracks.map(t => <option key={t.id} value={t.id} disabled={t.id === trackBId}>{trackLabel(t)}</option>)}</select></label><label>Track B<select aria-label="Comparison Track B" value={trackBId} onChange={e => setTrackBId(e.target.value)}><option value="">Choose B</option>{project.tracks.map(t => <option key={t.id} value={t.id} disabled={t.id === trackAId}>{trackLabel(t)}</option>)}</select></label><button disabled={!validPair}>Create comparison</button></form>
+    {project.tracks.length < 2 && <StatusNotice tone="empty">Add at least two project tracks to create a comparison. Audio is optional for note-taking.</StatusNotice>}
+    <form className="studio-controls" onSubmit={e => { e.preventDefault(); create() }}><label>Track A<select aria-label="Comparison Track A" value={trackAId} onChange={e => { setTrackAId(e.target.value); if (e.target.value === trackBId) setTrackBId('') }}><option value="">Choose A</option>{project.tracks.map(t => <option key={t.id} value={t.id} disabled={t.id === trackBId}>{trackLabel(t)}</option>)}</select></label><label>Track B<select aria-label="Comparison Track B" value={trackBId} onChange={e => setTrackBId(e.target.value)}><option value="">Choose B</option>{project.tracks.map(t => <option key={t.id} value={t.id} disabled={t.id === trackAId}>{trackLabel(t)}</option>)}</select></label><button disabled={!validPair} aria-describedby={!validPair ? 'comparison-create-help' : undefined}>Create comparison</button></form>{!validPair && <small id="comparison-create-help">Choose two distinct project tracks to create a comparison.</small>}
     <label className="studio-notes">Open saved comparison<select aria-label="Open comparison" value={selected?.id ?? ''} onChange={e => setSelectedId(e.target.value)}><option value="">Choose a saved comparison</option>{project.comparisons.map((c, index) => <option key={c.id} value={c.id}>{index + 1}. {trackLabel(project.tracks.find(t => t.id === c.trackAId)!)} vs {trackLabel(project.tracks.find(t => t.id === c.trackBId)!)}</option>)}</select></label>
-    <p role="status">{message}</p>{selected && <ComparisonEditor key={selected.id} comparison={selected} project={project} update={update} audio={audio} onAttach={onAttach} onDeleted={() => setSelectedId('')}/>}
-    {!project.comparisons.length && <p>No saved comparisons yet.</p>}
+    <StatusNotice tone={message.startsWith('Could not') ? 'error' : 'success'}>{message}</StatusNotice>{selected && <ComparisonEditor key={selected.id} comparison={selected} project={project} update={update} audio={audio} onAttach={onAttach} onDeleted={() => setSelectedId('')}/>}
+    {!project.comparisons.length && <StatusNotice tone="empty">No saved comparisons yet.</StatusNotice>}
   </section>
 }

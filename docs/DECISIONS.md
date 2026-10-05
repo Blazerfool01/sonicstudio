@@ -1,5 +1,23 @@
 # Decisions
 
+## 2026-10-05 — Studio destinations and creative steps are separate navigation layers
+
+Phase B keeps Create / Tracks / Compare / Visualise in a persistent product sidebar and presents Genre Mixer / Vocal Persona / Mood Mapper / Visualiser / Export in a distinct creative workflow stepper. The sidebar answers which Studio destination is open; the stepper selects a creative editor or listening stage. Both dispatch through the existing StudioShell state, so this separation adds no route or navigation persistence schema. Project switching reuses `useStudioProjects` through the existing project list; it does not create another project owner. Export is deferred, and the right context rail is a structural slot only until its separately scoped phase.
+
+The shell is decomposed into presentational parts around the existing domain editors, project records, comparison flow and single Visualiser mount. This keeps future interaction changes narrow and lets later context/export work attach to stable workspace regions without moving Genre, Vocal, Mood, project, track, comparison or playback state into a new store. Phase A and B remain a parallel integration boundary; `StudioShell.tsx` and `studio.css` need a deliberate rebase/review before canonical adoption.
+
+## 2026-10-05 — Phase A/B integration retains their separate state and presentation owners
+
+The parallel Phase B shell is integrated locally around the Phase A interaction contract. The shell components own presentation and navigation intent; project-scoped track selection remains ephemeral in `studioInteraction.ts`, while project data, editors, comparison and Visualiser retain their existing owners. The creative stepper remains visible on Tracks and Compare and retains the selected creative step, so the product destination and creative step remain distinguishable together. `StudioShell.tsx` and `studio.css` are the combined integration points. This supersedes the earlier note that a rebase was still required; the local integration remains uncommitted pending Edge reference acceptance.
+
+## 2026-10-05 — Studio track selection is ephemeral and separate from listening context
+
+Generic project-track selection is a session UI concept scoped by both active project ID and track ID. It supports Studio-wide selection feedback but does not persist into `sonic-studio.projects.v1`, control playback, select a Compare side, or replace the historical Visualiser `openedTrackId` handoff. Project switching and track removal invalidate stale selection through one pure reconciliation helper. This keeps project identity, local audio selection, comparison state, and historical provenance as distinct owners.
+
+Phase A declares no global Studio operations undoable. Native browser field undo remains available; persisted project/domain mutations and destructive confirmations retain their current semantics. A later undo layer needs a concrete reversible session action or timeline edit and an explicit declaration before it can participate.
+
+Major workflow changes focus the destination heading (`tabIndex=-1`). A deliberate track request overrides that destination focus to focus the track's attachment control after Tracks becomes visible. There are no global shortcuts in Phase A; future handlers must exclude editable targets and native editing combinations.
+
 ## 2026-10-05 — Final workflow belongs to a Studio shell, not the domain models
 
 v2.0 replaces the four independent global lab destinations with Create, Tracks, Compare and Visualise. App only mounts StudioShell; useStudioProjects owns the existing persistence controller. The shell coordinates the active project, secondary Create editor state, session attachments and listening/return context. Existing Genre/Vocal/Mood editors retain all engine and library ownership. Project snapshots, track history and comparison records retain their previous contracts and schemas. Routes and return context stay session-only; no new state framework or persistence migration is justified.

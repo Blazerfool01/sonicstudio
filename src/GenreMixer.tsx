@@ -118,7 +118,7 @@ export default function GenreMixer({ onUse, projectEnabled }: { onUse: (snapshot
   return <div className="app-shell">
     <div className="main">
 
-      <button className="project-use" disabled={!projectEnabled} onClick={() => onUse({ label: selectedMix && !dirty ? selectedMix.name : `${first.name} × ${second.name} (current mix)`, sourceId: selectedMix && !dirty ? selectedMix.id : null, genres: [{ genreId: firstId, weight }, { genreId: secondId, weight: 100 - weight }] })}>Use current mix in project / replace genre</button>
+      <button className="project-use" disabled={!projectEnabled} aria-describedby={!projectEnabled ? 'genre-project-help' : undefined} onClick={() => onUse({ label: selectedMix && !dirty ? selectedMix.name : `${first.name} × ${second.name} (current mix)`, sourceId: selectedMix && !dirty ? selectedMix.id : null, genres: [{ genreId: firstId, weight }, { genreId: secondId, weight: 100 - weight }] })}>Use current mix in project / replace genre</button>{!projectEnabled && <small id="genre-project-help">Create or open a project to attach this mix.</small>}
       <section className="intro">
         <div className="eyebrow"><span>01</span> / THE GENRE MIXER</div>
         <div className="intro-row"><div><h2 className="tool-title">Find the space<br/><em>between sounds.</em></h2><p>Choose two genres. Shift the balance. Discover the sound they make together.</p></div><div className="intro-index">A CREATIVE TOOL<br/>FOR SOUND DESIGN <span>↘</span></div></div>
