@@ -98,7 +98,7 @@ export default function StudioShell() {
   function openTool(next: 'genre' | 'vocal' | 'mood') { setView('create'); setTool(next) }
   function navigate(next: StudioView) {
     pendingTrackFocus.current = null
-    if (next === 'timeline' && view !== 'timeline') audioBridge.current?.pause()
+    if (next === 'tracks' && view !== 'tracks') audioBridge.current?.pause()
     setView(next)
   }
   function focusTrack(id: string) {
@@ -110,7 +110,10 @@ export default function StudioShell() {
         document.getElementById(`project-track-${id}`)?.scrollIntoView({ block: 'start' })
         document.querySelector<HTMLInputElement>(`[id="project-track-${CSS.escape(id)}"] input[type="file"]`)?.focus({ preventScroll: true })
       })
-    } else setView('tracks')
+    } else {
+      audioBridge.current?.pause()
+      setView('tracks')
+    }
   }
   const active = studio.active
   const transportProjectTrackId = active && openedTrackId && attachments[openedTrackId] === playbackSnapshot.localTrackId && active.tracks.some(track => track.id === openedTrackId)
@@ -165,14 +168,17 @@ export default function StudioShell() {
         <div id="studio-tool-vocal" hidden={tool !== 'vocal'}><VocalPersonaBuilder projectEnabled={!!active} onUse={snapshot => studio.attach('vocal', snapshot)}/></div>
         <div id="studio-tool-mood" hidden={tool !== 'mood'}><MoodMapper onCharacteristics={setVisualMood} projectEnabled={!!active} onUse={snapshot => studio.attach('mood', snapshot)}/></div>
       </div>
-      <div hidden={view !== 'tracks'} className="studio-composer destination-panel">{active ? <><ProjectTracks key={`tracks-${active.id}`} project={active} update={studio.update} audio={audio} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack}/><button type="button" onClick={() => navigate('compare')}>Compare versions</button></> : <StatusNotice tone="empty">Create or open a project to add your first result.</StatusNotice>}</div>
-      <div hidden={view !== 'timeline'} className="studio-composer destination-panel">{active
-        ? <Timeline key={`timeline-${active.id}`} project={active} update={studio.update} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack} transport={timelineTransport} active={view === 'timeline'}/>
-        : <StatusNotice tone="empty">Create or open a project and add a track before arranging a timeline.</StatusNotice>}</div>
+      <div hidden={view !== 'tracks'} className="studio-composer destination-panel">{active ? <>
+        <ProjectTracks key={`tracks-${active.id}`} project={active} update={studio.update} audio={audio} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack}/>
+        <button type="button" onClick={() => navigate('compare')}>Compare versions</button>
+        <section className="studio-composer timeline-workspace-region" aria-label="Timeline arrangement workspace">
+          <Timeline key={`timeline-${active.id}`} project={active} update={studio.update} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack} transport={timelineTransport} active={view === 'tracks'}/>
+        </section>
+      </> : <StatusNotice tone="empty">Create or open a project to add your first result.</StatusNotice>}</div>
       <div hidden={view !== 'compare'} className="studio-composer destination-panel">{active ? <ProjectCompare key={`compare-${active.id}`} project={active} update={studio.update} audio={audio} onAttach={focusTrack}/> : <p>Create or open a project, then add at least two tracks before comparing versions.</p>}<button type="button" onClick={() => navigate('tracks')}>Return to Tracks</button></div>
       <div id="studio-visualiser" className={view === 'compare' ? 'comparison-player' : ''} hidden={view !== 'visualise' && view !== 'compare'}>
         <div hidden={view !== 'visualise'} className="listening-context"><p>{historical ? `Project track · ${historical.title}${historical.version ? ' · ' + historical.version : ''} · Track creation identity` : 'Standalone session audio · files stay in this browser session'}</p>{historical && <button type="button" onClick={() => navigate(returnView)}>Return to {returnView === 'compare' ? 'Compare' : 'Tracks'}</button>}</div>
-        <Visualiser onPlaying={setAudioPlaying} onPlaybackState={setPlaybackSnapshot} audioBridge={audioBridge} onLibrary={setSessionLibrary} onStandaloneSelect={() => setOpenedTrackId(null)} historicalLabel={historical?.title} previews={visualPreviews} characteristics={historical ? historicalCharacteristics : currentCharacteristics} characterName={historical ? historicalCharacterName : currentCharacterName} active={playbackViewActive(view)}/>
+        <Visualiser onPlaying={setAudioPlaying} onPlaybackState={setPlaybackSnapshot} audioBridge={audioBridge} onLibrary={setSessionLibrary} onStandaloneSelect={() => setOpenedTrackId(null)} historicalLabel={historical?.title} previews={visualPreviews} characteristics={historical ? historicalCharacteristics : currentCharacteristics} characterName={historical ? historicalCharacterName : currentCharacterName} active={playbackViewActive(view) || view === 'tracks'}/>
       </div>
       </main>
       <ContextRail

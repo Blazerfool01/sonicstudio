@@ -1,10 +1,16 @@
 # Changelog
 
+## UI/UX Overhaul Phase E/F — Canonical adoption and P2 review corrections (`2.0.0`, 2026-10-05)
+
+- The integrated E/F implementation is on canonical GitHub `main` at `752fadb535a72d1cb55d73cc7c55c63666c8724b`, verified against `origin/main`. The earlier “Integrated locally” entry below records the pre-commit state at that point in the chronology.
+- Restored the Phase B navigation contract: four product destinations and five creative workflow steps. Timeline now appears as a separate arrangement region within Tracks. Track removal explicitly names and counts dependent comparisons and timeline clips, and the project model requires confirmation before either dependency cascade.
+- Follow-up verification: `npm test` — 216 passed; `npm run build` — passed; `git diff --check` — passed. Live browser review confirmed the four destinations/five steps at 320 px and checked the removal confirmation with one comparison plus one timeline clip. These follow-up corrections are local and uncommitted; no further push or deployment was made.
+
 ## UI/UX Overhaul Phase E + F — Integrated locally (`2.0.0`, 2026-10-05)
 
 - Integrated the lightweight timeline and contextual rail into the Studio shell. Timeline arrangements persist additively on existing projects and use the existing Visualiser playback owner; the rail derives current and historical context from established project/track owners and keeps project and track notes separate.
 - Added deterministic overlap resolution, clip eligibility and sequencing handoff safeguards; reconciled external track-note edits with the existing form draft so a stale hidden form cannot overwrite a rail save.
-- Coordinator acceptance: `npm test` passes 216 tests; `npm run build` and `git diff --check` pass. Live browser checks cover sequencing, trim/mute/solo, navigation pause, persistence/reload, one audio element, Context Rail notes/provenance, 1280/390/320 px layouts, and empty warning/error logs. No commit, push, or deployment.
+- Coordinator acceptance at this point in the chronology: `npm test` passes 216 tests; `npm run build` and `git diff --check` pass. Live browser checks cover sequencing, trim/mute/solo, navigation pause, persistence/reload, one audio element, Context Rail notes/provenance, 1280/390/320 px layouts, and empty warning/error logs. The implementation was subsequently committed and pushed in the canonical-adoption entry above; no deployment was made.
 
 ## UI/UX Overhaul Phase E/F — Parallel coordination setup (`2.0.0`, 2026-10-05)
 

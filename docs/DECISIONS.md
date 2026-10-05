@@ -1,10 +1,16 @@
 # Decisions
 
+## 2026-10-05 — Timeline remains an arrangement region within Tracks
+
+Keep the Phase B product navigation at Create → Tracks → Compare → Visualise and its creative stepper at Genre Mixer → Vocal Persona → Mood Mapper → Visualiser → Export. Phase E's Timeline is a separate arrangement region in the Tracks workspace, not a fifth product destination or another creative step. This preserves the approved distinction between the Studio destination and the creative dimension being edited. It supersedes the temporary Phase E integration placement recorded in the timeline decision below while retaining that decision's project storage, single-player, overlap, trim, mute, and solo rules. Timeline sequencing runs while the Tracks workspace region is visible; entering Tracks pauses pre-existing playback, and leaving Tracks stops sequencing.
+
+Deleting a project track that has saved comparisons or timeline clips requires explicit confirmation. The confirmation names and counts both kinds of dependent records before the existing cascade removes them; the project model also rejects an unconfirmed cascade.
+
 ## 2026-10-05 — Timeline arrangements share the project envelope and one playback owner
 
 Phase E stores timeline clips as an additive field on `StudioProject` under the existing `sonic-studio.projects.v1` key. Older projects load with an empty timeline. Clips reference existing project tracks and hold arrangement/source-bound metadata only; clip selection, playhead and audio attachments remain session state. This keeps project arrangements durable without adding a second persistence or media owner.
 
-The timeline sequences eligible clips through the existing Visualiser bridge and single audio element. Muted clips are excluded; when any clips are soloed, only unmuted solo clips are eligible. At each arrangement time, the latest eligible start wins, with project row and then ordinal lexical clip ID as deterministic tie-breaks. Overlaps are never mixed: a later clip shadows an earlier one for its full eligible interval, and the earlier clip does not resume when the later clip ends. If no eligible clip remains, playback stops cleanly. Timeline is a listening destination; entering it pauses pre-existing playback, and navigation out pauses playback and clears the active sequence. Sequencing begins only from Timeline's Play action. This preserves one player and avoids hidden sequencing state continuing behind another destination.
+The timeline sequences eligible clips through the existing Visualiser bridge and single audio element. Muted clips are excluded; when any clips are soloed, only unmuted solo clips are eligible. At each arrangement time, the latest eligible start wins, with project row and then ordinal lexical clip ID as deterministic tie-breaks. Overlaps are never mixed: a later clip shadows an earlier one for its full eligible interval, and the earlier clip does not resume when the later clip ends. If no eligible clip remains, playback stops cleanly. **Historical integration placement (superseded by the decision above):** Timeline was temporarily treated as a listening destination; it is now a workspace region within Tracks. Project storage and single-player behavior remain in effect.
 
 ## 2026-10-05 — Visual Personality derives from Genre and Mood without changing source ownership
 

@@ -122,8 +122,10 @@ export function addProjectTrack(project: StudioProject, track: ProjectTrack): St
 export function editProjectTrack(project: StudioProject, id: string, changes: Partial<Pick<ProjectTrack, 'title' | 'version' | 'source' | 'sourceDetail' | 'notes' | 'file'>>, now = new Date().toISOString()): StudioProject {
   return { ...project, tracks: project.tracks.map(t => t.id === id ? cleanProjectTrack({ ...t, ...changes, updatedAt: now }) : t), updatedAt: now }
 }
-export function removeProjectTrack(project: StudioProject, id: string, now = new Date().toISOString(), confirmComparisonDeletion = false): StudioProject {
-  if (comparisonsUsingTrack(project, id).length && !confirmComparisonDeletion) throw new Error('Confirm deletion of dependent comparisons before removing this track')
+export function removeProjectTrack(project: StudioProject, id: string, now = new Date().toISOString(), confirmDependentDeletion = false): StudioProject {
+  const hasComparisons = comparisonsUsingTrack(project, id).length > 0
+  const hasTimelineClips = project.timeline.some(clip => clip.trackId === id)
+  if ((hasComparisons || hasTimelineClips) && !confirmDependentDeletion) throw new Error('Confirm deletion of dependent comparisons and timeline clips before removing this track')
   return { ...project, tracks: project.tracks.filter(t => t.id !== id), timeline: project.timeline.filter(clip => clip.trackId !== id), comparisons: project.comparisons.filter(c => c.trackAId !== id && c.trackBId !== id), updatedAt: now }
 }
 export function sameIdentity(a: ProjectIdentitySnapshot, b: ProjectIdentitySnapshot): boolean {

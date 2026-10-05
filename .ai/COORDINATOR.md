@@ -39,7 +39,11 @@ Coordinate the post-v2 UI/UX Overhaul Phases E (Lightweight Timeline) and F (Con
 
 ## Coordinator closeout — 2026-10-05
 
-E/F are integrated and accepted locally. The shell owns navigation and adapts timeline track IDs to the existing Visualiser/session-audio bridge; the rail receives the active project and Phase A selection with note and tool callbacks. Combined gate: 216 tests, production build, and diff check passed. Browser acceptance covered sequencing, source bounds, mute/solo, handoff/navigation pause, current-versus-historical context, separate note persistence, reload/audio reattachment truth, one media element, 1280/390/320 px layouts, and empty browser warning/error logs. See `.ai/handoffs/E.md`, `.ai/handoffs/F.md`, and `PROJECT.md` for evidence. Phase G, commit, push, and deployment remain outside this closeout.
+E/F are integrated and accepted in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. The original combined gate passed 216 tests, production build, and diff check. Browser acceptance covered sequencing, source bounds, mute/solo, handoff/navigation pause, current-versus-historical context, separate note persistence, reload/audio reattachment truth, one media element, 1280/390/320 px layouts, and empty browser warning/error logs. See `.ai/handoffs/E.md`, `.ai/handoffs/F.md`, and `PROJECT.md` for evidence. The coordinator's later P2 review corrections are tracked below and remain uncommitted until separately authorized.
+
+## Coordinator P2 review follow-up — 2026-10-05
+
+Restored the approved four product destinations and five creative steps; Timeline now occupies a separate arrangement region inside the Tracks workspace. Track removal now counts and names dependent timeline clips alongside saved comparisons, and `removeProjectTrack` rejects an unconfirmed cascade for either dependency. These changes are verified local review corrections atop canonical `752fadb535a72d1cb55d73cc7c55c63666c8724b`; they remain uncommitted. Final results are recorded in `PROJECT.md` and `CHANGELOG.md`.
 
 ## Handoff format
 

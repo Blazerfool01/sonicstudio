@@ -4,7 +4,7 @@ The current implemented state and gate results live in `PROJECT.md`. Planned wor
 
 ## Completed — Post-v2 UI/UX Overhaul Phases E/F
 
-Phases E — Lightweight Timeline and F — Context Rail are integrated and coordinator-accepted in the local worktree. E stores arrangement clips additively on the existing project envelope and sequences existing tracks through the single existing playback owner. F projects current or historical Studio context from its established owners. Their separate worker contracts and coordinator acceptance evidence are in `.ai/`; combined verification is recorded in `PROJECT.md`. Phase G remains deferred and requires its own scope review.
+Phases E — Lightweight Timeline and F — Context Rail are integrated and coordinator-accepted in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. E stores arrangement clips additively on the existing project envelope and sequences existing tracks through the single existing playback owner. F projects current or historical Studio context from its established owners. The Timeline occupies a workspace region within Tracks; the four product destinations and five creative steps remain as approved in Phase B. Verified local review corrections restore that placement and require explicit track-deletion confirmation for dependent clips and comparisons; they remain uncommitted. Their verification is recorded in `PROJECT.md`. Phase G remains deferred and requires its own scope review.
 
 ## Completed — Vocal Persona Builder v0.6
 

@@ -21,6 +21,14 @@ function TrackCard({ track, project, update, audio, selected, onSelect }: { trac
   const [confirmRemove, setConfirmRemove] = useState(false)
   const [copyMessage, setCopyMessage] = useState('')
   const dependents = comparisonsUsingTrack(project, track.id)
+  const dependentClipCount = project.timeline.filter(clip => clip.trackId === track.id).length
+  const dependencyLabels = [
+    dependents.length ? `${dependents.length} saved comparison${dependents.length === 1 ? '' : 's'}` : '',
+    dependentClipCount ? `${dependentClipCount} timeline clip${dependentClipCount === 1 ? '' : 's'}` : '',
+  ].filter(Boolean)
+  const removalMessage = dependencyLabels.length
+    ? `Removing this track will also delete ${dependencyLabels.join(' and ')} and any session audio attachment.`
+    : 'Remove this track record and any session audio attachment?'
   const brief = useMemo(() => createTrackBrief(track.creationSnapshot), [track.creationSnapshot])
   const dirty = draft.title !== track.title || draft.version !== track.version || draft.source !== track.source || draft.sourceDetail !== track.sourceDetail || draft.notes !== track.notes
   useEffect(() => {
@@ -56,7 +64,7 @@ function TrackCard({ track, project, update, audio, selected, onSelect }: { trac
     <button disabled={!audio.attached(track.id)} onClick={() => audio.open(track.id)}>Open in Visualise</button>
     {audio.attached(track.id) && <button onClick={() => audio.release(track.id)}>Detach session audio</button>}
     <button onClick={() => setConfirmRemove(true)}>Remove track</button>
-    {confirmRemove && <div><p>{dependents.length ? `This track is used in ${dependents.length} saved comparison${dependents.length === 1 ? '' : 's'}. Removing it will also delete those comparisons and its session attachment.` : 'Remove this track record and its session attachment?'}</p><button onClick={() => { audio.release(track.id); update(removeProjectTrack(project, track.id, new Date().toISOString(), true)) }}>{dependents.length ? 'Confirm remove track and comparisons' : 'Confirm remove track'}</button><button onClick={() => setConfirmRemove(false)}>Keep track</button></div>}
+    {confirmRemove && <div><p>{removalMessage}</p><button onClick={() => { audio.release(track.id); update(removeProjectTrack(project, track.id, new Date().toISOString(), true)) }}>{dependencyLabels.length ? 'Confirm remove track and listed dependencies' : 'Confirm remove track'}</button><button onClick={() => setConfirmRemove(false)}>Keep track</button></div>}
     <details className="studio-brief"><summary>Track creation identity</summary><p>{sameIdentity(track.creationSnapshot, project) ? 'Matches current project identity.' : 'Created from an earlier project identity. This historical provenance is retained.'}</p><div className="studio-ingredients">{(['genre', 'vocal', 'mood'] as const).map(kind => <article key={kind}><h4>{kind} used</h4><strong>{track.creationSnapshot[kind]?.label ?? 'Not captured'}</strong><p>{ingredientDescription(track.creationSnapshot, kind)}</p>{kind === 'vocal' && track.creationSnapshot.vocal && <><p>{track.creationSnapshot.vocal.identityDescription}</p><p>Breathiness {track.creationSnapshot.vocal.selections.breathiness} · Power {track.creationSnapshot.vocal.selections.power} · Warmth {track.creationSnapshot.vocal.selections.warmth} · Rasp {track.creationSnapshot.vocal.selections.rasp}</p></>}</article>)}</div><h4>Historical Creation Brief</h4><pre>{brief.prompt}</pre><button onClick={async () => { try { await navigator.clipboard.writeText(brief.prompt); setCopyMessage('Historical prompt copied.') } catch { setCopyMessage('Clipboard unavailable. Select the brief to copy manually.') } }}>Copy historical prompt</button><StatusNotice>{copyMessage}</StatusNotice><small>Created {track.createdAt} · Updated {track.updatedAt}</small></details><StatusNotice tone={message.includes('could not') || message.includes('Enter') ? 'error' : 'success'}>{message}</StatusNotice>
   </article>
 }

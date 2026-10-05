@@ -87,12 +87,13 @@ test('explicit trim end and loaded source duration bound active playback without
   assert.equal(timelineClipEnd(longerTrim, 45), 45)
 })
 
-test('selection invalidates after clip removal; track deletion removes dependent timeline clips', () => {
+test('selection invalidates after clip removal; track deletion confirms before removing dependent clips', () => {
   const project = addTimelineClip(fixture(), 'a', {}, 'clip-a', now)
   assert.equal(reconcileTimelineSelection(project.timeline, 'clip-a'), 'clip-a')
   const withoutClip = removeTimelineClip(project, 'clip-a', now)
   assert.equal(reconcileTimelineSelection(withoutClip.timeline, 'clip-a'), null)
-  const withoutTrack = removeProjectTrack(project, 'a', now)
+  assert.throws(() => removeProjectTrack(project, 'a', now), /Confirm deletion of dependent comparisons and timeline clips/)
+  const withoutTrack = removeProjectTrack(project, 'a', now, true)
   assert.deepEqual(withoutTrack.timeline, [])
   assert.equal(parseProjects(JSON.stringify({ schemaVersion: 1, activeId: 'project', projects: [withoutTrack] })).projects[0].timeline.length, 0)
 })

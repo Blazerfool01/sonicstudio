@@ -1,6 +1,6 @@
 # Phase E Handoff — Lightweight Timeline
 
-**Worker handoff status:** E implementation was complete when handed to the coordinator. **Final status:** integrated and coordinator-accepted locally on 2026-10-05; no commit or push.
+**Worker handoff status:** E implementation was complete when handed to the coordinator. **Final status:** integrated and coordinator-accepted in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. P2 review corrections to navigation placement and deletion confirmation are in the local worktree and remain uncommitted.
 
 - **Baseline:** `3b69b6de5fcedd399a037adde058767196481f8e` (`main` at task start).
 - **Worker commit:** None. No commit, merge, or push was made.
@@ -25,7 +25,13 @@
 
 ## Coordinator integration review
 
-- **Integration:** Mounted Timeline as a listening destination and sixth workflow step. The shell maps project-track IDs to the existing Visualiser/session audio owner and routes play, select, seek, and pause through that bridge. Entering/leaving Timeline stops hidden playback state. No second media element or persistence owner was added.
+- **Initial integration (superseded):** Timeline was first mounted as a listening destination and sixth workflow step. The follow-up below restores the approved Phase B navigation contract while retaining the same transport adapter and single player.
 - **Coordinator review fixes:** Enforced duplicate clip-ID rejection and ordinal lexical tie resolution; kept the sequence pending until actual target playback is observed, with a 10-second safe stop if media playback never starts; fixed playback from time zero when the first eligible solo clip begins later; clarified that a shadowed clip does not resume after an overlap.
 - **Combined verification:** `npm test` — 216 passed; `npm run build` — passed; `git diff --check` — passed. Live browser acceptance verified two-track sequencing, seeking, trim boundary, muted/solo eligibility, natural/empty end, navigation pause, reload persistence and truthful session-only audio reattachment. At all times one HTML audio element remained. Browser checks at 1280/390/320 px had no page-level overflow; console warning/error logs were empty.
-- **Acceptance result:** Phase E integrated acceptance passed. Phase G, commit, push and deployment are deferred.
+- **Acceptance result:** Phase E integrated acceptance passed in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. Phase G remains deferred; the later navigation/deletion review corrections are local and uncommitted.
+
+## Coordinator P2 review follow-up
+
+- Timeline is now a separate arrangement workspace region inside Tracks. Product navigation remains Create → Tracks → Compare → Visualise; the creative stepper remains Genre Mixer → Vocal Persona → Mood Mapper → Visualiser → Export.
+- Removing a track now requires explicit confirmation that lists the counts of dependent timeline clips and saved comparisons. The project model also rejects calls that try to remove either kind of dependent data without confirmation.
+- The original integrated acceptance is recorded at canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. The corrections passed `npm test` (216), `npm run build`, `git diff --check`, and browser checks for the four destinations/five steps and dependency confirmation; they remain local and uncommitted pending separate authorization.
