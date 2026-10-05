@@ -12,7 +12,7 @@ function sameSelections(a: readonly MoodSelection[], b: readonly MoodSelection[]
   return a.length === b.length && a.every((item, index) => item.moodId === b[index].moodId && item.weight === b[index].weight)
 }
 
-export default function MoodPresetLibrary({ selections, onOpen }: { selections: readonly MoodSelection[]; onOpen: (selections: MoodSelection[]) => void }) {
+export default function MoodPresetLibrary({ selections, onOpen, onUpdate, onClearSource }: { selections: readonly MoodSelection[]; onOpen: (preset: MoodPreset) => void; onUpdate: (preset: MoodPreset) => void; onClearSource: () => void }) {
   const [presets, setPresets] = useState<MoodPreset[]>(() => readBrowserStorage(readMoodPresets, []))
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [name, setName] = useState('')
@@ -42,11 +42,11 @@ export default function MoodPresetLibrary({ selections, onOpen }: { selections: 
   function update() {
     if (!selected || !dirty || !name.trim() || selections.length === 0) return
     const changed = updateMoodPreset(selected, name, selections)
-    persist(presets.map(preset => preset.id === selected.id ? changed : preset), `Updated ${changed.name}.`)
+    if (persist(presets.map(preset => preset.id === selected.id ? changed : preset), `Updated ${changed.name}.`)) onUpdate(changed)
   }
 
   function open(preset: MoodPreset) {
-    onOpen(selectionsOf(preset))
+    onOpen({ ...preset, selections: selectionsOf(preset) })
     setSelectedId(preset.id)
     setName(preset.name)
     setMessage(`Opened ${preset.name}. Its guidance was regenerated from saved moods and weights.`)
@@ -56,6 +56,7 @@ export default function MoodPresetLibrary({ selections, onOpen }: { selections: 
     if (persist(deleteMoodPreset(presets, preset.id), `Deleted ${preset.name}.`) && selectedId === preset.id) {
       setSelectedId(null)
       setName('')
+      onClearSource()
     }
   }
 
