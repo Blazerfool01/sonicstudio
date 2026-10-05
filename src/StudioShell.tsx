@@ -28,6 +28,7 @@ import type { StudioView, CreateTool } from './lib/studioNavigation.ts'
 import { reconcileProjectTrackSelection, selectProjectTrack, selectedProjectTrack } from './lib/studioInteraction.ts'
 import type { ProjectTrackSelection } from './lib/studioInteraction.ts'
 import { editProjectTrack } from './lib/studioProject.ts'
+import { StudioHero, StudioListeningEntry } from './StudioOverview.tsx'
 const visualPreviews = ['dreamlike', 'aggressive'].map(id => { const mood = getMood(id)!; return { id, label: mood.name, characteristics: mood.profile } })
 export default function StudioShell() {
   const studio = useStudioProjects()
@@ -189,19 +190,20 @@ export default function StudioShell() {
     pause: () => audioBridge.current?.pause(),
   }
   return <div className="studio-shell">
-    <StudioTopBar active={active ?? null} projects={studio.state.projects} onSwitchProject={id => studio.save(studio.state.projects, id, id ? 'Project opened.' : 'No active project.')}/>
     <div className="studio-shell-layout">
+    <StudioTopBar active={active ?? null} projects={studio.state.projects} onSwitchProject={id => studio.save(studio.state.projects, id, id ? 'Project opened.' : 'No active project.')}/>
       <StudioSidebar view={view} onNavigate={navigate}/>
-      <main className="workflow-content">
+      <main className={`workflow-content${view === 'create' && tool === 'overview' ? ' studio-overview-workspace' : ''}`}>
+      {view === 'create' && tool === 'overview' && <StudioHero project={active ?? null}/>}
       {view === 'create' && <button type="button" className={`studio-create-overview${tool === 'overview' ? ' active' : ''}`} aria-current={tool === 'overview' ? 'page' : undefined} onClick={() => setTool('overview')}>Identity &amp; Brief</button>}
       <StudioWorkflowStepper view={view} tool={tool} onOpenTool={openTool} onNavigate={navigate} onExport={() => { setView('create'); setTool('export') }}/>
       <h1 ref={headingRef} tabIndex={-1}>{STUDIO_VIEWS.find(item => item.id === view)!.label}</h1>
       <p className="project-context"><strong>{active?.name ?? 'No active project'}</strong>{active && <span> · {active.tracks.length} tracks · {active.comparisons.length} comparisons · {['genre', 'vocal', 'mood'].filter(k => active[k as 'genre' | 'vocal' | 'mood']).length}/3 ingredients</span>}</p>
       <StatusNotice tone={studio.message.includes('unavailable') ? 'warning' : 'success'} className="studio-project-notice">{studio.message}</StatusNotice>
-      <StudioComposer audio={audio} studio={studio} onNavigate={openTool} showIdentity={view === 'create' && tool === 'overview'}/>
+      <StudioComposer audio={audio} studio={studio} onNavigate={openTool} showIdentity={view === 'create' && tool === 'overview'} listeningEntry={<StudioListeningEntry trackCount={sessionLibrary.tracks.length} onVisualise={() => navigate('visualise')}/>}/>
       <div hidden={view !== 'create'}>
         <div hidden={tool !== 'export'}><ExportPanel key={active?.id ?? 'no-project'} project={active}/></div>
-        <div hidden={tool !== 'overview'} className="workflow-next"><p>Attach each ingredient explicitly, then use your Creation Brief to make music in your own workflow.</p><button type="button" onClick={() => navigate('tracks')}>Go to Tracks</button></div>
+        <div hidden={tool !== 'overview'} className="workflow-next">{!active && <StudioListeningEntry trackCount={sessionLibrary.tracks.length} onVisualise={() => navigate('visualise')}/>}<button type="button" onClick={() => navigate('tracks')}>Go to Tracks →</button></div>
         <div id="studio-tool-genre" hidden={tool !== 'genre'}><GenreMixer historicalDraft={genreDraft?.projectId === active?.id ? genreDraft : null} projectEnabled={!!active} onUse={snapshot => studio.attach('genre', snapshot)}/></div>
         <div id="studio-tool-vocal" hidden={tool !== 'vocal'}><VocalPersonaBuilder historicalDraft={vocalDraft?.projectId === active?.id ? vocalDraft : null} projectEnabled={!!active} onUse={snapshot => studio.attach('vocal', snapshot)}/></div>
         <div id="studio-tool-mood" hidden={tool !== 'mood'}><MoodMapper historicalDraft={moodDraft?.projectId === active?.id ? moodDraft : null} onCharacteristics={setVisualMood} projectEnabled={!!active} onUse={snapshot => studio.attach('mood', snapshot)}/></div>
@@ -209,11 +211,11 @@ export default function StudioShell() {
       <div hidden={view !== 'tracks'} className="studio-composer destination-panel">{active ? <>
         <PowerActions key={`power-${active.id}`} project={active} update={studio.update} onSelectTrack={selectTrack} snapshotRequest={snapshotRequest}/>
         <button type="button" disabled={!selectedTrack} title="Compare selected track (Alt+Shift+C outside text fields)" aria-keyshortcuts="Alt+Shift+C" onClick={() => selectedTrack && compareTrack(selectedTrack.id)}>Compare selected track… <small>Alt+Shift+C</small></button>
-        <ProjectTracks key={`tracks-${active.id}`} project={active} update={studio.update} audio={audio} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack} onCompareTrack={compareTrack} onReopenSettings={reopenSettings}/>
-        <button type="button" onClick={() => navigate('compare')}>Compare versions</button>
         <section className="studio-composer timeline-workspace-region" aria-label="Timeline arrangement workspace">
           <Timeline key={`timeline-${active.id}`} project={active} update={studio.update} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack} transport={timelineTransport} active={view === 'tracks'}/>
         </section>
+        <ProjectTracks key={`tracks-${active.id}`} project={active} update={studio.update} audio={audio} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack} onCompareTrack={compareTrack} onReopenSettings={reopenSettings}/>
+        <button type="button" onClick={() => navigate('compare')}>Compare versions</button>
       </> : <StatusNotice tone="empty">Create or open a project to add your first result.</StatusNotice>}</div>
       <div hidden={view !== 'compare'} className="studio-composer destination-panel">{active ? <ProjectCompare key={`compare-${active.id}`} project={active} update={studio.update} audio={audio} onAttach={focusTrack} compareSeed={compareSeed} onClearCompareSeed={() => setCompareSeed(null)}/> : <p>Create or open a project, then add at least two tracks before comparing versions.</p>}<button type="button" onClick={() => navigate('tracks')}>Return to Tracks</button></div>
       <div id="studio-visualiser" className={view === 'compare' ? 'comparison-player' : ''} hidden={view !== 'visualise' && view !== 'compare'}>

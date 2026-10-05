@@ -1,5 +1,13 @@
 # Changelog
 
+## UI/UX Overhaul Phase I-A — Reference Fidelity (`2.0.0`, 2026-10-06)
+
+- Started from clean accepted G/H checkpoint `17b933115a70c84c33a40a2d8b1357bc944937ec`; no reset to the earlier E/F baseline.
+- Reframed the Studio around a full-height sidebar, compact workspace header and integrated desktop rail. Added a compact hero, numbered workflow strip and read-only captured Genre/Vocal/Mood visuals; kept source details, notes and brief reachable through disclosures.
+- Unified static navy/cool-border card styling in `src/fidelity.css`; made the existing live canvas/player one wide panel and moved Timeline before track details within Tracks. Kept four destinations/five steps, state/schema/audio/renderer ownership and A–H behavior.
+- Verified 251 tests, production build, diff check, 1664 × 920 desktop reference review, 1280/390/320 px smoke, existing workflows/shortcuts, historical reopening, single audio/canvas/graph, clean console and actual Export downloads. Details/screenshots: `docs/IA_VERIFICATION.md`; handoff: `.ai/handoffs/I-A.md`.
+- Local and uncommitted. Full Phase I, I-B interaction refinement, I-C animations and I-D responsive redesign remain unstarted; no push or deployment.
+
 ## UI/UX Overhaul G/H — Authorized checkpoint (`2.0.0`, 2026-10-05)
 
 - User authorized committing and pushing the reviewed G/H checkpoint to canonical `main`, building on `41cd61c`. Includes Export, the Power Layer, tests and project/.ai records.

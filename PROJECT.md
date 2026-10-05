@@ -1,10 +1,20 @@
 # Sonic Studio — Project Status
 
-**Status:** SonicStudio v2.0 remains the released baseline (`2.0.0`); Phases A–H pass checkpoint review. The user authorized committing and pushing the G/H checkpoint to canonical `main` on 2026-10-05, building on `41cd61c987019a45c13caa398ff2a237de2e2c23` · **Next objective:** define the next separately authorized milestone; Phase I remains unstarted · **Last reviewed:** 2026-10-05
+**Status:** SonicStudio v2.0 remains the released baseline (`2.0.0`); Phase I-A — Reference Fidelity is implemented and locally verified on the clean accepted G/H checkpoint `17b933115a70c84c33a40a2d8b1357bc944937ec`. I-A is uncommitted; no push or deployment is included. Full Phase I is not complete · **Next objective:** separately authorize Phase I-B — Interaction States after visual review of I-A · **Last reviewed:** 2026-10-06
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
 **Latest change record:** [CHANGELOG.md](CHANGELOG.md)
+
+## Current local milestone — Phase I-A: Reference Fidelity
+
+The supplied Neon Music Production Dashboard guides static composition: a full-height 200 px sidebar, 60 px workspace header, 310 px desktop context rail, compact hero/workflow strip, and three read-only creative identity cards. Genre weights, four Vocal values and the seven-axis Mood fingerprint come from captured current project identity, with existing explicit editor actions. Project notes, source provenance and the Creation Brief remain reachable through native disclosures. Static studio artwork is labeled separately from live analysis; the overview opens the existing Visualiser rather than mounting another player or canvas.
+
+The live Visualiser canvas and playback/import surfaces now form one wide listening panel. Tracks puts its existing Timeline ahead of the track detail list; sequencing guidance is a disclosure. Compare, Export and detailed editors share navy surfaces, cool borders and violet/blue/cyan accents. Four destinations, five creative steps, immutable histories, existing project/storage schema, and audio/rendering owners are unchanged. No dependencies, generated raster assets, animations or aspirational reference functionality were added.
+
+**Verification:** 251 tests pass; production build and `git diff --check` pass. Live in-app-browser review at 1664 × 920 CSS px covers populated Create, detailed editor, two-clip Timeline, saved Compare, attached-audio Visualise, valid Export, current/historical rail context and empty/no-project states. All four destinations and the creative panels passed 1280/390/320 px overflow smoke checks. Snapshot/duplicate, both shortcuts, Compare handoffs, all three historical reopens, rail notes, project switching, Timeline playback/trim/mute/solo, three visual modes, copy/download and reload were exercised. One audio element, one canvas and one graph creation were observed; warning/error logs were empty. Actual `.txt` and `.json` downloads were inspected on disk. Evidence and exact limitations: [docs/IA_VERIFICATION.md](docs/IA_VERIFICATION.md); handoff: [.ai/handoffs/I-A.md](.ai/handoffs/I-A.md).
+
+**Gate:** Phase I-A passes local reference-composition and regression review. The reference's portrait/raster illustrations are replaced with static vector artwork; the locked renderer retains its existing signal colors; the real seven-axis Mood model and two-genre workflow remain authoritative. The overview listening surface is an explicit entry to live analysis, while the live canvas stays in listening destinations. Full interaction, motion and responsive redesign remain I-B/I-C/I-D; user visual acceptance and commit approval are separate.
 
 ## Goal
 
