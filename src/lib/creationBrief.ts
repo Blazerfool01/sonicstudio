@@ -1,4 +1,4 @@
-import type { StudioProject } from './studioProject.ts'
+import type { ProjectIdentitySnapshot } from './studioProject.ts'
 import { getGenre } from '../data/registry.ts'
 import { mergeGenres } from './merge.ts'
 import { createVocalPrompts } from './vocalPrompts.ts'
@@ -6,7 +6,7 @@ import { deriveMoodDna } from './moodDna.ts'
 import { describeMoodDna } from './moodDescription.ts'
 import { translateMoodDna } from './moodTranslation.ts'
 
-export function createCreationBrief(project: StudioProject) {
+export function createCreationBrief(project: ProjectIdentitySnapshot & { notes: string }) {
   const genre = project.genre
   const mood = project.mood ? deriveMoodDna(project.mood.selections) : null
   const voice = project.vocal ? createVocalPrompts(project.vocal.selections) : null
@@ -44,3 +44,5 @@ export function createCreationBrief(project: StudioProject) {
   ].join('\n\n')
   return { identitySummary, genreFoundation: foundation, vocalIdentity, moodDirection, prompt, notes: project.notes }
 }
+
+export function createTrackBrief(snapshot: ProjectIdentitySnapshot) { return createCreationBrief({ ...snapshot, notes: '' }) }

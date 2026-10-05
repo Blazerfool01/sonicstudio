@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { addTracks, audioCandidate, displayName, removeTrack, selectTrack } from './lib/localTracks.ts'
 import type { LocalTrack, TrackLibrary } from './lib/localTracks.ts'
 import { AudioAnalyzer, SILENT_METRICS } from './lib/audioAnalysis.ts'
@@ -9,6 +9,10 @@ import { PlaybackIntent } from './lib/playbackIntent.ts'
 import { deriveVisualPersonality, responseStep } from './lib/visualPersonality.ts'
 import type { MusicalCharacteristics } from './lib/visualPersonality.ts'
 import './visualiser.css'
+import { SessionAudio } from './lib/sessionAudio.ts'
+import type { Ref } from 'react'
+export type VisualiserAudio = { importFile: (file: File) => LocalTrack; choose: (id: string) => void; remove: (id: string) => void }
+
 
 function timeLabel(seconds: number): string {
   if (!Number.isFinite(seconds) || seconds < 0) return '0:00'
@@ -18,7 +22,7 @@ function timeLabel(seconds: number): string {
 
 const emptyLibrary: TrackLibrary = { tracks: [], selectedId: null }
 
-export default function Visualiser({ active, onNavigate, characteristics, characterName, previews }: { previews: readonly { id: string, label: string, characteristics: MusicalCharacteristics }[], characteristics: MusicalCharacteristics | null, characterName: string | null, active: boolean, onNavigate: (view: 'genre' | 'vocal' | 'mood') => void }) {
+export default function Visualiser({ active, onNavigate, characteristics, characterName, previews, audioBridge, onLibrary, historicalLabel }: { audioBridge?: Ref<VisualiserAudio>; onLibrary?: (library: TrackLibrary) => void; historicalLabel?: string; previews: readonly { id: string, label: string, characteristics: MusicalCharacteristics }[], characteristics: MusicalCharacteristics | null, characterName: string | null, active: boolean, onNavigate: (view: 'genre' | 'vocal' | 'mood') => void }) {
   const [library, setLibrary] = useState<TrackLibrary>(emptyLibrary)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -28,7 +32,7 @@ export default function Visualiser({ active, onNavigate, characteristics, charac
   const [personalitySource, setPersonalitySource] = useState('current')
   const preview = previews.find(item => item.id === personalitySource)
   const activeCharacteristics = preview?.characteristics ?? (personalitySource === 'current' ? characteristics : null)
-  const activeCharacterName = preview ? `${preview.label} preview` : activeCharacteristics ? `${characterName} influence` : 'Classic signal'
+  const activeCharacterName = preview ? `${preview.label} preview` : activeCharacteristics ? `${characterName} ${historicalLabel ? 'track creation identity' : 'influence'}` : historicalLabel ? 'Track creation identity / Classic signal' : 'Classic signal'
   const personality = useMemo(() => deriveVisualPersonality(activeCharacteristics), [activeCharacteristics])
   const personalityRef = useRef(personality)
   personalityRef.current = personality
@@ -48,7 +52,7 @@ export default function Visualiser({ active, onNavigate, characteristics, charac
   const lastDisplayRef = useRef(0)
   const lastVisualRef = useRef(0)
   const disposeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const urlsRef = useRef(new Map<string, string>())
+  const urlsRef = useRef(new SessionAudio())
   const [playback] = useState(() => new PlaybackIntent(() => {
     setPlaying(false)
     setAnalysisError('Web Audio could not change playback state. Try Play again.')
@@ -188,7 +192,6 @@ export default function Visualiser({ active, onNavigate, characteristics, charac
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
       frameRef.current = null
       hasSignalFrameRef.current = false
-      for (const url of urlsRef.current.values()) URL.revokeObjectURL(url)
       urlsRef.current.clear()
       disposeTimerRef.current = setTimeout(() => {
         analyzerRef.current?.close()
@@ -198,25 +201,22 @@ export default function Visualiser({ active, onNavigate, characteristics, charac
     }
   }, [])
 
-  function importFiles(files: FileList | null) {
-    if (!files) return
-    const audio = audioRef.current
-    const added: LocalTrack[] = []
-    let rejected = 0
-    for (const file of Array.from(files)) {
-      if (!audioCandidate(file) || (file.type && audio?.canPlayType(file.type) === '')) {
-        rejected++
-        continue
-      }
-      const id = crypto.randomUUID()
-      try {
-        urlsRef.current.set(id, URL.createObjectURL(file))
-        added.push({ id, filename: file.name, name: displayName(file.name), type: file.type || 'Unknown audio type', size: file.size })
-      } catch { rejected++ }
-    }
-    if (added.length) setLibrary(current => addTracks(current, added))
-    setMessage(`${added.length} track${added.length === 1 ? '' : 's'} imported.${rejected ? ` ${rejected} unsupported or empty file${rejected === 1 ? '' : 's'} skipped.` : ''}`)
+  function importFile(file: File): LocalTrack {
+    if (!audioCandidate(file) || (file.type && audioRef.current?.canPlayType(file.type) === '')) throw new Error('Choose a supported, non-empty audio file.')
+    const id = crypto.randomUUID()
+    urlsRef.current.attach(id, file)
+    const track = { id, filename: file.name, name: displayName(file.name), type: file.type, size: file.size }
+    setLibrary(current => addTracks(current, [track]))
+    return track
   }
+  function importFiles(files: FileList | null) {
+    let imported = 0; let rejected = 0
+    for (const file of Array.from(files ?? [])) { try { importFile(file); imported++ } catch { rejected++ } }
+    setMessage(`${imported} tracks imported.${rejected ? ` ${rejected} unsupported, empty or unreadable files skipped.` : ''}`)
+  }
+  useImperativeHandle(audioBridge, () => ({ importFile, choose: id => { setPersonalitySource('current'); choose(id) }, remove }))
+  useEffect(() => { onLibrary?.(library) }, [library, onLibrary])
+  useEffect(() => { if (historicalLabel) setPersonalitySource('current') }, [library.selectedId, historicalLabel])
 
   function choose(id: string) {
     if (id === library.selectedId) return
@@ -235,10 +235,10 @@ export default function Visualiser({ active, onNavigate, characteristics, charac
       hasSignalFrameRef.current = false
       setHasRenderedSignal(false)
       drawIdle()
+      audioRef.current?.removeAttribute('src')
+      audioRef.current?.load()
     }
     setLibrary(current => removeTrack(current, id))
-    const url = urlsRef.current.get(id)
-    if (url) URL.revokeObjectURL(url)
     urlsRef.current.delete(id)
     setMessage('Track removed.')
   }
@@ -297,12 +297,12 @@ export default function Visualiser({ active, onNavigate, characteristics, charac
   return <div className="app-shell">
     <aside className="rail" aria-label="Studio navigation"><div className="brand-mark" aria-label="Sonic Studio">S<span>·</span></div><div className="rail-center"><span className="rail-tick"/><span className="rail-tick"/><span className="rail-tick"/><span className="rail-tick active"/></div><span className="rail-bottom">04 / 04</span></aside>
     <main className="main visualiser-main">
-      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small>V2.0.0-stage.1 / REACTIVE PERSONALITY</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION</div></header>
+      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small>V2.0.0-stage.2 / REACTIVE PERSONALITY</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION</div></header>
       <nav className="tool-nav" aria-label="Studio tools"><button onClick={() => navigate('genre')}>01 / Genre Mixer</button><button onClick={() => navigate('vocal')}>02 / Vocal Persona</button><button onClick={() => navigate('mood')}>03 / Mood Mapper</button><button className="active" aria-current="page">04 / Visualiser</button></nav>
       <section className="intro"><div className="eyebrow">BLOCK 04 / VISUAL MODES</div><div className="intro-row"><div><h1>Listen <em>locally.</em></h1><p>Import a few tracks, choose one, and inspect their live signal. Your files stay in this browser session.</p></div><div className="intro-index">SONIC STUDIO<span>04 / 04</span></div></div></section>
       <div className="visualiser-layout">
         <section className="visualiser-panel" aria-labelledby="player-heading"><div className="section-heading"><div><span className="eyebrow">01 / PLAYER</span><h2 id="player-heading">Now playing<span className="heading-period">.</span></h2></div></div>
-          <div className="visualiser-current"><span>SELECTED TRACK</span><strong>{selected?.name ?? 'No track selected'}</strong><small>{selected?.filename ?? 'Import audio to begin'}</small></div>
+          <div className="visualiser-current"><span>SELECTED TRACK</span><strong>{historicalLabel ?? selected?.name ?? 'No track selected'}</strong><small>{selected?.filename ?? 'Import audio to begin'}</small></div>
           <div className="visualiser-controls"><button type="button" onClick={togglePlayback} disabled={!selected} aria-label={playing ? 'Pause' : 'Play'}>{playing ? 'Pause' : 'Play'}</button><div className="visualiser-seek"><input type="range" min="0" max={duration || 0} step="0.01" value={Math.min(currentTime, duration || 0)} disabled={!selected || !duration} aria-label="Seek through track" style={{ '--progress': `${progress}%` } as React.CSSProperties} onChange={event => { const audio = audioRef.current; if (!audio) return; const next = Number(event.target.value); audio.currentTime = next; setCurrentTime(next) }}/><div className="visualiser-times"><span>{timeLabel(currentTime)}</span><span>{timeLabel(duration)}</span></div></div></div>
           <p className="visualiser-message" role="status">{analysisError || message}</p>
         <audio ref={audioRef} preload="metadata" onLoadedMetadata={event => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onDurationChange={event => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onTimeUpdate={event => setCurrentTime(event.currentTarget.currentTime)} onPause={event => { if (!event.currentTarget.paused) return; playback.cancel(); setPlaying(false); stopAnalysis() }} onPlay={event => { if (!playback.playing) { playback.cancel(); return }; if (event.currentTarget.paused) return; setPlaying(true); startAnalysis() }} onEnded={() => { playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setCurrentTime(audioRef.current?.duration || 0) }} onError={() => { if (selected) { playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setMessage('This file could not be read or played in this browser.') } }}/>
@@ -314,18 +314,18 @@ export default function Visualiser({ active, onNavigate, characteristics, charac
         </section>
       </div>
       <section className="visualiser-stage" aria-labelledby="visual-stage-heading" data-graph-creations={graphCreationsRef.current} data-waveform-samples={analyzerRef.current?.waveform.length ?? 0} data-spectrum-bins={analyzerRef.current?.spectrum.length ?? 0}>
-        <div className="visualiser-stage-heading"><div><span className="eyebrow">03 / LIVE VISUAL</span><h2 id="visual-stage-heading">{selected?.name ?? 'Signal view'}<span className="heading-period">.</span></h2><p>{selected ? playing ? 'Live signal from the selected track.' : hasRenderedSignal ? 'Paused view holds the last measured signal.' : 'Press Play to view this track.' : 'Choose a track and press Play to begin.'}</p></div><div className="visualiser-mode-switch" role="group" aria-label="Visual mode">{VISUAL_MODES.map(mode => <button type="button" key={mode.id} aria-pressed={visualMode === mode.id} className={visualMode === mode.id ? 'active' : ''} onClick={() => setVisualMode(mode.id)}>{mode.label}</button>)}</div></div>
+        <div className="visualiser-stage-heading"><div><span className="eyebrow">03 / LIVE VISUAL</span><h2 id="visual-stage-heading">{historicalLabel ?? selected?.name ?? 'Signal view'}<span className="heading-period">.</span></h2><p>{selected ? playing ? 'Live signal from the selected track.' : hasRenderedSignal ? 'Paused view holds the last measured signal.' : 'Press Play to view this track.' : 'Choose a track and press Play to begin.'}</p></div><div className="visualiser-mode-switch" role="group" aria-label="Visual mode">{VISUAL_MODES.map(mode => <button type="button" key={mode.id} aria-pressed={visualMode === mode.id} className={visualMode === mode.id ? 'active' : ''} onClick={() => setVisualMode(mode.id)}>{mode.label}</button>)}</div></div>
         <div className="visualiser-canvas-wrap"><canvas ref={canvasRef} className="visualiser-canvas" role="img" aria-label={`${visualMode} visualisation of ${selected?.name ?? 'no selected track'}`}/>{!selected || !playing ? <span className="visualiser-canvas-status" aria-hidden="true">{selected ? hasRenderedSignal ? 'SIGNAL HELD / PAUSED' : 'READY / PAUSED' : 'AWAITING AUDIO'}</span> : null}</div>
         {visualMode === 'spectrum' ? <div className="visualiser-frequency-scale" aria-hidden="true"><span>LOW / 20 HZ</span><span>HIGH / 20 KHZ</span></div> : visualMode === 'radial' ? <p className="visualiser-radial-key">LOW TO HIGH FREQUENCY / CLOCKWISE FROM TOP</p> : null}
       </section>
       <section className="visualiser-personality" aria-labelledby="personality-heading">
-        <div><span className="eyebrow">VISUAL PERSONALITY</span><h2 id="personality-heading">{activeCharacterName}</h2><p>{personalitySource === 'classic' ? 'Original signal styling.' : preview ? 'Read-only catalogue preview. Your Mood Mapper blend stays as selected.' : characteristics ? 'Read-only from your current Mood Mapper blend. The audio remains the source of every shape.' : 'Select moods in Mood Mapper or preview a catalogue character. Classic styling is active.'}</p></div>
-        <label className="personality-select">Visual character<select aria-label="Visual character" value={personalitySource} onChange={event => setPersonalitySource(event.target.value)}><option value="current">Current mood{characterName ? ` / ${characterName}` : ' / none selected'}</option><option value="classic">Classic signal</option>{previews.map(item => <option key={item.id} value={item.id}>{item.label} preview</option>)}</select></label>
+        <div><span className="eyebrow">VISUAL PERSONALITY</span><h2 id="personality-heading">{activeCharacterName}</h2><p>{personalitySource === 'classic' ? 'Original signal styling.' : preview ? 'Read-only catalogue preview. Your Mood Mapper blend stays as selected.' : historicalLabel ? `Captured Mood for ${historicalLabel}. Current project identity stays unchanged.` : characteristics ? 'Read-only from your current Mood Mapper blend. The audio remains the source of every shape.' : 'Select moods in Mood Mapper or preview a catalogue character. Classic styling is active.'}</p></div>
+        <label className="personality-select">Visual character<select aria-label="Visual character" value={personalitySource} onChange={event => setPersonalitySource(event.target.value)}><option value="current">{historicalLabel ? 'Track creation mood' : 'Current mood'}{characterName ? ` / ${characterName}` : ' / none selected'}</option><option value="classic">Classic signal</option>{previews.map(item => <option key={item.id} value={item.id}>{item.label} preview</option>)}</select></label>
         {activeCharacteristics ? <p className="personality-sources">Energy {activeCharacteristics.energy} · Tension {activeCharacteristics.tension} · Atmosphere {activeCharacteristics.atmosphere} · Motion {activeCharacteristics.motion} · Weight {activeCharacteristics.weight} · Valence {activeCharacteristics.valence}</p> : null}
         <p className="personality-sources">Expansion {personality.gain.toFixed(2)}× · Line weight {personality.stroke.toFixed(2)}× · Glow {personality.glow.toFixed(0)} · Detail {Math.round(personality.detail * 100)}% · Response {Math.round(personality.responseMs)} ms · Bass pulse {Math.round(personality.bassPulse * 100)}%</p>
       </section>
       <section className="visualiser-diagnostics" aria-labelledby="analysis-heading"><div className="section-heading"><div><span className="eyebrow">04 / ANALYSIS</span><h2 id="analysis-heading">Audio diagnostics<span className="heading-period">.</span></h2></div><span className="visualiser-count">{playing ? analyzerRef.current ? 'ANALYSING' : 'UNAVAILABLE' : 'IDLE'}</span></div><p>Live levels from the selected track. Readings settle to zero when playback stops.</p><div className="visualiser-meter-grid">{([['amplitude', 'Overall amplitude'], ['low', 'Low · 20–250 Hz'], ['mid', 'Mid · 250–2,000 Hz'], ['high', 'High · 2,000–10,000 Hz']] as const).map(([key, label]) => <div className="visualiser-meter" key={key}><div><span>{label}</span><strong>{metrics[key].toFixed(3)}</strong></div><div className="visualiser-meter-track"><span style={{ width: `${metrics[key] * 100}%` }}/></div></div>)}</div><small>0 = no measured signal · 1 = maximum normalised level. Every visual mode reads these same reusable analyser buffers.</small></section>
-      <footer className="page-footer"><span>SONIC STUDIO / VISUAL MODES</span><span>AUDIO × MUSICAL CHARACTER / V2.0.0-stage.1.</span></footer>
+      <footer className="page-footer"><span>SONIC STUDIO / VISUAL MODES</span><span>AUDIO × MUSICAL CHARACTER / V2.0.0-stage.2.</span></footer>
     </main>
   </div>
 }

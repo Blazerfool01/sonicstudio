@@ -1,5 +1,18 @@
 # Changelog
 
+## v2.0 Stage 2 — Project Tracks (`2.0.0-stage.2`, 2026-10-05)
+
+- Added versioned track metadata and deeply copied creation identity to StudioProject; schema 1 evolves additively so Stage 1 projects reopen with empty tracks. Parsing isolates malformed tracks, strips unknown fields, and preserves valid parent/sibling records.
+- Added active-project track creation/editing, version/source detail/notes, confirmed removal, session audio attachment/replacement, explicit Visualiser opening and inspectable historical identity/Creation Brief. Source snapshots remain separate from current project ingredients.
+- Reused Visualiser's one player/analyser through a narrow audio bridge and session ID associations. Shared imported audio creates no duplicate URL; last-link release and replacement revoke URLs once. Historical Mood selects the existing personality engine; absent captured Mood uses Classic. Files/URLs remain unpersisted and reload requires truthful reattachment.
+- Added 20 focused model/persistence/URL regressions; all 148 tests, TypeScript/Vite build and diff whitespace checks pass. Headless Edge (including final production preview) verified two evolving identities, historical briefs, metadata edits, alternating Mood playback, three modes, shared-source ownership, reload/mismatch/reattach/replace, deletion preservation and denied-storage playback. Reviewed 1280/390/320 px; final warning/error logs empty. Added an inline favicon to resolve the observed browser 404.
+- Updated project status, decisions and roadmap. Compare, final navigation, audio byte persistence and provider APIs remain deferred; no GitHub publication.
+
+## v2.0 Stage 1 follow-up — Real MP3 validation (2026-10-05)
+
+- Imported `test-song.mp3` (4.60 MB, `audio/mpeg`, 4:51) through the Visualiser and played through 2:07. Spectrum, Waveform, and Radial all responded to the real recording; pause held the last view and zeroed the meters, and resume restored analysis. The sample was manually selected in the browser after the automation connection was reset.
+- Re-ran `npm test` (128 passing), `npm run build`, and `git diff --check`; all passed. No application code or audio architecture changed.
+
 ## v2.0 Stage 1 — Compose (`2.0.0-stage.1`, 2026-10-05)
 
 - Added a versioned local StudioProject model, isolated source snapshots, and dedicated `sonic-studio.projects.v1` persistence with active-project reopen, invalid-record isolation, and storage-denial recovery.

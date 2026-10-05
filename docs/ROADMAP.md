@@ -66,7 +66,7 @@ Spectrum bars, waveform, and radial views render from the shared v1.6 analysis d
 ## v2.0 integration stages
 
 1. **Stage 1 — Compose: implemented and locally verified.** Local projects capture immutable source ingredients through explicit actions and regenerate a deterministic Creation Brief. Verification and limitations live in `PROJECT.md`.
-2. **Stage 2 — project tracks: deferred pending scope approval.** Define local audio attachment, source URLs, track notes/history and captured generation provenance before implementation. This stage must preserve existing browser audio ownership.
-3. **Comparison and final Studio navigation: deferred.** A/B listening, comparison observations and final Create / Tracks / Compare / Visualise navigation follow track-model decisions. Full v2.0 is not complete at the Compose gate.
+2. **Stage 2 — project tracks: implemented and locally verified.** Multiple persisted track records retain historical creation identity, metadata, version/source/notes and regenerated briefs. Session audio attachment/reattachment and captured-Mood playback reuse existing Visualiser ownership. Source URLs and provider generation APIs remain deferred. See `PROJECT.md` for proof and limitations.
+3. **Stage 3 — Comparison and final Studio navigation: deferred pending scope approval.** A/B listening, comparison observations and final Create / Tracks / Compare / Visualise navigation follow track-model decisions. Full v2.0 is not complete at the Tracks gate.
 
 The four independent tools retain their completed gates and ownership throughout integration. See `PROJECT.md` for their verification history.
