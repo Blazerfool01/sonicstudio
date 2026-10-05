@@ -1,0 +1,28 @@
+# Phase F Handoff
+
+**Worker handoff status:** F-owned implementation was ready for coordinator review and shell integration. **Final status:** integrated and coordinator-accepted locally on 2026-10-05; no commit or push.
+
+- **Baseline:** `3b69b6de5fcedd399a037adde058767196481f8e`
+- **Worker commit:** None; no commit or merge was created.
+- **Changed files:** `src/ContextRail.tsx`, `src/contextRail.css`, `src/lib/contextRailProjection.ts`, `tests/contextRailProjection.test.mjs`, `.ai/handoffs/F.md`.
+- **Rail sections:** Project overview, derived Guidance, Presets / Sources provenance, and separate Notes scopes.
+- **Context precedence:** The projection accepts the active `StudioProject` and Phase A `ProjectTrackSelection`. It resolves selection with `selectedProjectTrack`; invalid, deleted, or cross-project selections fall back to current-project context. A valid selection changes the identity/guidance view to the track's immutable `creationSnapshot`; the project overview continues to show current project identity and counts.
+- **Guidance:** Genre guidance reuses `mergeGenres` and `analyzeCompatibility`; Vocal guidance reuses `createVoiceDna` and `createVocalInterpretation`; Mood guidance reuses `deriveMoodDna`, `analyzeMoodRelationships`, `interpretMoodRelationships`, and `productionGuidanceForMoodDna`. Historical guidance receives only the captured track snapshot. No prose is persisted.
+- **Presets / Sources:** Snapshot labels and source IDs are shown as recorded provenance. A null source ID is shown as a current tool snapshot with no saved source ID. The rail does not access or mutate preset stores or imply that a referenced preset can still be reopened.
+- **Notes:** Project notes dispatch through an immediate project-note callback. Track notes use a separate local draft and explicit save callback. Neither note scope feeds guidance. The existing `StatusNotice` displays the status supplied by the project owner.
+- **Selection / ownership:** No rail selection, timeline, playback, preset, notes, or persistence owner was added. The rail does not infer project-track selection from audio playback.
+- **Focused automated verification:** `node --test tests/contextRailProjection.test.mjs` — 10 passed, 0 failed. Coverage includes empty/current/historical contexts, missing ingredients, saved/live source IDs, correct historical guidance, note separation, stale selection fallback, and no source mutation.
+- **Focused TypeScript verification:** Strict check of `ContextRail.tsx` and `contextRailProjection.ts`, including unused locals/parameters — passed. No production build or full test suite was run during parallel Phase E work.
+- **Diff check:** `git diff --check` not run by this worker; coordinator owns the combined check after integration.
+- **Browser / responsive verification:** Not run. The component is not wired into the shell yet, so 1280/390/320 px layout, live note callbacks, navigation, and console checks remain coordinator integration gates.
+- **Coordinator integration contract:** Replace the placeholder with `ContextRail`, passing `project={active}`, `selection={trackSelection}`, `statusMessage={studio.message}`, and callbacks for project note updates, `editProjectTrack` note saves, and the existing `openTool` action. The component imports its own F-specific stylesheet. Worker did not edit `StudioShell.tsx`, `StudioShellParts.tsx`, or `studio.css`.
+- **Phase E integration hotspot:** None required for the current contract. The rail uses only the existing project and selected-track owners and intentionally consumes no timeline-specific state. Any optional timeline summary can be considered after both worker contracts are reviewed.
+- **Project records / decisions:** No durable project record or decision file was changed; coordinator owns those files. This implementation follows the phase's existing projection-over-owners boundary and introduces no new decision requiring supersession.
+- **Deferred / acceptance gaps:** Shell integration, interactive browser checks for all four sections, responsive behavior, full `npm test`, production build, combined `git diff --check`, and the coordinator's final review remain open. No conclusion that Phase F's full acceptance gate is satisfied is claimed.
+
+## Coordinator integration review
+
+- **Integration:** Replaced the shell placeholder with Context Rail, wired current project and Phase A selected-track context, and connected project-note, track-note, and existing tool-navigation callbacks. The rail keeps the current project overview separate from selected-track historical guidance/provenance; note scopes remain separate.
+- **Coordinator review fix:** When a rail track-note save updates canonical project state, the existing mounted track form now adopts the external value for clean fields while preserving any locally edited fields. This prevents a stale hidden form from presenting saved rail notes as dirty or overwriting them later. Missing sources render once and do not imply a saved source ID.
+- **Combined verification:** `npm test` — 216 passed; `npm run build` — passed; `git diff --check` — passed. Live browser checks exercised Project, Guidance, Presets / Sources, and Notes, reload persistence, historical snapshot precedence, and truthful source absence. Responsive checks at 1280/390/320 px passed with no page-level horizontal overflow; browser warning/error logs were empty.
+- **Acceptance result:** Phase F integrated acceptance passed. Phase G, commit, push and deployment are deferred.

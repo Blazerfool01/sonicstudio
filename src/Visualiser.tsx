@@ -9,10 +9,20 @@ import { PlaybackIntent } from './lib/playbackIntent.ts'
 import { deriveVisualPersonality, responseStep } from './lib/visualPersonality.ts'
 import type { MusicalCharacteristics } from './lib/visualPersonality.ts'
 import './visualiser.css'
-import { TrackSeek } from './lib/trackSeek.ts'
+import { clampPlaybackPosition, TrackSeek } from './lib/trackSeek.ts'
 import { SessionAudio } from './lib/sessionAudio.ts'
 import type { Ref } from 'react'
-export type VisualiserAudio = { importFile: (file: File) => LocalTrack; choose: (id: string) => void; remove: (id: string) => void; play: (id: string, preservePosition: boolean) => void; pause: () => void }
+export type VisualiserPlaybackState = { localTrackId: string | null; currentTime: number; duration: number; playing: boolean; ended: boolean }
+export type VisualiserAudio = {
+  importFile: (file: File) => LocalTrack
+  choose: (id: string) => void
+  chooseAt: (id: string, position: number) => void
+  remove: (id: string) => void
+  play: (id: string, preservePosition: boolean) => void
+  playAt: (id: string, position: number) => void
+  seek: (position: number) => void
+  pause: () => void
+}
 
 
 function timeLabel(seconds: number): string {
@@ -23,7 +33,7 @@ function timeLabel(seconds: number): string {
 
 const emptyLibrary: TrackLibrary = { tracks: [], selectedId: null }
 
-export default function Visualiser({ active, onStandaloneSelect, characteristics, characterName, previews, audioBridge, onLibrary, historicalLabel, onPlaying }: { onStandaloneSelect: () => void; onPlaying?: (playing: boolean) => void; audioBridge?: Ref<VisualiserAudio>; onLibrary?: (library: TrackLibrary) => void; historicalLabel?: string; previews: readonly { id: string, label: string, characteristics: MusicalCharacteristics }[], characteristics: MusicalCharacteristics | null, characterName: string | null, active: boolean, }) {
+export default function Visualiser({ active, onStandaloneSelect, characteristics, characterName, previews, audioBridge, onLibrary, historicalLabel, onPlaying, onPlaybackState }: { onStandaloneSelect: () => void; onPlaying?: (playing: boolean) => void; onPlaybackState?: (state: VisualiserPlaybackState) => void; audioBridge?: Ref<VisualiserAudio>; onLibrary?: (library: TrackLibrary) => void; historicalLabel?: string; previews: readonly { id: string, label: string, characteristics: MusicalCharacteristics }[], characteristics: MusicalCharacteristics | null, characterName: string | null, active: boolean, }) {
   const [library, setLibrary] = useState<TrackLibrary>(emptyLibrary)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -61,6 +71,17 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
   const loadedIdRef = useRef<string | null>(null)
   const [trackSeek] = useState(() => new TrackSeek())
   const selected = library.tracks.find(track => track.id === library.selectedId)
+
+  function reportPlayback(ended = false) {
+    const audio = audioRef.current
+    onPlaybackState?.({
+      localTrackId: loadedIdRef.current,
+      currentTime: Number.isFinite(audio?.currentTime) ? audio!.currentTime : 0,
+      duration: Number.isFinite(audio?.duration) ? audio!.duration : 0,
+      playing: Boolean(audio && !audio.paused && playback.playing),
+      ended,
+    })
+  }
 
   function drawIdle() {
     const canvas = canvasRef.current
@@ -145,12 +166,14 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
     setDuration(Number.isFinite(audio.duration) ? audio.duration : 0)
     const position = trackSeek.take(loadedIdRef.current, audio.duration)
     if (position !== null) { audio.currentTime = position; setCurrentTime(position) }
+    reportPlayback()
   }
   function pausePlayback() {
     trackSeek.clear()
     playback.cancel()
     setPlaying(false)
     stopAnalysis()
+    reportPlayback()
   }
   function playTrack(id: string, preservePosition: boolean) {
     if (!urlsRef.current.get(id)) return
@@ -161,6 +184,39 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
       setLibrary(current => selectTrack(current, id))
     }
     // App opens the existing playback surface in this same interaction.
+    playback.setActive(true)
+    void startPlayback()
+  }
+
+  function seekPlayback(position: number) {
+    const audio = audioRef.current
+    const id = loadedIdRef.current
+    if (!audio || !id || !Number.isFinite(position) || position < 0) return
+    trackSeek.clear()
+    if (Number.isFinite(audio.duration) && audio.duration > 0) {
+      const next = clampPlaybackPosition(position, audio.duration)
+      audio.currentTime = next
+      setCurrentTime(next)
+      reportPlayback()
+    } else trackSeek.queue(id, position)
+  }
+
+  function chooseTrackAt(id: string, position: number) {
+    if (!urlsRef.current.get(id) || !Number.isFinite(position) || position < 0) return
+    setPersonalitySource('current')
+    if (loadedIdRef.current !== id) {
+      loadTrack(id, position)
+      setLibrary(current => selectTrack(current, id))
+    } else seekPlayback(position)
+  }
+
+  function playTrackAt(id: string, position: number) {
+    if (!urlsRef.current.get(id) || !Number.isFinite(position) || position < 0) return
+    if (loadedIdRef.current !== id) {
+      loadTrack(id, position)
+      setLibrary(current => selectTrack(current, id))
+    } else seekPlayback(position)
+    setPersonalitySource('current')
     playback.setActive(true)
     void startPlayback()
   }
@@ -264,8 +320,9 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
     for (const file of Array.from(files ?? [])) { try { importFile(file); imported++ } catch { rejected++ } }
     setMessage(`${imported} tracks imported.${rejected ? ` ${rejected} unsupported, empty or unreadable files skipped.` : ''}`)
   }
-  useImperativeHandle(audioBridge, () => ({ importFile, choose: id => { setPersonalitySource('current'); choose(id) }, remove, play: playTrack, pause: pausePlayback }))
+  useImperativeHandle(audioBridge, () => ({ importFile, choose: id => { setPersonalitySource('current'); choose(id) }, chooseAt: chooseTrackAt, remove, play: playTrack, playAt: playTrackAt, seek: seekPlayback, pause: pausePlayback }))
   useEffect(() => { onPlaying?.(playing) }, [playing, onPlaying])
+  useEffect(() => { reportPlayback() }, [library.selectedId, playing])
   useEffect(() => { onLibrary?.(library) }, [library, onLibrary])
   useEffect(() => { if (historicalLabel) setPersonalitySource('current') }, [library.selectedId, historicalLabel])
 
@@ -345,9 +402,19 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
       <div className="visualiser-layout">
         <section className="visualiser-panel" aria-labelledby="player-heading"><div className="section-heading"><div><span className="eyebrow">01 / PLAYER</span><h2 id="player-heading">Now playing<span className="heading-period">.</span></h2></div></div>
           <div className="visualiser-current"><span>SELECTED TRACK</span><strong>{historicalLabel ?? selected?.name ?? 'No track selected'}</strong><small>{selected?.filename ?? 'Import audio to begin'}</small></div>
-          <div className="visualiser-controls"><button type="button" onClick={togglePlayback} disabled={!selected} aria-label={playing ? 'Pause' : 'Play'}>{playing ? 'Pause' : 'Play'}</button><div className="visualiser-seek"><input type="range" min="0" max={duration || 0} step="0.01" value={Math.min(currentTime, duration || 0)} disabled={!selected || !duration} aria-label="Seek through track" style={{ '--progress': `${progress}%` } as React.CSSProperties} onChange={event => { const audio = audioRef.current; if (!audio) return; const next = Number(event.target.value); trackSeek.clear(); audio.currentTime = next; setCurrentTime(next) }}/><div className="visualiser-times"><span>{timeLabel(currentTime)}</span><span>{timeLabel(duration)}</span></div></div></div>
+          <div className="visualiser-controls"><button type="button" onClick={togglePlayback} disabled={!selected} aria-label={playing ? 'Pause' : 'Play'}>{playing ? 'Pause' : 'Play'}</button><div className="visualiser-seek"><input type="range" min="0" max={duration || 0} step="0.01" value={Math.min(currentTime, duration || 0)} disabled={!selected || !duration} aria-label="Seek through track" style={{ '--progress': `${progress}%` } as React.CSSProperties} onChange={event => { const audio = audioRef.current; if (!audio) return; const next = Number(event.target.value); trackSeek.clear(); audio.currentTime = next; setCurrentTime(next); reportPlayback() }}/><div className="visualiser-times"><span>{timeLabel(currentTime)}</span><span>{timeLabel(duration)}</span></div></div></div>
           <p className="visualiser-message" role="status">{analysisError || message}</p>
-        <audio ref={audioRef} preload="metadata" onLoadedMetadata={event => metadataLoaded(event.currentTarget)} onDurationChange={event => metadataLoaded(event.currentTarget)} onTimeUpdate={event => setCurrentTime(event.currentTarget.currentTime)} onPause={event => { if (!event.currentTarget.paused) return; playback.cancel(); setPlaying(false); stopAnalysis() }} onPlay={event => { if (!playback.playing) { playback.cancel(); return }; if (event.currentTarget.paused) return; setPlaying(true); startAnalysis() }} onEnded={() => { playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setCurrentTime(audioRef.current?.duration || 0) }} onError={() => { if (selected) { trackSeek.clear(); playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setMessage('This file could not be read or played in this browser.') } }}/>
+        <audio
+          ref={audioRef}
+          preload="metadata"
+          onLoadedMetadata={event => metadataLoaded(event.currentTarget)}
+          onDurationChange={event => metadataLoaded(event.currentTarget)}
+          onTimeUpdate={event => { setCurrentTime(event.currentTarget.currentTime); reportPlayback() }}
+          onPause={event => { if (!event.currentTarget.paused) return; playback.cancel(); setPlaying(false); stopAnalysis(); reportPlayback() }}
+          onPlay={event => { if (!playback.playing) { playback.cancel(); return }; if (event.currentTarget.paused) return; setPlaying(true); startAnalysis(); reportPlayback() }}
+          onEnded={() => { playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setCurrentTime(audioRef.current?.duration || 0); reportPlayback(true) }}
+          onError={() => { if (selected) { trackSeek.clear(); playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setMessage('This file could not be read or played in this browser.'); reportPlayback() } }}
+        />
         </section>
         <section className="visualiser-panel" aria-labelledby="tracks-heading"><div className="section-heading"><div><span className="eyebrow">02 / IMPORTED TRACKS</span><h2 id="tracks-heading">Your session<span className="heading-period">.</span></h2></div><span className="visualiser-count">{library.tracks.length} TRACKS</span></div>
           <label className="visualiser-import">Import audio files<input type="file" accept="audio/*,.mp3,.wav,.ogg,.oga,.m4a,.aac,.mp4" multiple onChange={event => { importFiles(event.target.files); event.target.value = '' }}/></label>

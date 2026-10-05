@@ -2,6 +2,10 @@
 
 The current implemented state and gate results live in `PROJECT.md`. Planned work follows the independent-tool sequence in its roadmap table.
 
+## Completed — Post-v2 UI/UX Overhaul Phases E/F
+
+Phases E — Lightweight Timeline and F — Context Rail are integrated and coordinator-accepted in the local worktree. E stores arrangement clips additively on the existing project envelope and sequences existing tracks through the single existing playback owner. F projects current or historical Studio context from its established owners. Their separate worker contracts and coordinator acceptance evidence are in `.ai/`; combined verification is recorded in `PROJECT.md`. Phase G remains deferred and requires its own scope review.
+
 ## Completed — Vocal Persona Builder v0.6
 
 The builder and contrasting Voice DNA are verified in the running browser. Vocal identity stays separate from genre and mood data.

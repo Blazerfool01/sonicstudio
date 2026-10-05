@@ -1,5 +1,17 @@
 # Changelog
 
+## UI/UX Overhaul Phase E + F — Integrated locally (`2.0.0`, 2026-10-05)
+
+- Integrated the lightweight timeline and contextual rail into the Studio shell. Timeline arrangements persist additively on existing projects and use the existing Visualiser playback owner; the rail derives current and historical context from established project/track owners and keeps project and track notes separate.
+- Added deterministic overlap resolution, clip eligibility and sequencing handoff safeguards; reconciled external track-note edits with the existing form draft so a stale hidden form cannot overwrite a rail save.
+- Coordinator acceptance: `npm test` passes 216 tests; `npm run build` and `git diff --check` pass. Live browser checks cover sequencing, trim/mute/solo, navigation pause, persistence/reload, one audio element, Context Rail notes/provenance, 1280/390/320 px layouts, and empty warning/error logs. No commit, push, or deployment.
+
+## UI/UX Overhaul Phase E/F — Parallel coordination setup (`2.0.0`, 2026-10-05)
+
+- Added the separate Phase E Timeline and Phase F Context Rail worker contracts, coordinator ownership rules, and explicitly pending handoff records under `.ai/`.
+- Recorded E/F as the next parallel, separately scoped work on the clean canonical `main` baseline. No product implementation, completion claim, commit, push, or deployment is included in this setup entry.
+- Confirmed the kickoff baseline: `npm test` passes 197 tests; `npm run build` and `git diff --check` pass. Product implementation and browser acceptance remain pending; final verification will record coordinator integration evidence.
+
 ## UI/UX Overhaul Phase C + D — Integrated (`2.0.0`, 2026-10-05)
 
 - Integrated Mood preset provenance and Genre/Mood Visual Personality mapping into StudioShell. Current identity follows the active project; historical identity follows the selected track's creation snapshot. Project switching clears transient Mood preview state.

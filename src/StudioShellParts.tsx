@@ -24,7 +24,7 @@ export function StudioSidebar({ view, onNavigate }: { view: StudioView; onNaviga
   return <nav className="studio-sidebar" aria-label="Studio destinations">
     <p className="studio-sidebar-label">WORKSPACE</p>
     {STUDIO_VIEWS.map((item, index) => <button type="button" key={item.id} aria-current={view === item.id ? 'page' : undefined} className={view === item.id ? 'active' : ''} onClick={() => onNavigate(item.id)}>
-      <span className={`studio-nav-icon studio-nav-icon-${item.id}`} aria-hidden="true">{['◈', '▤', '◫', '◉'][index]}</span><span>{item.label}</span><span className="studio-nav-index">0{index + 1}</span>
+      <span className={`studio-nav-icon studio-nav-icon-${item.id}`} aria-hidden="true">{['◈', '▤', '⌁', '◫', '◉'][index]}</span><span>{item.label}</span><span className="studio-nav-index">0{index + 1}</span>
     </button>)}
     <div className="studio-sidebar-foot"><span className="studio-sidebar-pulse"/> All work stays on this device</div>
   </nav>
@@ -37,9 +37,10 @@ export function StudioWorkflowStepper({ view, tool, onOpenTool, onNavigate }: {
   onNavigate: (view: StudioView) => void
 }) {
   const steps: { label: string; action?: () => void; active: boolean; deferred?: boolean }[] = [
-    { label: 'Genre Mixer', action: () => onOpenTool('genre'), active: view !== 'visualise' && tool === 'genre' },
-    { label: 'Vocal Persona', action: () => onOpenTool('vocal'), active: view !== 'visualise' && tool === 'vocal' },
-    { label: 'Mood Mapper', action: () => onOpenTool('mood'), active: view !== 'visualise' && tool === 'mood' },
+    { label: 'Genre Mixer', action: () => onOpenTool('genre'), active: view !== 'visualise' && view !== 'timeline' && tool === 'genre' },
+    { label: 'Vocal Persona', action: () => onOpenTool('vocal'), active: view !== 'visualise' && view !== 'timeline' && tool === 'vocal' },
+    { label: 'Mood Mapper', action: () => onOpenTool('mood'), active: view !== 'visualise' && view !== 'timeline' && tool === 'mood' },
+    { label: 'Timeline', action: () => onNavigate('timeline'), active: view === 'timeline' },
     { label: 'Visualiser', action: () => onNavigate('visualise'), active: view === 'visualise' },
     { label: 'Export', active: false, deferred: true },
   ]
@@ -51,13 +52,4 @@ export function StudioWorkflowStepper({ view, tool, onOpenTool, onNavigate }: {
       </button>
     </li>)}</ol>
   </nav>
-}
-
-export function StudioContextSlot() {
-  return <aside className="studio-context-slot" aria-label="Context rail">
-    <div className="studio-context-heading"><span className="studio-context-icon" aria-hidden="true">✳</span><span>CONTEXT PANEL</span></div>
-    <p className="studio-context-project">Workspace context</p>
-    <p className="studio-context-caption">This area is reserved for context alongside your current Studio view.</p>
-    <div className="studio-context-placeholder"><span className="studio-context-line"/><span>Context rail reserved</span></div>
-  </aside>
 }

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { StudioProject, ProjectTrack } from './lib/studioProject.ts'
 import { addProjectTrack, createProjectTrack, editProjectTrack, removeProjectTrack, sameIdentity, TRACK_SOURCES } from './lib/studioProject.ts'
 import type { LocalTrack } from './lib/localTracks.ts'
@@ -16,12 +16,25 @@ export type ProjectAudioActions = {
 }
 function TrackCard({ track, project, update, audio, selected, onSelect }: { track: ProjectTrack; project: StudioProject; update: (p: StudioProject) => void; audio: ProjectAudioActions; selected: boolean; onSelect: (id: string) => void }) {
   const [draft, setDraft] = useState(track)
+  const previousTrack = useRef(track)
   const [message, setMessage] = useState('')
   const [confirmRemove, setConfirmRemove] = useState(false)
   const [copyMessage, setCopyMessage] = useState('')
   const dependents = comparisonsUsingTrack(project, track.id)
   const brief = useMemo(() => createTrackBrief(track.creationSnapshot), [track.creationSnapshot])
   const dirty = draft.title !== track.title || draft.version !== track.version || draft.source !== track.source || draft.sourceDetail !== track.sourceDetail || draft.notes !== track.notes
+  useEffect(() => {
+    const previous = previousTrack.current
+    setDraft(current => ({
+      ...current,
+      title: current.title === previous.title ? track.title : current.title,
+      version: current.version === previous.version ? track.version : current.version,
+      source: current.source === previous.source ? track.source : current.source,
+      sourceDetail: current.sourceDetail === previous.sourceDetail ? track.sourceDetail : current.sourceDetail,
+      notes: current.notes === previous.notes ? track.notes : current.notes,
+    }))
+    previousTrack.current = track
+  }, [track])
   function attach(file: File | undefined, replace: boolean) {
     if (!file) return
     const metadata = { filename: file.name, type: file.type, size: file.size }

@@ -1,5 +1,11 @@
 # Decisions
 
+## 2026-10-05 — Timeline arrangements share the project envelope and one playback owner
+
+Phase E stores timeline clips as an additive field on `StudioProject` under the existing `sonic-studio.projects.v1` key. Older projects load with an empty timeline. Clips reference existing project tracks and hold arrangement/source-bound metadata only; clip selection, playhead and audio attachments remain session state. This keeps project arrangements durable without adding a second persistence or media owner.
+
+The timeline sequences eligible clips through the existing Visualiser bridge and single audio element. Muted clips are excluded; when any clips are soloed, only unmuted solo clips are eligible. At each arrangement time, the latest eligible start wins, with project row and then ordinal lexical clip ID as deterministic tie-breaks. Overlaps are never mixed: a later clip shadows an earlier one for its full eligible interval, and the earlier clip does not resume when the later clip ends. If no eligible clip remains, playback stops cleanly. Timeline is a listening destination; entering it pauses pre-existing playback, and navigation out pauses playback and clears the active sequence. Sequencing begins only from Timeline's Play action. This preserves one player and avoids hidden sequencing state continuing behind another destination.
+
 ## 2026-10-05 — Visual Personality derives from Genre and Mood without changing source ownership
 
 Phase D adds a read-only Genre adapter at the existing six-axis Visual Personality boundary: energy maps directly; tension uses `intensity.strength`; atmosphere uses `production.strength`; motion maps the midpoint of the Genre BPM range from 50–180 BPM into 0–100; weight uses `bass.strength`; and valence is `100 - darkness`. When both saved Genre and Mood sources exist, corresponding axes use an equal-weight mean; a lone source passes through unchanged. Mood intimacy remains unused because Visual Personality has six axes. These mappings make previously deferred Genre identity visible without moving source ownership into the renderer or changing any persistence contract. Current identity comes from active project state; historical identity comes only from the explicitly opened track's immutable creation snapshot. This supersedes the 2026-10-04 v1.9 decision that deferred Genre and used Mood only.

@@ -7,6 +7,8 @@ import { makeMoodPreset } from './moodPresetStorage.ts'
 import type { MoodSelection } from './moodDna.ts'
 import { createVoiceDna } from './voiceDna.ts'
 import type { VocalSelections } from './voiceDna.ts'
+import { parseTimeline } from './studioTimeline.ts'
+import type { TimelineClip } from './studioTimeline.ts'
 
 export const PROJECT_STORAGE_KEY = 'sonic-studio.projects.v1'
 export type Origin = { label: string; sourceId: string | null }
@@ -17,6 +19,7 @@ export type StudioProject = {
   schemaVersion: 1; id: string; name: string; notes: string
   genre: GenreProjectSnapshot | null; vocal: VocalProjectSnapshot | null; mood: MoodProjectSnapshot | null
   tracks: ProjectTrack[]
+  timeline: TimelineClip[]
   comparisons: TrackComparison[]
   createdAt: string; updatedAt: string
 }
@@ -43,7 +46,7 @@ export function moodSnapshot(value: MoodProjectSnapshot): MoodProjectSnapshot {
 }
 export function createProject(name: string, id = crypto.randomUUID(), now = new Date().toISOString()): StudioProject {
   if (!name.trim() || name.trim().length > 80 || !id.trim() || !date(now)) throw new Error('Enter a project name')
-  return { schemaVersion: 1, id, name: name.trim(), notes: '', genre: null, vocal: null, mood: null, tracks: [], comparisons: [], createdAt: now, updatedAt: now }
+  return { schemaVersion: 1, id, name: name.trim(), notes: '', genre: null, vocal: null, mood: null, tracks: [], timeline: [], comparisons: [], createdAt: now, updatedAt: now }
 }
 export function attachIngredient<K extends 'genre' | 'vocal' | 'mood'>(project: StudioProject, kind: K, value: NonNullable<StudioProject[K]>, now = new Date().toISOString()): StudioProject {
   const snapshot = kind === 'genre' ? genreSnapshot(value as GenreProjectSnapshot) : kind === 'vocal' ? vocalSnapshot(value as VocalProjectSnapshot) : moodSnapshot(value as MoodProjectSnapshot)
@@ -61,7 +64,7 @@ export function parseProjects(raw: string | null): { projects: StudioProject[]; 
         if (!p || p.schemaVersion !== 1 || typeof p.id !== 'string' || seen.has(p.id) || typeof p.name !== 'string' || typeof p.notes !== 'string' || p.notes.length > 4000 || !date(p.createdAt) || !date(p.updatedAt)) continue
         const clean = createProject(p.name, p.id, p.createdAt)
         const tracks = parseProjectTracks(p.tracks)
-        projects.push({ ...clean, notes: p.notes, updatedAt: p.updatedAt, genre: p.genre === null ? null : genreSnapshot(p.genre), vocal: p.vocal === null ? null : vocalSnapshot(p.vocal), mood: p.mood === null ? null : moodSnapshot(p.mood), tracks, comparisons: parseComparisons(p.comparisons, tracks) })
+        projects.push({ ...clean, notes: p.notes, updatedAt: p.updatedAt, genre: p.genre === null ? null : genreSnapshot(p.genre), vocal: p.vocal === null ? null : vocalSnapshot(p.vocal), mood: p.mood === null ? null : moodSnapshot(p.mood), tracks, timeline: parseTimeline(p.timeline, tracks.map(track => track.id)), comparisons: parseComparisons(p.comparisons, tracks) })
         seen.add(p.id)
       } catch { /* A damaged record cannot hide its valid neighbours. */ }
     }
@@ -121,7 +124,7 @@ export function editProjectTrack(project: StudioProject, id: string, changes: Pa
 }
 export function removeProjectTrack(project: StudioProject, id: string, now = new Date().toISOString(), confirmComparisonDeletion = false): StudioProject {
   if (comparisonsUsingTrack(project, id).length && !confirmComparisonDeletion) throw new Error('Confirm deletion of dependent comparisons before removing this track')
-  return { ...project, tracks: project.tracks.filter(t => t.id !== id), comparisons: project.comparisons.filter(c => c.trackAId !== id && c.trackBId !== id), updatedAt: now }
+  return { ...project, tracks: project.tracks.filter(t => t.id !== id), timeline: project.timeline.filter(clip => clip.trackId !== id), comparisons: project.comparisons.filter(c => c.trackAId !== id && c.trackBId !== id), updatedAt: now }
 }
 export function sameIdentity(a: ProjectIdentitySnapshot, b: ProjectIdentitySnapshot): boolean {
   return JSON.stringify(identitySnapshot(a)) === JSON.stringify(identitySnapshot(b))

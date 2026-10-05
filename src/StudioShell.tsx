@@ -3,12 +3,15 @@ import GenreMixer from './GenreMixer.tsx'
 import VocalPersonaBuilder from './VocalPersonaBuilder.tsx'
 import MoodMapper from './MoodMapper.tsx'
 import Visualiser from './Visualiser.tsx'
-import type { VisualiserAudio } from './Visualiser.tsx'
+import type { VisualiserAudio, VisualiserPlaybackState } from './Visualiser.tsx'
+import Timeline from './Timeline.tsx'
+import type { TimelineTransport } from './Timeline.tsx'
+import ContextRail from './ContextRail.tsx'
 import ProjectTracks from './ProjectTracks.tsx'
 import type { ProjectAudioActions } from './ProjectTracks.tsx'
 import ProjectCompare from './ProjectCompare.tsx'
 import StudioComposer from './StudioComposer.tsx'
-import { StudioContextSlot, StudioSidebar, StudioTopBar, StudioWorkflowStepper } from './StudioShellParts.tsx'
+import { StudioSidebar, StudioTopBar, StudioWorkflowStepper } from './StudioShellParts.tsx'
 import StatusNotice from './StatusNotice.tsx'
 import useStudioProjects from './useStudioProjects.ts'
 import type { TrackLibrary } from './lib/localTracks.ts'
@@ -20,6 +23,7 @@ import { STUDIO_VIEWS, historicalTrack, playbackViewActive } from './lib/studioN
 import type { StudioView, CreateTool } from './lib/studioNavigation.ts'
 import { reconcileProjectTrackSelection, selectProjectTrack, selectedProjectTrack } from './lib/studioInteraction.ts'
 import type { ProjectTrackSelection } from './lib/studioInteraction.ts'
+import { editProjectTrack } from './lib/studioProject.ts'
 const visualPreviews = ['dreamlike', 'aggressive'].map(id => { const mood = getMood(id)!; return { id, label: mood.name, characteristics: mood.profile } })
 export default function StudioShell() {
   const studio = useStudioProjects()
@@ -28,6 +32,7 @@ export default function StudioShell() {
   const [tool, setTool] = useState<CreateTool>('overview')
   const [returnView, setReturnView] = useState<'tracks' | 'compare'>('tracks')
   const [audioPlaying, setAudioPlaying] = useState(false)
+  const [playbackSnapshot, setPlaybackSnapshot] = useState<VisualiserPlaybackState>({ localTrackId: null, currentTime: 0, duration: 0, playing: false, ended: false })
   const [openedTrackId, setOpenedTrackId] = useState<string | null>(null)
   const [trackSelection, setTrackSelection] = useState<ProjectTrackSelection | null>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
@@ -91,7 +96,11 @@ export default function StudioShell() {
     open: id => { const localId = attachments[id]; if (!localId) return; setOpenedTrackId(id); setSessionLibrary(current => ({ ...current, selectedId: localId })); audioBridge.current?.choose(localId); setReturnView(view === 'compare' ? 'compare' : 'tracks'); setView('visualise') },
   }
   function openTool(next: 'genre' | 'vocal' | 'mood') { setView('create'); setTool(next) }
-  function navigate(next: StudioView) { pendingTrackFocus.current = null; setView(next) }
+  function navigate(next: StudioView) {
+    pendingTrackFocus.current = null
+    if (next === 'timeline' && view !== 'timeline') audioBridge.current?.pause()
+    setView(next)
+  }
   function focusTrack(id: string) {
     selectTrack(id)
     pendingTrackFocus.current = id
@@ -104,6 +113,41 @@ export default function StudioShell() {
     } else setView('tracks')
   }
   const active = studio.active
+  const transportProjectTrackId = active && openedTrackId && attachments[openedTrackId] === playbackSnapshot.localTrackId && active.tracks.some(track => track.id === openedTrackId)
+    ? openedTrackId
+    : null
+  const timelineTransport: TimelineTransport = {
+    state: {
+      projectTrackId: transportProjectTrackId,
+      currentTime: playbackSnapshot.currentTime,
+      duration: playbackSnapshot.duration,
+      playing: playbackSnapshot.playing,
+      ended: playbackSnapshot.ended,
+    },
+    isTrackAttached: id => {
+      const localId = attachments[id]
+      return Boolean(localId && sessionLibrary.tracks.some(track => track.id === localId))
+    },
+    play: (id, sourcePosition) => {
+      const localId = attachments[id]
+      if (!active?.tracks.some(track => track.id === id) || !localId || !sessionLibrary.tracks.some(track => track.id === localId) || !audioBridge.current) return false
+      setOpenedTrackId(id)
+      setSessionLibrary(current => ({ ...current, selectedId: localId }))
+      selectTrack(id)
+      audioBridge.current.playAt(localId, sourcePosition)
+      return true
+    },
+    select: (id, sourcePosition) => {
+      const localId = attachments[id]
+      if (!active?.tracks.some(track => track.id === id) || !localId || !sessionLibrary.tracks.some(track => track.id === localId)) return
+      setOpenedTrackId(id)
+      setSessionLibrary(current => ({ ...current, selectedId: localId }))
+      selectTrack(id)
+      audioBridge.current?.chooseAt(localId, sourcePosition)
+    },
+    seek: sourcePosition => audioBridge.current?.seek(sourcePosition),
+    pause: () => audioBridge.current?.pause(),
+  }
   return <div className="studio-shell">
     <StudioTopBar active={active ?? null} projects={studio.state.projects} onSwitchProject={id => studio.save(studio.state.projects, id, id ? 'Project opened.' : 'No active project.')}/>
     <div className="studio-shell-layout">
@@ -122,13 +166,23 @@ export default function StudioShell() {
         <div id="studio-tool-mood" hidden={tool !== 'mood'}><MoodMapper onCharacteristics={setVisualMood} projectEnabled={!!active} onUse={snapshot => studio.attach('mood', snapshot)}/></div>
       </div>
       <div hidden={view !== 'tracks'} className="studio-composer destination-panel">{active ? <><ProjectTracks key={`tracks-${active.id}`} project={active} update={studio.update} audio={audio} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack}/><button type="button" onClick={() => navigate('compare')}>Compare versions</button></> : <StatusNotice tone="empty">Create or open a project to add your first result.</StatusNotice>}</div>
+      <div hidden={view !== 'timeline'} className="studio-composer destination-panel">{active
+        ? <Timeline key={`timeline-${active.id}`} project={active} update={studio.update} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack} transport={timelineTransport} active={view === 'timeline'}/>
+        : <StatusNotice tone="empty">Create or open a project and add a track before arranging a timeline.</StatusNotice>}</div>
       <div hidden={view !== 'compare'} className="studio-composer destination-panel">{active ? <ProjectCompare key={`compare-${active.id}`} project={active} update={studio.update} audio={audio} onAttach={focusTrack}/> : <p>Create or open a project, then add at least two tracks before comparing versions.</p>}<button type="button" onClick={() => navigate('tracks')}>Return to Tracks</button></div>
       <div id="studio-visualiser" className={view === 'compare' ? 'comparison-player' : ''} hidden={view !== 'visualise' && view !== 'compare'}>
         <div hidden={view !== 'visualise'} className="listening-context"><p>{historical ? `Project track · ${historical.title}${historical.version ? ' · ' + historical.version : ''} · Track creation identity` : 'Standalone session audio · files stay in this browser session'}</p>{historical && <button type="button" onClick={() => navigate(returnView)}>Return to {returnView === 'compare' ? 'Compare' : 'Tracks'}</button>}</div>
-        <Visualiser onPlaying={setAudioPlaying} audioBridge={audioBridge} onLibrary={setSessionLibrary} onStandaloneSelect={() => setOpenedTrackId(null)} historicalLabel={historical?.title} previews={visualPreviews} characteristics={historical ? historicalCharacteristics : currentCharacteristics} characterName={historical ? historicalCharacterName : currentCharacterName} active={playbackViewActive(view)}/>
+        <Visualiser onPlaying={setAudioPlaying} onPlaybackState={setPlaybackSnapshot} audioBridge={audioBridge} onLibrary={setSessionLibrary} onStandaloneSelect={() => setOpenedTrackId(null)} historicalLabel={historical?.title} previews={visualPreviews} characteristics={historical ? historicalCharacteristics : currentCharacteristics} characterName={historical ? historicalCharacterName : currentCharacterName} active={playbackViewActive(view)}/>
       </div>
       </main>
-      <StudioContextSlot/>
+      <ContextRail
+        project={active ?? null}
+        selection={trackSelection}
+        statusMessage={studio.message}
+        onProjectNotesChange={notes => active && studio.update({ ...active, notes, updatedAt: new Date().toISOString() })}
+        onSaveTrackNotes={(id, notes) => active && studio.update(editProjectTrack(active, id, { notes }))}
+        onOpenIngredient={openTool}
+      />
     </div>
   </div>
 }

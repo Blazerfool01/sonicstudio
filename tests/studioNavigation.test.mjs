@@ -4,12 +4,12 @@ import { STUDIO_VIEWS, CREATE_TOOLS, historicalTrack, playbackViewActive } from 
 import { createProject, createProjectTrack, addProjectTrack, attachIngredient, parseProjects, writeProjects, PROJECT_STORAGE_KEY } from '../src/lib/studioProject.ts'
 import { addComparison, createComparison } from '../src/lib/trackComparison.ts'
 const project = () => attachIngredient(createProject('Release'), 'mood', { label: 'Serene', sourceId: null, selections: [{ moodId: 'serene', weight: 100 }] })
-test('final workflow has four destinations and secondary ingredient editing access', () => {
- assert.deepEqual(STUDIO_VIEWS.map(v => v.id), ['create','tracks','compare','visualise'])
+test('final workflow has five destinations and secondary ingredient editing access', () => {
+ assert.deepEqual(STUDIO_VIEWS.map(v => v.id), ['create','tracks','timeline','compare','visualise'])
  assert.deepEqual(CREATE_TOOLS.map(v => v.id), ['overview','genre','vocal','mood'])
 })
 test('playback remains active across listening destinations and inactive in editing destinations', () => {
- for (const v of STUDIO_VIEWS) assert.equal(playbackViewActive(v.id), ['compare','visualise'].includes(v.id))
+ for (const v of STUDIO_VIEWS) assert.equal(playbackViewActive(v.id), ['timeline','compare','visualise'].includes(v.id))
 })
 test('historical handoff resolves the exact track even when records share session audio', () => {
  const p=project(), a=createProjectTrack(p,'A'), b=createProjectTrack(p,'B')
