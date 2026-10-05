@@ -7,6 +7,10 @@ import type { VisualiserAudio, VisualiserPlaybackState } from './Visualiser.tsx'
 import Timeline from './Timeline.tsx'
 import type { TimelineTransport } from './Timeline.tsx'
 import ContextRail from './ContextRail.tsx'
+import ExportPanel from './ExportPanel.tsx'
+import PowerActions from './PowerActions.tsx'
+import { createCompareSeed, historicalDraft, shortcutAction } from './lib/experimentActions.ts'
+import type { CompareSeed, HistoricalDraftRequest, IngredientKind } from './lib/experimentActions.ts'
 import ProjectTracks from './ProjectTracks.tsx'
 import type { ProjectAudioActions } from './ProjectTracks.tsx'
 import ProjectCompare from './ProjectCompare.tsx'
@@ -35,14 +39,21 @@ export default function StudioShell() {
   const [playbackSnapshot, setPlaybackSnapshot] = useState<VisualiserPlaybackState>({ localTrackId: null, currentTime: 0, duration: 0, playing: false, ended: false })
   const [openedTrackId, setOpenedTrackId] = useState<string | null>(null)
   const [trackSelection, setTrackSelection] = useState<ProjectTrackSelection | null>(null)
+  const [compareSeed, setCompareSeed] = useState<CompareSeed | null>(null)
+  const [snapshotRequest, setSnapshotRequest] = useState<string | null>(null)
+  const [genreDraft, setGenreDraft] = useState<HistoricalDraftRequest<'genre'> | null>(null)
+  const [vocalDraft, setVocalDraft] = useState<HistoricalDraftRequest<'vocal'> | null>(null)
+  const [moodDraft, setMoodDraft] = useState<HistoricalDraftRequest<'mood'> | null>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
   const pendingTrackFocus = useRef<string | null>(null)
+  const pendingSnapshotFocus = useRef(false)
   const previousView = useRef(view)
   const audioBridge = useRef<VisualiserAudio>(null)
   const [sessionLibrary, setSessionLibrary] = useState<TrackLibrary>({ tracks: [], selectedId: null })
   const [attachments, setAttachments] = useState<Record<string, string>>({})
   const attachmentsRef = useRef(attachments)
   useEffect(() => { audioBridge.current?.pause(); setOpenedTrackId(null); setReturnView('tracks'); setVisualMood(null) }, [studio.state.activeId])
+  useEffect(() => { setCompareSeed(null); setSnapshotRequest(null); setGenreDraft(null); setVocalDraft(null); setMoodDraft(null) }, [studio.state.activeId])
   useEffect(() => { setTrackSelection(current => reconcileProjectTrackSelection(studio.active, current)) }, [studio.active])
   useEffect(() => {
     if (previousView.current === view) return
@@ -50,7 +61,10 @@ export default function StudioShell() {
     requestAnimationFrame(() => {
       const requestedTrack = pendingTrackFocus.current
       pendingTrackFocus.current = null
-      if (requestedTrack && view === 'tracks') {
+      if (pendingSnapshotFocus.current && view === 'tracks') {
+        pendingSnapshotFocus.current = false
+        document.querySelector<HTMLInputElement>('.power-actions input[aria-label="Snapshot title"]')?.focus()
+      } else if (requestedTrack && view === 'tracks') {
         document.getElementById(`project-track-${requestedTrack}`)?.scrollIntoView({ block: 'start' })
         document.querySelector<HTMLInputElement>(`[id="project-track-${CSS.escape(requestedTrack)}"] input[type="file"]`)?.focus({ preventScroll: true })
       } else headingRef.current?.focus()
@@ -68,7 +82,7 @@ export default function StudioShell() {
   }
   const historical = historicalTrack(studio.state.projects.flatMap(p => p.tracks), openedTrackId, attachments, sessionLibrary.selectedId)
   const selectedTrack = selectedProjectTrack(studio.active, trackSelection)
-  function selectTrack(id: string) { setTrackSelection(selectProjectTrack(studio.active, id)) }
+  function selectTrack(id: string, project = studio.active) { setTrackSelection(selectProjectTrack(project, id)) }
   const historicalMood = historical?.creationSnapshot.mood ? deriveMoodDna(historical.creationSnapshot.mood.selections) : null
   const currentMood = visualMood ?? (studio.active?.mood ? deriveMoodDna(studio.active.mood.selections) : null)
   const currentGenre = genreVisualCharacteristics(studio.active?.genre)
@@ -96,6 +110,29 @@ export default function StudioShell() {
     open: id => { const localId = attachments[id]; if (!localId) return; setOpenedTrackId(id); setSessionLibrary(current => ({ ...current, selectedId: localId })); audioBridge.current?.choose(localId); setReturnView(view === 'compare' ? 'compare' : 'tracks'); setView('visualise') },
   }
   function openTool(next: 'genre' | 'vocal' | 'mood') { setView('create'); setTool(next) }
+  function compareTrack(id: string) {
+    if (!studio.active?.tracks.some(track => track.id === id)) return
+    setCompareSeed(createCompareSeed(studio.active, id)); navigate('compare')
+  }
+  function reopenSettings(id: string, kind: IngredientKind) {
+    if (!studio.active?.tracks.find(track => track.id === id)?.creationSnapshot[kind]) return
+    if (kind === 'genre') setGenreDraft(historicalDraft(studio.active, id, 'genre'))
+    if (kind === 'vocal') setVocalDraft(historicalDraft(studio.active, id, 'vocal'))
+    if (kind === 'mood') setMoodDraft(historicalDraft(studio.active, id, 'mood'))
+    openTool(kind)
+  }
+  useEffect(() => {
+    function handleShortcut(event: KeyboardEvent) {
+      const action = shortcutAction(event)
+      if (action === 'snapshot' && studio.active) {
+        event.preventDefault(); pendingSnapshotFocus.current = view !== 'tracks'; navigate('tracks'); setSnapshotRequest(crypto.randomUUID())
+      } else if (action === 'compare' && selectedTrack) {
+        event.preventDefault(); compareTrack(selectedTrack.id)
+      }
+    }
+    window.addEventListener('keydown', handleShortcut)
+    return () => window.removeEventListener('keydown', handleShortcut)
+  }, [studio.active, selectedTrack, view])
   function navigate(next: StudioView) {
     pendingTrackFocus.current = null
     if (next === 'tracks' && view !== 'tracks') audioBridge.current?.pause()
@@ -157,25 +194,28 @@ export default function StudioShell() {
       <StudioSidebar view={view} onNavigate={navigate}/>
       <main className="workflow-content">
       {view === 'create' && <button type="button" className={`studio-create-overview${tool === 'overview' ? ' active' : ''}`} aria-current={tool === 'overview' ? 'page' : undefined} onClick={() => setTool('overview')}>Identity &amp; Brief</button>}
-      <StudioWorkflowStepper view={view} tool={tool} onOpenTool={openTool} onNavigate={navigate}/>
+      <StudioWorkflowStepper view={view} tool={tool} onOpenTool={openTool} onNavigate={navigate} onExport={() => { setView('create'); setTool('export') }}/>
       <h1 ref={headingRef} tabIndex={-1}>{STUDIO_VIEWS.find(item => item.id === view)!.label}</h1>
       <p className="project-context"><strong>{active?.name ?? 'No active project'}</strong>{active && <span> · {active.tracks.length} tracks · {active.comparisons.length} comparisons · {['genre', 'vocal', 'mood'].filter(k => active[k as 'genre' | 'vocal' | 'mood']).length}/3 ingredients</span>}</p>
       <StatusNotice tone={studio.message.includes('unavailable') ? 'warning' : 'success'} className="studio-project-notice">{studio.message}</StatusNotice>
       <StudioComposer audio={audio} studio={studio} onNavigate={openTool} showIdentity={view === 'create' && tool === 'overview'}/>
       <div hidden={view !== 'create'}>
+        <div hidden={tool !== 'export'}><ExportPanel key={active?.id ?? 'no-project'} project={active}/></div>
         <div hidden={tool !== 'overview'} className="workflow-next"><p>Attach each ingredient explicitly, then use your Creation Brief to make music in your own workflow.</p><button type="button" onClick={() => navigate('tracks')}>Go to Tracks</button></div>
-        <div id="studio-tool-genre" hidden={tool !== 'genre'}><GenreMixer projectEnabled={!!active} onUse={snapshot => studio.attach('genre', snapshot)}/></div>
-        <div id="studio-tool-vocal" hidden={tool !== 'vocal'}><VocalPersonaBuilder projectEnabled={!!active} onUse={snapshot => studio.attach('vocal', snapshot)}/></div>
-        <div id="studio-tool-mood" hidden={tool !== 'mood'}><MoodMapper onCharacteristics={setVisualMood} projectEnabled={!!active} onUse={snapshot => studio.attach('mood', snapshot)}/></div>
+        <div id="studio-tool-genre" hidden={tool !== 'genre'}><GenreMixer historicalDraft={genreDraft?.projectId === active?.id ? genreDraft : null} projectEnabled={!!active} onUse={snapshot => studio.attach('genre', snapshot)}/></div>
+        <div id="studio-tool-vocal" hidden={tool !== 'vocal'}><VocalPersonaBuilder historicalDraft={vocalDraft?.projectId === active?.id ? vocalDraft : null} projectEnabled={!!active} onUse={snapshot => studio.attach('vocal', snapshot)}/></div>
+        <div id="studio-tool-mood" hidden={tool !== 'mood'}><MoodMapper historicalDraft={moodDraft?.projectId === active?.id ? moodDraft : null} onCharacteristics={setVisualMood} projectEnabled={!!active} onUse={snapshot => studio.attach('mood', snapshot)}/></div>
       </div>
       <div hidden={view !== 'tracks'} className="studio-composer destination-panel">{active ? <>
-        <ProjectTracks key={`tracks-${active.id}`} project={active} update={studio.update} audio={audio} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack}/>
+        <PowerActions key={`power-${active.id}`} project={active} update={studio.update} onSelectTrack={selectTrack} snapshotRequest={snapshotRequest}/>
+        <button type="button" disabled={!selectedTrack} title="Compare selected track (Alt+Shift+C outside text fields)" aria-keyshortcuts="Alt+Shift+C" onClick={() => selectedTrack && compareTrack(selectedTrack.id)}>Compare selected track… <small>Alt+Shift+C</small></button>
+        <ProjectTracks key={`tracks-${active.id}`} project={active} update={studio.update} audio={audio} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack} onCompareTrack={compareTrack} onReopenSettings={reopenSettings}/>
         <button type="button" onClick={() => navigate('compare')}>Compare versions</button>
         <section className="studio-composer timeline-workspace-region" aria-label="Timeline arrangement workspace">
           <Timeline key={`timeline-${active.id}`} project={active} update={studio.update} selectedTrackId={selectedTrack?.id ?? null} onSelectTrack={selectTrack} transport={timelineTransport} active={view === 'tracks'}/>
         </section>
       </> : <StatusNotice tone="empty">Create or open a project to add your first result.</StatusNotice>}</div>
-      <div hidden={view !== 'compare'} className="studio-composer destination-panel">{active ? <ProjectCompare key={`compare-${active.id}`} project={active} update={studio.update} audio={audio} onAttach={focusTrack}/> : <p>Create or open a project, then add at least two tracks before comparing versions.</p>}<button type="button" onClick={() => navigate('tracks')}>Return to Tracks</button></div>
+      <div hidden={view !== 'compare'} className="studio-composer destination-panel">{active ? <ProjectCompare key={`compare-${active.id}`} project={active} update={studio.update} audio={audio} onAttach={focusTrack} compareSeed={compareSeed} onClearCompareSeed={() => setCompareSeed(null)}/> : <p>Create or open a project, then add at least two tracks before comparing versions.</p>}<button type="button" onClick={() => navigate('tracks')}>Return to Tracks</button></div>
       <div id="studio-visualiser" className={view === 'compare' ? 'comparison-player' : ''} hidden={view !== 'visualise' && view !== 'compare'}>
         <div hidden={view !== 'visualise'} className="listening-context"><p>{historical ? `Project track · ${historical.title}${historical.version ? ' · ' + historical.version : ''} · Track creation identity` : 'Standalone session audio · files stay in this browser session'}</p>{historical && <button type="button" onClick={() => navigate(returnView)}>Return to {returnView === 'compare' ? 'Compare' : 'Tracks'}</button>}</div>
         <Visualiser onPlaying={setAudioPlaying} onPlaybackState={setPlaybackSnapshot} audioBridge={audioBridge} onLibrary={setSessionLibrary} onStandaloneSelect={() => setOpenedTrackId(null)} historicalLabel={historical?.title} previews={visualPreviews} characteristics={historical ? historicalCharacteristics : currentCharacteristics} characterName={historical ? historicalCharacterName : currentCharacterName} active={playbackViewActive(view) || view === 'tracks'}/>

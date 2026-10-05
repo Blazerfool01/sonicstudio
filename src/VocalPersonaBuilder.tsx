@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useRef, useMemo, useState } from 'react'
 import type { VocalProjectSnapshot } from './lib/studioProject.ts'
 import { deliveries, registers, textures, vocalEffects } from './data/vocalTraits.ts'
 import { createVoiceDna, defaultVocalSelections } from './lib/voiceDna.ts'
@@ -26,7 +26,10 @@ const sliders: { key: VocalDimension; label: string }[] = [
   { key: 'rasp', label: 'Rasp' },
 ]
 
-export default function VocalPersonaBuilder({ onUse, projectEnabled }: { onUse: (snapshot: VocalProjectSnapshot) => void; projectEnabled: boolean }) {
+import type { HistoricalDraftRequest } from './lib/experimentActions.ts'
+import HistoricalDraftNotice from './HistoricalDraftNotice.tsx'
+
+export default function VocalPersonaBuilder({ onUse, projectEnabled, historicalDraft }: { onUse: (snapshot: VocalProjectSnapshot) => void; projectEnabled: boolean; historicalDraft?: HistoricalDraftRequest<'vocal'> | null }) {
   const [selections, setSelections] = useState<VocalSelections>(defaultVocalSelections)
   const dna = useMemo(() => createVoiceDna(selections), [selections])
   const [personaName, setPersonaName] = useState('')
@@ -42,6 +45,17 @@ export default function VocalPersonaBuilder({ onUse, projectEnabled }: { onUse: 
   const [experimentNote, setExperimentNote] = useState('')
   const [experimentPersonaId, setExperimentPersonaId] = useState('')
   const [experimentMessage, setExperimentMessage] = useState('')
+  const [history, setHistory] = useState<HistoricalDraftRequest<'vocal'> | null>(null)
+  const loadedRequest = useRef<string | null>(null)
+  useEffect(() => {
+    if (!historicalDraft) { setHistory(null); return }
+    if (loadedRequest.current === historicalDraft.requestId) return
+    loadedRequest.current = historicalDraft.requestId
+    const captured = historicalDraft.captured
+    setSelections({ ...captured.selections }); setOpenedPersonaId(null); setPersonaName(''); setIdentityDescription(captured.identityDescription); setCopyMessage(''); setCreationMessage('')
+    setHistory(historicalDraft)
+  }, [historicalDraft])
+  const historyExact = Boolean(history && JSON.stringify(selections) === JSON.stringify(history.captured.selections) && identityDescription === history.captured.identityDescription)
   const openedPersona = personas.find(persona => persona.id === openedPersonaId)
   const displayedDna = openedPersona?.voiceDna ?? dna
   const guidance = useMemo(() => createVocalInterpretation(openedPersona?.selections ?? selections), [openedPersona, selections])
@@ -88,6 +102,7 @@ export default function VocalPersonaBuilder({ onUse, projectEnabled }: { onUse: 
       writeSavedPersonas(localStorage, next)
       setPersonas(next)
       setOpenedPersonaId(persona.id)
+      setHistory(null)
       setPersonaName('')
       setIdentityDescription('')
       setCreationMessage(`Saved ${persona.name} on this device.`)
@@ -97,6 +112,7 @@ export default function VocalPersonaBuilder({ onUse, projectEnabled }: { onUse: 
   }
 
   function openPersona(persona: VocalPersona) {
+    setHistory(null)
     setSelections({ ...persona.selections })
     setOpenedPersonaId(persona.id)
     setCopyMessage('')
@@ -105,10 +121,10 @@ export default function VocalPersonaBuilder({ onUse, projectEnabled }: { onUse: 
 
   return <div className="app-shell">
     <div className="main">
-      <button className="project-use" disabled={!projectEnabled} aria-describedby={!projectEnabled ? 'vocal-project-help' : undefined} onClick={() => onUse({ label: openedPersona?.name ?? 'Current vocal builder', sourceId: openedPersona?.id ?? null, identityDescription: openedPersona?.identityDescription ?? '', selections: openedPersona?.selections ?? selections })}>{openedPersona ? 'Use opened persona' : 'Use current voice'} in project / replace vocal</button>{!projectEnabled && <small id="vocal-project-help">Create or open a project to attach this voice.</small>}
+      <HistoricalDraftNotice request={history} edited={!historyExact}/><button className="project-use" disabled={!projectEnabled} aria-describedby={!projectEnabled ? 'vocal-project-help' : undefined} onClick={() => onUse({ label: historyExact ? history!.captured.label : openedPersona?.name ?? 'Current vocal builder', sourceId: historyExact ? history!.captured.sourceId : openedPersona?.id ?? null, identityDescription: openedPersona?.identityDescription ?? identityDescription, selections: openedPersona?.selections ?? selections })}>{openedPersona ? 'Use opened persona' : 'Use current voice'} in project / replace vocal</button>{!projectEnabled && <small id="vocal-project-help">Create or open a project to attach this voice.</small>}
       <section className="intro"><div className="eyebrow"><span>02</span> / VOCAL PERSONA BUILDER</div><div className="intro-row"><div><h2 className="tool-title">Shape the voice<br/><em>behind the sound.</em></h2><p>Choose a vocal character and adjust its four expressive dimensions. Voice DNA updates as you work.</p></div><div className="intro-index">AN INDEPENDENT<br/>VOCAL STUDY <span>↘</span></div></div></section>
       <div className="workspace vocal-workspace">
-        <section className="mix-panel" aria-labelledby="vocal-input-heading"><div className="section-heading"><div><span className="eyebrow">01 / INPUT</span><h2 id="vocal-input-heading">Build a voice</h2></div><button className="text-button" onClick={() => { setSelections(defaultVocalSelections); setOpenedPersonaId(null); setCopyMessage('') }}>↺ &nbsp; Reset voice</button></div>
+        <section className="mix-panel" aria-labelledby="vocal-input-heading"><div className="section-heading"><div><span className="eyebrow">01 / INPUT</span><h2 id="vocal-input-heading">Build a voice</h2></div><button className="text-button" onClick={() => { setHistory(null); setIdentityDescription(''); setSelections(defaultVocalSelections); setOpenedPersonaId(null); setCopyMessage('') }}>↺ &nbsp; Reset voice</button></div>
           <p className="section-lead">Select one trait in each group, then adjust the dimensions.</p>
           {groups.map(group => <fieldset className="vocal-fieldset" key={group.key}><legend>{group.label}</legend><div className="vocal-options">{group.options.map(option => <button type="button" key={option.id} className={selections[group.key] === option.id ? 'vocal-option selected' : 'vocal-option'} aria-pressed={selections[group.key] === option.id} onClick={() => change(group.key, option.id)} title={option.description}>{option.label}</button>)}</div></fieldset>)}
           <div className="vocal-sliders">{sliders.map(({ key, label }) => <label className="vocal-slider" key={key}><span>{label}<strong>{selections[key]} / 100</strong></span><input type="range" min="0" max="100" step="1" value={selections[key]} onChange={event => change(key, Number(event.target.value))}/></label>)}</div>

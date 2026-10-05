@@ -4,7 +4,11 @@ The current implemented state and gate results live in `PROJECT.md`. Planned wor
 
 ## Completed — Post-v2 UI/UX Overhaul Phases E/F
 
-Phases E — Lightweight Timeline and F — Context Rail are integrated and coordinator-accepted in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. E stores arrangement clips additively on the existing project envelope and sequences existing tracks through the single existing playback owner. F projects current or historical Studio context from its established owners. The Timeline occupies a workspace region within Tracks; the four product destinations and five creative steps remain as approved in Phase B. Verified local review corrections restore that placement and require explicit track-deletion confirmation for dependent clips and comparisons; they remain uncommitted. Their verification is recorded in `PROJECT.md`. Phase G remains deferred and requires its own scope review.
+Phases E — Lightweight Timeline and F — Context Rail are integrated and coordinator-accepted in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. E stores arrangement clips additively on the existing project envelope and sequences existing tracks through the single existing playback owner. F projects current or historical Studio context from its established owners. The Timeline occupies a workspace region within Tracks; the four product destinations and five creative steps remain as approved in Phase B. Navigation/dependent-deletion review corrections are committed in canonical `41cd61c987019a45c13caa398ff2a237de2e2c23`. Their verification is recorded in `PROJECT.md`. G/H are separately authorized and implemented locally as recorded below.
+
+## Accepted checkpoint — Post-v2 UI/UX Overhaul Phases G/H
+
+Phase G exports deterministic text briefs and versioned project metadata; Phase H accelerates explicit snapshot/duplicate/Compare and historical editor workflows through existing owners. Combined verification and checkpoint status live in PROJECT.md; supplied scopes and handoffs live under .ai. The package remains 2.0.0. User authorized the reviewed checkpoint commit/push on 2026-10-05. Phase I is unstarted and needs a separate scope; rendering, import/recovery and provider/cloud capabilities remain future proposals.
 
 ## Completed — Vocal Persona Builder v0.6
 

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useRef, useMemo, useState } from 'react'
 import { genres, getGenre } from './data/registry.ts'
 import { mergeGenres } from './lib/merge.ts'
 import type { Relationship } from './lib/merge.ts'
@@ -13,7 +13,10 @@ import type { GenreProjectSnapshot } from './lib/studioProject.ts'
 
 type Slot = 'a' | 'b'
 
-export default function GenreMixer({ onUse, projectEnabled }: { onUse: (snapshot: GenreProjectSnapshot) => void; projectEnabled: boolean }) {
+import type { HistoricalDraftRequest } from './lib/experimentActions.ts'
+import HistoricalDraftNotice from './HistoricalDraftNotice.tsx'
+
+export default function GenreMixer({ onUse, projectEnabled, historicalDraft }: { onUse: (snapshot: GenreProjectSnapshot) => void; projectEnabled: boolean; historicalDraft?: HistoricalDraftRequest<'genre'> | null }) {
   const [firstId, setFirstId] = useState('dark-rnb')
   const [secondId, setSecondId] = useState('hardwave')
   const [weight, setWeight] = useState(60)
@@ -25,6 +28,17 @@ export default function GenreMixer({ onUse, projectEnabled }: { onUse: (snapshot
   const [mixName, setMixName] = useState('')
   const [saveMessage, setSaveMessage] = useState('')
   const [copyMessage, setCopyMessage] = useState('')
+  const [history, setHistory] = useState<HistoricalDraftRequest<'genre'> | null>(null)
+  const loadedRequest = useRef<string | null>(null)
+  useEffect(() => {
+    if (!historicalDraft) { setHistory(null); return }
+    if (loadedRequest.current === historicalDraft.requestId) return
+    loadedRequest.current = historicalDraft.requestId
+    const captured = historicalDraft.captured
+    setFirstId(captured.genres[0].genreId); setSecondId(captured.genres[1].genreId); setWeight(captured.genres[0].weight); setSelectedId(null); setMixName(''); setActiveSlot('a'); setCopyMessage(''); setSaveMessage('')
+    setHistory(historicalDraft)
+  }, [historicalDraft])
+  const historyExact = Boolean(history && firstId === history.captured.genres[0].genreId && secondId === history.captured.genres[1].genreId && weight === history.captured.genres[0].weight)
   const selectedMix = savedMixes.find(mix => mix.id === selectedId)
   const currentSource = { firstId, secondId, weight }
   const dirty = Boolean(selectedMix && (selectedMix.name !== mixName.trim() || selectedMix.genres[0].genreId !== firstId || selectedMix.genres[1].genreId !== secondId || selectedMix.genres[0].weight !== weight))
@@ -46,6 +60,7 @@ export default function GenreMixer({ onUse, projectEnabled }: { onUse: (snapshot
   }
 
   function reset() {
+    setHistory(null)
     setFirstId('dark-rnb')
     setSecondId('hardwave')
     setWeight(60)
@@ -72,7 +87,7 @@ export default function GenreMixer({ onUse, projectEnabled }: { onUse: (snapshot
     const name = mixName.trim()
     if (!name) { setSaveMessage('Enter a mix name first.'); return }
     const mix = makeMix(name, currentSource)
-    if (persist([mix, ...savedMixes])) setSelectedId(mix.id)
+    if (persist([mix, ...savedMixes])) { setSelectedId(mix.id); setHistory(null) }
   }
 
   function saveChanges() {
@@ -82,6 +97,7 @@ export default function GenreMixer({ onUse, projectEnabled }: { onUse: (snapshot
   }
 
   function openMix(mix: SavedMix) {
+    setHistory(null)
     const source = sourceOf(mix)
     setFirstId(source.firstId)
     setSecondId(source.secondId)
@@ -118,7 +134,7 @@ export default function GenreMixer({ onUse, projectEnabled }: { onUse: (snapshot
   return <div className="app-shell">
     <div className="main">
 
-      <button className="project-use" disabled={!projectEnabled} aria-describedby={!projectEnabled ? 'genre-project-help' : undefined} onClick={() => onUse({ label: selectedMix && !dirty ? selectedMix.name : `${first.name} × ${second.name} (current mix)`, sourceId: selectedMix && !dirty ? selectedMix.id : null, genres: [{ genreId: firstId, weight }, { genreId: secondId, weight: 100 - weight }] })}>Use current mix in project / replace genre</button>{!projectEnabled && <small id="genre-project-help">Create or open a project to attach this mix.</small>}
+      <HistoricalDraftNotice request={history} edited={!historyExact}/><button className="project-use" disabled={!projectEnabled} aria-describedby={!projectEnabled ? 'genre-project-help' : undefined} onClick={() => onUse({ label: historyExact ? history!.captured.label : selectedMix && !dirty ? selectedMix.name : `${first.name} × ${second.name} (current mix)`, sourceId: historyExact ? history!.captured.sourceId : selectedMix && !dirty ? selectedMix.id : null, genres: [{ genreId: firstId, weight }, { genreId: secondId, weight: 100 - weight }] })}>Use current mix in project / replace genre</button>{!projectEnabled && <small id="genre-project-help">Create or open a project to attach this mix.</small>}
       <section className="intro">
         <div className="eyebrow"><span>01</span> / THE GENRE MIXER</div>
         <div className="intro-row"><div><h2 className="tool-title">Find the space<br/><em>between sounds.</em></h2><p>Choose two genres. Shift the balance. Discover the sound they make together.</p></div><div className="intro-index">A CREATIVE TOOL<br/>FOR SOUND DESIGN <span>↘</span></div></div>

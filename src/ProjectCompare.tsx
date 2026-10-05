@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useRef, useMemo, useState } from 'react'
 import type { StudioProject, ProjectTrack } from './lib/studioProject.ts'
 import type { TrackComparison, ObservationField } from './lib/trackComparison.ts'
 import { addComparison, createComparison, deleteComparison, editComparison, OBSERVATION_FIELDS } from './lib/trackComparison.ts'
@@ -7,6 +7,9 @@ import { ingredientDescription } from './lib/projectIdentity.ts'
 import type { ProjectAudioActions } from './ProjectTracks.tsx'
 import { draftStateLabel } from './lib/studioInteraction.ts'
 import StatusNotice from './StatusNotice.tsx'
+
+import { validCompareSeed } from './lib/experimentActions.ts'
+import type { CompareSeed } from './lib/experimentActions.ts'
 
 const observationLabels: Record<ObservationField, string> = {
   vocalIdentity: 'Vocal identity', atmosphere: 'Atmosphere', arrangement: 'Arrangement',
@@ -57,21 +60,32 @@ function ComparisonEditor({ comparison, project, update, audio, onDeleted, onAtt
     <StatusNotice tone={message.startsWith('Could not') ? 'error' : 'success'}>{message}</StatusNotice>
   </div>
 }
-export default function ProjectCompare({ project, update, audio, onAttach }: { onAttach: (id: string) => void; project: StudioProject; update: (p: StudioProject) => void; audio: ProjectAudioActions }) {
+export default function ProjectCompare({ project, update, audio, onAttach, compareSeed, onClearCompareSeed }: { onAttach: (id: string) => void; project: StudioProject; update: (p: StudioProject) => void; audio: ProjectAudioActions; compareSeed?: CompareSeed | null; onClearCompareSeed?: () => void }) {
   const [trackAId, setTrackAId] = useState('')
   const [trackBId, setTrackBId] = useState('')
   const [selectedId, setSelectedId] = useState('')
   const [message, setMessage] = useState('')
+  const seededRequest = useRef<string | null>(null)
+  const [seedActive, setSeedActive] = useState(false)
+  useEffect(() => {
+    if (!compareSeed) { if (seededRequest.current) { setTrackAId(''); setTrackBId(''); setSeedActive(false); seededRequest.current = null } return }
+    if (seededRequest.current === compareSeed.requestId && validCompareSeed(project, compareSeed)) return
+    seededRequest.current = compareSeed.requestId
+    setSelectedId(''); setTrackBId('')
+    if (validCompareSeed(project, compareSeed)) { setTrackAId(compareSeed.trackAId); setSeedActive(true); setMessage('Track A is seeded from Tracks. Choose a distinct Track B, then explicitly create the comparison.') }
+    else { setTrackAId(''); setSeedActive(false); setMessage('The comparison handoff track is no longer available in this project.') }
+  }, [compareSeed, project])
   const selected = project.comparisons.find(c => c.id === selectedId)
   const validPair = trackAId !== trackBId && project.tracks.some(t => t.id === trackAId) && project.tracks.some(t => t.id === trackBId)
   function create() {
-    try { const comparison = createComparison(project, trackAId, trackBId); update(addComparison(project, comparison)); setSelectedId(comparison.id); setMessage('Comparison created between these two track records. Audio can be attached later.') }
+    try { const comparison = createComparison(project, trackAId, trackBId); update(addComparison(project, comparison)); setSelectedId(comparison.id); setSeedActive(false); onClearCompareSeed?.(); setMessage('Comparison created between these two track records. Audio can be attached later.') }
     catch (error) { setMessage(error instanceof Error ? error.message : 'Choose two distinct tracks.') }
   }
   return <section className="project-compare" aria-labelledby="project-compare-heading">
     <span className="eyebrow">LISTENING EXPERIMENT</span><h2 id="project-compare-heading">Compare your results.</h2><p>Select a deliberate experiment. Record what improved, what regressed, and why you prefer a version.</p>
     {project.tracks.length < 2 && <StatusNotice tone="empty">Add at least two project tracks to create a comparison. Audio is optional for note-taking.</StatusNotice>}
     <form className="studio-controls" onSubmit={e => { e.preventDefault(); create() }}><label>Track A<select aria-label="Comparison Track A" value={trackAId} onChange={e => { setTrackAId(e.target.value); if (e.target.value === trackBId) setTrackBId('') }}><option value="">Choose A</option>{project.tracks.map(t => <option key={t.id} value={t.id} disabled={t.id === trackBId}>{trackLabel(t)}</option>)}</select></label><label>Track B<select aria-label="Comparison Track B" value={trackBId} onChange={e => setTrackBId(e.target.value)}><option value="">Choose B</option>{project.tracks.map(t => <option key={t.id} value={t.id} disabled={t.id === trackAId}>{trackLabel(t)}</option>)}</select></label><button disabled={!validPair} aria-describedby={!validPair ? 'comparison-create-help' : undefined}>Create comparison</button></form>{!validPair && <small id="comparison-create-help">Choose two distinct project tracks to create a comparison.</small>}
+    {seedActive && <button type="button" onClick={() => { setTrackAId(''); setTrackBId(''); setSeedActive(false); onClearCompareSeed?.(); setMessage('Comparison draft cancelled. No comparison was saved.') }}>Cancel comparison draft</button>}
     <label className="studio-notes">Open saved comparison<select aria-label="Open comparison" value={selected?.id ?? ''} onChange={e => setSelectedId(e.target.value)}><option value="">Choose a saved comparison</option>{project.comparisons.map((c, index) => <option key={c.id} value={c.id}>{index + 1}. {trackLabel(project.tracks.find(t => t.id === c.trackAId)!)} vs {trackLabel(project.tracks.find(t => t.id === c.trackBId)!)}</option>)}</select></label>
     <StatusNotice tone={message.startsWith('Could not') ? 'error' : 'success'}>{message}</StatusNotice>{selected && <ComparisonEditor key={selected.id} comparison={selected} project={project} update={update} audio={audio} onAttach={onAttach} onDeleted={() => setSelectedId('')}/>}
     {!project.comparisons.length && <StatusNotice tone="empty">No saved comparisons yet.</StatusNotice>}

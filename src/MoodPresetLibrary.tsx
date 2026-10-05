@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getMood } from './data/moods.ts'
 import type { MoodSelection } from './lib/moodDna.ts'
 import {
@@ -12,11 +12,12 @@ function sameSelections(a: readonly MoodSelection[], b: readonly MoodSelection[]
   return a.length === b.length && a.every((item, index) => item.moodId === b[index].moodId && item.weight === b[index].weight)
 }
 
-export default function MoodPresetLibrary({ selections, onOpen, onUpdate, onClearSource }: { selections: readonly MoodSelection[]; onOpen: (preset: MoodPreset) => void; onUpdate: (preset: MoodPreset) => void; onClearSource: () => void }) {
+export default function MoodPresetLibrary({ selections, onOpen, onUpdate, onClearSource, historicalRequestId }: { selections: readonly MoodSelection[]; onOpen: (preset: MoodPreset) => void; onUpdate: (preset: MoodPreset) => void; onClearSource: () => void; historicalRequestId?: string }) {
   const [presets, setPresets] = useState<MoodPreset[]>(() => readBrowserStorage(readMoodPresets, []))
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
+  useEffect(() => { if (historicalRequestId) { setSelectedId(null); setName(''); setMessage('Historical draft loaded. Save as new to preserve it as a preset.') } }, [historicalRequestId])
   const selected = presets.find(preset => preset.id === selectedId)
   const dirty = Boolean(selected && (selected.name !== name.trim() || !sameSelections(selected.selections, selections)))
   const canSaveNew = selections.length > 0 && Boolean(name.trim()) && (!selected || selected.name !== name.trim())
@@ -36,7 +37,7 @@ export default function MoodPresetLibrary({ selections, onOpen, onUpdate, onClea
   function saveNew() {
     if (!canSaveNew) return
     const preset = makeMoodPreset(name, selections)
-    if (persist([preset, ...presets], `Saved ${preset.name}.`)) setSelectedId(preset.id)
+    if (persist([preset, ...presets], `Saved ${preset.name}.`)) { setSelectedId(preset.id); onUpdate(preset) }
   }
 
   function update() {

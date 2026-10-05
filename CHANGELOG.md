@@ -1,5 +1,23 @@
 # Changelog
 
+## UI/UX Overhaul G/H — Authorized checkpoint (`2.0.0`, 2026-10-05)
+
+- User authorized committing and pushing the reviewed G/H checkpoint to canonical `main`, building on `41cd61c`. Includes Export, the Power Layer, tests and project/.ai records.
+- Retains the accepted 251-test, production-build, browser and clean independent-audit evidence recorded in docs/GH_VERIFICATION.md. No deployment or Phase I work.
+
+## UI/UX Overhaul G/H — Checkpoint review (`2.0.0`, 2026-10-05)
+
+- Fresh independent source/documentation review found no remaining blockers. G/H are ready for commit/push authorization; no production changes were needed.
+- Full suite passed 251 tests with one test worker after a parallel rerun exhausted Windows memory; sequential production build passed. Existing integrated browser acceptance remains applicable. Evidence: docs/GH_VERIFICATION.md. No commit, push, deployment or Phase I.
+
+## UI/UX Overhaul Phases G/H — Export and Power Layer (`2.0.0`, 2026-10-05)
+
+- Added deterministic text briefs and schema-1 metadata JSON with truthful validation, copy/download recovery, separate notes, immutable provenance, Timeline and comparisons. Export excludes all audio/session/runtime/editor data; rendering/import/provider integration remain deferred.
+- Added explicit track snapshots/duplicates, transient Tracks→Compare seeding, captured historical drafts in all three existing editors, and Alt+Shift+S / Alt+Shift+C shortcuts with editable/native editing guards. Preserved existing project, selection, comparison and single-player ownership.
+- Coordinator integrated the shell; independent audit findings on new-track selection, title focus and new saved-source provenance were corrected and re-reviewed. Amended .ai contracts/coordinator/handoffs, project status, decisions, roadmap and schema/verification documentation.
+- Verified 251 tests, production build and diff check; live no/partial/full export, actual text/JSON files, reload determinism, denial/recovery, provenance isolation, Compare save/cancel, historical reopening, shortcuts, one-player WAV playback, 1280/390/320 px and empty console logs. Details: docs/GH_VERIFICATION.md.
+- E/F corrections previously described as uncommitted are already canonical in `41cd61c987019a45c13caa398ff2a237de2e2c23`. G/H remain local pending authorization; no commit, push, deployment or Phase I.
+
 ## UI/UX Overhaul Phase E/F — Canonical adoption and P2 review corrections (`2.0.0`, 2026-10-05)
 
 - The integrated E/F implementation is on canonical GitHub `main` at `752fadb535a72d1cb55d73cc7c55c63666c8724b`, verified against `origin/main`. The earlier “Integrated locally” entry below records the pre-commit state at that point in the chronology.

@@ -1,5 +1,19 @@
 # Decisions
 
+## 2026-10-05 — Export is a separate deterministic interchange projection
+
+Phase G introduces sonic-studio.project-export schema 1 rather than exposing the browser-storage envelope. Explicit nested cleaners project current identity and historical saved records; stored timestamps stay authoritative and no generation timestamp enters the payload. JSON contains metadata, never playable audio or runtime/draft state. Brief notes are a separately labeled appendix and never alter musical guidance. Empty metadata is useful; a brief needs at least one ingredient, and partial choices are warnings. A browser download is only acknowledged as requested because the browser does not confirm saving to the app. Rendering and import are excluded. This supersedes the earlier deferral of exporting while retaining the existing storage and notes/guidance boundaries.
+
+Export occupies the existing fifth creative step under Create, leaving four product destinations and Timeline inside Tracks. Navigation follows the existing playback pause rule; export copy/download themselves are read-only.
+
+## 2026-10-05 — Power actions reuse track snapshots and editor-owned historical drafts
+
+Phase H creates no Experiment store. Snapshot/duplicate are explicit validated ProjectTrack actions. Duplication preserves exact captured identity and source metadata with new ID/timestamps, optional saved notes, no file metadata/audio or comparison/Timeline membership. Compare seeding remains session-only and does not create a comparison.
+
+Historical requests clone creationSnapshot values once, with request/project IDs and source labels for explanation. Existing editors retain drafts and detach selected mutable library records; source IDs never fetch today's values as history. Explicit Use/Replace is required for project changes. Edited drafts detach captured source provenance; successful Save as new establishes a new source, preserving original libraries and track history. This avoids moving creative state into the shell or overwriting saved sources. Selection of a newly created track validates the resulting project rather than the previous React render.
+
+Alt+Shift+S opens the visible snapshot form and Alt+Shift+C invokes visible Compare selected track. The handler ignores editable contexts, native editing combinations, composition, repeated/prevented events and AltGraph; it installs/cleans one listener. Snapshot focus takes precedence over destination-heading focus. No global undo, command palette, implicit snapshot history or automatic creative decision is introduced.
+
 ## 2026-10-05 — Timeline remains an arrangement region within Tracks
 
 Keep the Phase B product navigation at Create → Tracks → Compare → Visualise and its creative stepper at Genre Mixer → Vocal Persona → Mood Mapper → Visualiser → Export. Phase E's Timeline is a separate arrangement region in the Tracks workspace, not a fifth product destination or another creative step. This preserves the approved distinction between the Studio destination and the creative dimension being edited. It supersedes the temporary Phase E integration placement recorded in the timeline decision below while retaining that decision's project storage, single-player, overlap, trim, mute, and solo rules. Timeline sequencing runs while the Tracks workspace region is visible; entering Tracks pauses pre-existing playback, and leaving Tracks stops sequencing.

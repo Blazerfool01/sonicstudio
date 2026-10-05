@@ -1,6 +1,6 @@
 import type { ProjectTrack } from './studioProject.ts'
 export type StudioView = 'create' | 'tracks' | 'compare' | 'visualise'
-export type CreateTool = 'overview' | 'genre' | 'vocal' | 'mood'
+export type CreateTool = 'overview' | 'genre' | 'vocal' | 'mood' | 'export'
 export const STUDIO_VIEWS: readonly { id: StudioView; label: string }[] = [{ id: 'create', label: 'Create' }, { id: 'tracks', label: 'Tracks' }, { id: 'compare', label: 'Compare' }, { id: 'visualise', label: 'Visualise' }]
 export const CREATE_TOOLS: readonly { id: CreateTool; label: string }[] = [{ id: 'overview', label: 'Identity & Brief' }, { id: 'genre', label: 'Genre Mixer' }, { id: 'vocal', label: 'Vocal Persona' }, { id: 'mood', label: 'Mood Mapper' }]
 

@@ -1,50 +1,50 @@
-# Phase E/F Coordinator
+# Phase G/H Coordinator
 
-## Purpose
+## Purpose and baseline
 
-Coordinate the post-v2 UI/UX Overhaul Phases E (Lightweight Timeline) and F (Context Rail) as separately owned parallel phases. The coordinator owns shared-shell integration and the combined release gate. Neither phase may implement the other's feature.
+Coordinate Phase G (Export) and Phase H (Power Layer) as separately owned parallel workers, with a coordinator/reviewer and independent read-only auditor. The complete supplied contracts are `.ai/phases/G.md` and `.ai/phases/H.md`. Stop after G/H; Phase I is not authorized. No commit, push or deployment is included.
 
-## Baseline and source of truth
+- Canonical baseline: `41cd61c987019a45c13caa398ff2a237de2e2c23`, verified equal to `HEAD` and `origin/main` on 2026-10-05.
+- SonicStudio remains package version `2.0.0`; Phases A–F are implemented and accepted.
+- Baseline verification: 216 tests passed; production build and `git diff --check` passed.
+- E/F integrated in `752fadb535a72d1cb55d73cc7c55c63666c8724b`. Navigation/dependent-deletion corrections are committed in `41cd61c`; prior local/uncommitted wording is superseded.
 
-- Repository baseline: `3b69b6de5fcedd399a037adde058767196481f8e` on canonical `main`.
-- Product baseline remains SonicStudio `2.0.0`; Phases A-D are integrated.
-- Recheck `git status`, `HEAD`, and the actual test count before implementation. Briefs cite 197 passing tests; use the live result if it differs.
-- `.ai/phases/E.md` and `.ai/phases/F.md` are the complete worker contracts. `PROJECT.md`, `CHANGELOG.md`, `docs/DECISIONS.md`, and `docs/ROADMAP.md` remain the durable project records.
+## Ownership
 
-## Roles and file ownership
+- **G worker:** pure export validation/schema/serialization, Export panel, isolated styles/tests, schema documentation and `.ai/handoffs/G.md`. No H behavior.
+- **H worker:** pure experiment actions, Power actions, narrow Tracks/Compare and historical editor APIs, isolated styles/tests and `.ai/handoffs/H.md`. No G exports.
+- **Coordinator/reviewer:** `StudioShell.tsx`, `StudioShellParts.tsx`, shared `studio.css`, navigation integration, cross-phase wiring, shared project records, combined automated and browser acceptance.
+- **Auditor:** independent read-only source/contract review with actionable findings.
 
-- **Phase E worker:** timeline model, timeline UI component(s), focused timeline tests, and only the narrow audio/project-model changes needed for its own contract. Do not implement the Context Rail.
-- **Phase F worker:** pure context projection, Context Rail component(s), focused context tests, and its own styles. Do not implement timeline behavior.
-- **Coordinator:** owns `StudioShell.tsx`, `StudioShellParts.tsx`, shared `studio.css`, cross-phase wiring, final project documentation, integration review, and combined verification. Workers must not edit those shared integration files.
-- The two workers share this checkout. Keep their implementation files and tests disjoint. A worker must report any required shared-file change as a handoff request, with the exact API and reason, rather than editing it.
+Workers share this checkout and keep changes disjoint. Shared-file changes are handoff requests. H owns editor draft boundaries and Tracks/Compare interfaces; shared model changes require review. Focused verification is distinct from integrated acceptance.
 
-## Stable cross-phase contract
+## Locked contracts
 
-- Existing owners remain authoritative: StudioProject, ProjectTrack, Phase A project-scoped selection, Genre/Vocal/Mood engines and stores, Visualiser audio lifecycle, session audio, and PlaybackIntent.
-- Phase E may expose a minimal read-only timeline status/selection projection only if Phase F needs it. Phase F consumes it through a narrow prop after coordinator review; it must not own or persist timeline state.
-- Phase E must not depend on the rail. Phase F must not infer selection from playback or mutate timeline state.
-- Historical identity and guidance come from a selected track's immutable `creationSnapshot`; current identity comes from the active project. These contexts must remain clearly distinct.
-- The timeline must continue to use one media element, one AudioContext, one media source, one analyser graph, and the existing Visualiser RAF owner. Never add simultaneous playback.
-- Keep `sonic-studio.projects.v1` authoritative and backwards compatible. Do not create context, preset, notes, or playback stores.
+- Product destinations: Create → Tracks → Compare → Visualise. Creative steps: Genre Mixer → Vocal Persona → Mood Mapper → Visualiser → Export. Export is a workspace surface under Create, not a fifth destination. Timeline remains inside Tracks.
+- StudioProject owns current identity; ProjectTrack immutable creation identity; TrackComparison human observations. Phase A selection remains ephemeral and project-scoped.
+- Editors own drafts. Historical loads are explicit one-shot requests from creationSnapshot, never mutable source-ID lookups. Reopening cannot change the project or saved source automatically.
+- G is read-only. Its versioned interchange schema is separate from unchanged sonic-studio.projects.v1 storage. Exclude files/bytes/URLs/session IDs/playback/analyser/playhead/UI/editor drafts. Preserve stored timestamps and historical snapshots; no volatile generation timestamp.
+- H duplicates captured identity into a new independent track without audio, comparison membership or Timeline clips. Compare seeds are transient and require explicit creation. Shortcuts dispatch visible actions and ignore editable/native editing contexts.
+- Visualiser remains the only media/context/source/analyser/RAF owner; session audio owns URLs. No renderer/encoder, import/recovery, provider/cloud integration, second experiment store, AI scoring or automatic choices.
+- G and H must each work independently of the other phase.
 
-## Sequence
+## Sequence and gate
 
-1. Confirm the clean baseline and run the baseline verification once.
-2. Dispatch E and F independently using their phase contracts and disjoint file ownership.
-3. Review each worker's code and `.ai/handoffs/<phase>.md`; verify the handoff claims against source and results.
-4. Resolve shared API requests and integrate through coordinator-owned shell files only after the worker changes are reviewable. Do not auto-merge branches or accept unreviewed shared-file edits.
-5. Run the combined automated gate (`npm test`, `npm run build`, `git diff --check`) and browser acceptance for both phases, including audio lifecycle, history/provenance, responsive widths, and console checks.
-6. Update project records with the actual integrated state and exact verification. Add a decision record only for a meaningful ownership/behavior decision.
-7. Stop after E/F. Do not begin Phase G, commit, push, deploy, or claim either phase complete unless its full acceptance gate is satisfied.
-
-## Coordinator closeout — 2026-10-05
-
-E/F are integrated and accepted in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. The original combined gate passed 216 tests, production build, and diff check. Browser acceptance covered sequencing, source bounds, mute/solo, handoff/navigation pause, current-versus-historical context, separate note persistence, reload/audio reattachment truth, one media element, 1280/390/320 px layouts, and empty browser warning/error logs. See `.ai/handoffs/E.md`, `.ai/handoffs/F.md`, and `PROJECT.md` for evidence. The coordinator's later P2 review corrections are tracked below and remain uncommitted until separately authorized.
-
-## Coordinator P2 review follow-up — 2026-10-05
-
-Restored the approved four product destinations and five creative steps; Timeline now occupies a separate arrangement region inside the Tracks workspace. Track removal now counts and names dependent timeline clips alongside saved comparisons, and `removeProjectTrack` rejects an unconfirmed cascade for either dependency. These changes are verified local review corrections atop canonical `752fadb535a72d1cb55d73cc7c55c63666c8724b`; they remain uncommitted. Final results are recorded in `PROJECT.md` and `CHANGELOG.md`.
+1. Verify baseline; store supplied contracts.
+2. Dispatch disjoint G/H workers and auditor.
+3. Review source and handoffs; resolve findings.
+4. Integrate Export and H callbacks through coordinator files.
+5. Run full tests/build/diff check and both supplied browser checklists: denial/recovery, reload/determinism, provenance, single player, 1280/390/320 px and console logs.
+6. Record evidence and limitations in project records and handoffs. Never claim a full pass with required acceptance gaps.
 
 ## Handoff format
 
-Each worker completes its phase handoff file with status, baseline and commit if any, exact changed files, tests/build/diff-check, browser evidence, integration requests, decisions needed, deferred behavior, and remaining acceptance gaps. A handoff is not completion evidence until the coordinator has reviewed it and confirmed the gate.
+Worker records status, baseline, files, integration API, focused test evidence, exclusions/decisions, remaining acceptance gaps and G/H hotspots. Coordinator closeout records combined verification and audit resolution. Prior E/F contracts/handoffs remain historical evidence.
+
+## Coordinator closeout — 2026-10-05
+
+Subsequent authorization: user approved the reviewed G/H checkpoint commit/push to canonical main on 2026-10-05. The review/implementation statements below record the pre-authorization gate. No deployment or Phase I is authorized.
+
+Checkpoint re-review: independent auditor found no actionable source/documentation findings. Complete 251-test suite passed with one worker and sequential production build passed after Windows memory exhaustion in a simultaneous rerun; details in docs/GH_VERIFICATION.md. Browser evidence remains applicable to unchanged production source. Ready for commit/push authorization, with remote main still at 41cd61c. No commit/push performed.
+
+G/H integrated locally on canonical 41cd61c, package 2.0.0. Full gate: 251 tests, production build and diff check passed. Both browser checklists passed using the in-app browser and Chrome; detailed evidence/environment limits and fixture restoration are in docs/GH_VERIFICATION.md. Actual downloaded text/JSON were inspected on disk. Independent source audit is clean after correcting new-track selection timing, snapshot title focus and historical Save-as-new source precedence. Final project/changelog/decisions/roadmap/schema records updated. No commit, push, deployment or Phase I.

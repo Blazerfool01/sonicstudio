@@ -30,18 +30,19 @@ export function StudioSidebar({ view, onNavigate }: { view: StudioView; onNaviga
   </nav>
 }
 
-export function StudioWorkflowStepper({ view, tool, onOpenTool, onNavigate }: {
+export function StudioWorkflowStepper({ view, tool, onOpenTool, onNavigate, onExport }: {
   view: StudioView
   tool: CreateTool
   onOpenTool: (tool: 'genre' | 'vocal' | 'mood') => void
   onNavigate: (view: StudioView) => void
+  onExport: () => void
 }) {
   const steps: { label: string; action?: () => void; active: boolean; deferred?: boolean }[] = [
     { label: 'Genre Mixer', action: () => onOpenTool('genre'), active: view !== 'visualise' && tool === 'genre' },
     { label: 'Vocal Persona', action: () => onOpenTool('vocal'), active: view !== 'visualise' && tool === 'vocal' },
     { label: 'Mood Mapper', action: () => onOpenTool('mood'), active: view !== 'visualise' && tool === 'mood' },
     { label: 'Visualiser', action: () => onNavigate('visualise'), active: view === 'visualise' },
-    { label: 'Export', active: false, deferred: true },
+    { label: 'Export', action: onExport, active: view !== 'visualise' && tool === 'export' },
   ]
   return <nav className="studio-stepper" aria-label="Creative workflow">
     <div className="studio-stepper-heading"><span>CREATIVE WORKFLOW</span><span className="studio-stepper-current">{steps.find(step => step.active)?.label ?? 'Identity & Brief'}</span></div>

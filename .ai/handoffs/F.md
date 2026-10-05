@@ -1,6 +1,6 @@
 # Phase F Handoff
 
-**Worker handoff status:** F-owned implementation was ready for coordinator review and shell integration. **Final status:** integrated and coordinator-accepted in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. P2 review corrections to shared navigation placement and deletion confirmation are in the local worktree and remain uncommitted.
+**Worker handoff status:** F-owned implementation was ready for coordinator review and shell integration. **Final status:** integrated and coordinator-accepted in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. P2 review corrections to shared navigation placement and deletion confirmation are committed in canonical `41cd61c987019a45c13caa398ff2a237de2e2c23`.
 
 - **Baseline:** `3b69b6de5fcedd399a037adde058767196481f8e`
 - **Worker commit:** None; no commit or merge was created.
@@ -25,4 +25,4 @@
 - **Integration:** Replaced the shell placeholder with Context Rail, wired current project and Phase A selected-track context, and connected project-note, track-note, and existing tool-navigation callbacks. The rail keeps the current project overview separate from selected-track historical guidance/provenance; note scopes remain separate.
 - **Coordinator review fix:** When a rail track-note save updates canonical project state, the existing mounted track form now adopts the external value for clean fields while preserving any locally edited fields. This prevents a stale hidden form from presenting saved rail notes as dirty or overwriting them later. Missing sources render once and do not imply a saved source ID.
 - **Combined verification:** `npm test` — 216 passed; `npm run build` — passed; `git diff --check` — passed. Live browser checks exercised Project, Guidance, Presets / Sources, and Notes, reload persistence, historical snapshot precedence, and truthful source absence. Responsive checks at 1280/390/320 px passed with no page-level horizontal overflow; browser warning/error logs were empty.
-- **Acceptance result:** Phase F integrated acceptance passed in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. Phase G remains deferred; the later shared navigation/deletion review corrections are local and uncommitted.
+- **Acceptance result:** Phase F integrated acceptance passed in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. At F acceptance Phase G was deferred; it is now separately authorized with H. Shared navigation/deletion review corrections are committed in canonical `41cd61c`.
