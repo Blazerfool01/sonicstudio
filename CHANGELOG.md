@@ -1,5 +1,13 @@
 # Changelog
 
+## SonicStudio v2.0 — Studio Release (`2.0.0`, 2026-10-05)
+
+- Replaced global lab navigation with Create / Tracks / Compare / Visualise. Added secondary Create editing access, coherent project context, focused result/experiment destinations, historical listening context and comparison return navigation.
+- Extracted StudioShell, the project controller and GenreMixer from App. Kept existing domain engines and mounted editors/player; removed superseded lab chrome, navigation callbacks and scroll-to-tool glue. Unified spacing, controls, focus treatment and responsive layouts.
+- Preserved schema-1 projects, all independent libraries, immutable track provenance and single-player audio ownership. Explicit standalone selection clears historical context; project switching pauses and clears listening handoffs. Compare reuses the existing player and position-switch machinery.
+- Verified 187 tests, TypeScript/Vite build and diff whitespace checks. Production-preview Edge covered the full evolving-identity workflow, six observations/preferences/conclusion, brief clipboard readback, all modes, reload/reattachment, library/project/comparison regressions, dependency cancellation/cascade, reduced motion and denied storage. Reviewed 1280/390/320 px; no horizontal overflow or console warnings/errors. Lifecycle instrumentation retained one element/context/source/RAF; all three URLs were revoked once.
+- Updated project status, architecture decisions, completed roadmap and README; recorded release evidence and limitations. Local release commit only; no push or deployment.
+
 ## v2.0 Stage 3 — A/B Compare (`2.0.0-stage.3`, 2026-10-05)
 
 - Added project-contained versioned comparisons with two distinct track references, six observation fields, optional A/B/null preference, conclusion and timestamps. Stage 2 projects default to an empty comparison list; validation strips unknown fields and isolates invalid, duplicate or dangling records.

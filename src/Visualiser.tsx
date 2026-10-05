@@ -23,7 +23,7 @@ function timeLabel(seconds: number): string {
 
 const emptyLibrary: TrackLibrary = { tracks: [], selectedId: null }
 
-export default function Visualiser({ active, onNavigate, characteristics, characterName, previews, audioBridge, onLibrary, historicalLabel, onPlaying }: { onPlaying?: (playing: boolean) => void; audioBridge?: Ref<VisualiserAudio>; onLibrary?: (library: TrackLibrary) => void; historicalLabel?: string; previews: readonly { id: string, label: string, characteristics: MusicalCharacteristics }[], characteristics: MusicalCharacteristics | null, characterName: string | null, active: boolean, onNavigate: (view: 'genre' | 'vocal' | 'mood') => void }) {
+export default function Visualiser({ active, onStandaloneSelect, characteristics, characterName, previews, audioBridge, onLibrary, historicalLabel, onPlaying }: { onStandaloneSelect: () => void; onPlaying?: (playing: boolean) => void; audioBridge?: Ref<VisualiserAudio>; onLibrary?: (library: TrackLibrary) => void; historicalLabel?: string; previews: readonly { id: string, label: string, characteristics: MusicalCharacteristics }[], characteristics: MusicalCharacteristics | null, characterName: string | null, active: boolean, }) {
   const [library, setLibrary] = useState<TrackLibrary>(emptyLibrary)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -244,6 +244,7 @@ export default function Visualiser({ active, onNavigate, characteristics, charac
     return track
   }
   function importFiles(files: FileList | null) {
+    onStandaloneSelect()
     let imported = 0; let rejected = 0
     for (const file of Array.from(files ?? [])) { try { importFile(file); imported++ } catch { rejected++ } }
     setMessage(`${imported} tracks imported.${rejected ? ` ${rejected} unsupported, empty or unreadable files skipped.` : ''}`)
@@ -321,22 +322,11 @@ export default function Visualiser({ active, onNavigate, characteristics, charac
     } else setAnalysisError('Playback or Web Audio analysis could not start in this browser.')
   }
 
-  function navigate(view: 'genre' | 'vocal' | 'mood') {
-    trackSeek.clear()
-    playback.setActive(false)
-    setPlaying(false)
-    stopAnalysis()
-    onNavigate(view)
-  }
-
   const progress = duration > 0 ? Math.min(100, currentTime / duration * 100) : 0
 
   return <div className="app-shell">
-    <aside className="rail" aria-label="Studio navigation"><div className="brand-mark" aria-label="Sonic Studio">S<span>·</span></div><div className="rail-center"><span className="rail-tick"/><span className="rail-tick"/><span className="rail-tick"/><span className="rail-tick active"/></div><span className="rail-bottom">04 / 04</span></aside>
-    <main className="main visualiser-main">
-      <header className="topbar"><div className="wordmark">SONIC <span>STUDIO</span><small>V2.0.0-stage.3 / REACTIVE PERSONALITY</small></div><div className="topbar-right"><span className="status-dot"/> LOCAL SESSION</div></header>
-      <nav className="tool-nav" aria-label="Studio tools"><button onClick={() => navigate('genre')}>01 / Genre Mixer</button><button onClick={() => navigate('vocal')}>02 / Vocal Persona</button><button onClick={() => navigate('mood')}>03 / Mood Mapper</button><button className="active" aria-current="page">04 / Visualiser</button></nav>
-      <section className="intro"><div className="eyebrow">BLOCK 04 / VISUAL MODES</div><div className="intro-row"><div><h1>Listen <em>locally.</em></h1><p>Import a few tracks, choose one, and inspect their live signal. Your files stay in this browser session.</p></div><div className="intro-index">SONIC STUDIO<span>04 / 04</span></div></div></section>
+    <div className="main visualiser-main">
+      <section className="intro"><div className="eyebrow">LISTENING / VISUAL MODES</div><div className="intro-row"><div><h2 className="tool-title">Listen <em>locally.</em></h2><p>Import a few tracks, choose one, and inspect their live signal. Your files stay in this browser session.</p></div><div className="intro-index">SONIC STUDIO<span>04 / 04</span></div></div></section>
       <div className="visualiser-layout">
         <section className="visualiser-panel" aria-labelledby="player-heading"><div className="section-heading"><div><span className="eyebrow">01 / PLAYER</span><h2 id="player-heading">Now playing<span className="heading-period">.</span></h2></div></div>
           <div className="visualiser-current"><span>SELECTED TRACK</span><strong>{historicalLabel ?? selected?.name ?? 'No track selected'}</strong><small>{selected?.filename ?? 'Import audio to begin'}</small></div>
@@ -346,7 +336,7 @@ export default function Visualiser({ active, onNavigate, characteristics, charac
         </section>
         <section className="visualiser-panel" aria-labelledby="tracks-heading"><div className="section-heading"><div><span className="eyebrow">02 / IMPORTED TRACKS</span><h2 id="tracks-heading">Your session<span className="heading-period">.</span></h2></div><span className="visualiser-count">{library.tracks.length} TRACKS</span></div>
           <label className="visualiser-import">Import audio files<input type="file" accept="audio/*,.mp3,.wav,.ogg,.oga,.m4a,.aac,.mp4" multiple onChange={event => { importFiles(event.target.files); event.target.value = '' }}/></label>
-          {library.tracks.length === 0 ? <p className="visualiser-empty">No audio imported yet. Choose files from your device to start.</p> : <div className="visualiser-list">{library.tracks.map((track, index) => <article className={track.id === library.selectedId ? 'visualiser-track selected' : 'visualiser-track'} key={track.id}><button type="button" className="visualiser-select" onClick={() => choose(track.id)} aria-current={track.id === library.selectedId ? 'true' : undefined}><span>{String(index + 1).padStart(2, '0')}</span><span><strong>{track.name}</strong><small title={track.filename}>{track.filename} · {track.type} · {(track.size / 1048576).toFixed(2)} MB</small></span></button><button type="button" className="visualiser-remove" aria-label={`Remove ${track.name}`} onClick={() => remove(track.id)}>Remove</button></article>)}</div>}
+          {library.tracks.length === 0 ? <p className="visualiser-empty">No audio imported yet. Choose files from your device to start.</p> : <div className="visualiser-list">{library.tracks.map((track, index) => <article className={track.id === library.selectedId ? 'visualiser-track selected' : 'visualiser-track'} key={track.id}><button type="button" className="visualiser-select" onClick={() => { onStandaloneSelect(); choose(track.id) }} aria-current={track.id === library.selectedId ? 'true' : undefined}><span>{String(index + 1).padStart(2, '0')}</span><span><strong>{track.name}</strong><small title={track.filename}>{track.filename} · {track.type} · {(track.size / 1048576).toFixed(2)} MB</small></span></button><button type="button" className="visualiser-remove" aria-label={`Remove ${track.name}`} onClick={() => remove(track.id)}>Remove</button></article>)}</div>}
           <p className="visualiser-note">Files are not uploaded or saved. Reloading clears this list.</p>
         </section>
       </div>
@@ -362,7 +352,7 @@ export default function Visualiser({ active, onNavigate, characteristics, charac
         <p className="personality-sources">Expansion {personality.gain.toFixed(2)}× · Line weight {personality.stroke.toFixed(2)}× · Glow {personality.glow.toFixed(0)} · Detail {Math.round(personality.detail * 100)}% · Response {Math.round(personality.responseMs)} ms · Bass pulse {Math.round(personality.bassPulse * 100)}%</p>
       </section>
       <section className="visualiser-diagnostics" aria-labelledby="analysis-heading"><div className="section-heading"><div><span className="eyebrow">04 / ANALYSIS</span><h2 id="analysis-heading">Audio diagnostics<span className="heading-period">.</span></h2></div><span className="visualiser-count">{playing ? analyzerRef.current ? 'ANALYSING' : 'UNAVAILABLE' : 'IDLE'}</span></div><p>Live levels from the selected track. Readings settle to zero when playback stops.</p><div className="visualiser-meter-grid">{([['amplitude', 'Overall amplitude'], ['low', 'Low · 20–250 Hz'], ['mid', 'Mid · 250–2,000 Hz'], ['high', 'High · 2,000–10,000 Hz']] as const).map(([key, label]) => <div className="visualiser-meter" key={key}><div><span>{label}</span><strong>{metrics[key].toFixed(3)}</strong></div><div className="visualiser-meter-track"><span style={{ width: `${metrics[key] * 100}%` }}/></div></div>)}</div><small>0 = no measured signal · 1 = maximum normalised level. Every visual mode reads these same reusable analyser buffers.</small></section>
-      <footer className="page-footer"><span>SONIC STUDIO / VISUAL MODES</span><span>AUDIO × MUSICAL CHARACTER / V2.0.0-stage.3.</span></footer>
-    </main>
+      <footer className="page-footer"><span>SONIC STUDIO / VISUAL MODES</span><span>AUDIO × MUSICAL CHARACTER.</span></footer>
+    </div>
   </div>
 }

@@ -3,3 +3,24 @@
 .project-track{padding:18px;border:1px solid #48575d;margin:16px 0;min-width:0}.project-track>button,.project-track form>button{margin:10px 8px 0 0}.project-track input[type=file]{font-size:12px}.project-track small{color:#abb6b9}
 
 .project-compare{margin-top:32px;border-top:1px solid #48575d;padding-top:24px}.comparison-sides,.comparison-observations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.comparison-side,.comparison-differences article{padding:16px;border:1px solid #48575d;min-width:0}.comparison-side.active{border-color:#d6f39c;background:#1e2c26}.comparison-side h3,.comparison-differences h4{margin-top:0}.comparison-side details{margin-top:16px}.comparison-side button,.comparison-actions button,.comparison-editor>button,.comparison-editor form>button{margin:10px 8px 0 0}.comparison-differences{margin:24px 0}.comparison-differences article{margin:12px 0}.comparison-differences h4{text-transform:capitalize}.comparison-preference{margin:20px 0}.comparison-state{padding:12px;background:#253632}.comparison-editor p{line-height:1.6}.comparison-observations label{font-size:13px}.comparison-side p{color:#abb6b9}@media(max-width:600px){.comparison-sides,.comparison-observations{grid-template-columns:1fr}.comparison-side{padding:12px}.comparison-actions{display:flex;flex-wrap:wrap}}
+
+/* Final Studio workflow: presentation only; domain panels remain mounted. */
+[hidden]{display:none!important}
+.studio-shell{max-width:1480px;margin:auto;padding:0 40px 40px}
+.studio-topbar{min-height:82px;display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid #29292c;font-size:11px;color:#a6a6a6}
+.workflow-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:24px 0}
+.workflow-nav button,.create-nav button,.workflow-next button,.listening-context button{padding:14px;border:1px solid #444449;border-radius:6px;color:#deded9;background:#171719}
+.workflow-nav small{color:#a6a6a6;margin-right:8px}
+.workflow-nav .active,.create-nav .active{border-color:#c7d886;background:#292e24;color:#e4edcf}
+.workflow-content>h1{font-size:42px;letter-spacing:-.04em;margin:24px 0 8px;font-weight:500}
+.project-context{color:#a8aaa3;line-height:1.6;overflow-wrap:anywhere}.project-context strong{color:#e4edcf}
+.create-nav{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0}.create-nav button{font-size:13px;padding:10px 14px}
+.workflow-content .studio-composer{margin:20px 0;border-radius:12px;background:#151517;border-color:#2a2a2d;padding:24px}
+.project-management summary{cursor:pointer;color:#abb6b9;font-size:13px}.studio-composer .studio-heading h2{font-size:22px}.studio-composer h2{font-size:26px;font-weight:500}
+.workflow-content .app-shell{display:block;min-height:0}.workflow-content .main{width:100%;padding:0;margin:0}
+.workflow-content .intro{padding:32px 0}.workflow-content .tool-title{font-size:clamp(36px,5vw,62px);letter-spacing:-.055em;line-height:1.1;font-weight:500;margin:16px 0}.tool-title em{color:#c8d98d;font-style:normal}
+.workflow-next,.listening-context{margin:20px 0;color:#abb6b9;font-size:14px;line-height:1.7}.project-compare{margin-top:0;border-top:0;padding-top:0}
+.comparison-player .intro,.comparison-player .visualiser-stage,.comparison-player .visualiser-personality,.comparison-player .visualiser-diagnostics,.comparison-player .page-footer,.comparison-player .visualiser-layout>section:nth-child(2){display:none}
+.comparison-player .visualiser-layout{display:block}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid #d6f39c;outline-offset:4px}
+@media(max-width:650px){.studio-shell{padding:0 16px 24px}.studio-topbar{min-height:72px;flex-wrap:wrap;padding:16px 0}.workflow-nav{gap:6px}.workflow-nav button{padding:12px 4px;font-size:12px}.workflow-nav small{display:block;margin:0 0 6px}.workflow-content .studio-composer{padding:16px}.workflow-content>h1{font-size:34px}.create-nav button{flex:1 1 40%;padding:10px 6px}.studio-controls label{min-width:0}.intro-index{display:none}}
