@@ -1,3 +1,5 @@
+import { parseComparisons, comparisonsUsingTrack } from './trackComparison.ts'
+import type { TrackComparison } from './trackComparison.ts'
 import { genres } from '../data/registry.ts'
 import { parseSavedMixes } from './savedMixes.ts'
 import type { SavedMix } from './savedMixes.ts'
@@ -15,6 +17,7 @@ export type StudioProject = {
   schemaVersion: 1; id: string; name: string; notes: string
   genre: GenreProjectSnapshot | null; vocal: VocalProjectSnapshot | null; mood: MoodProjectSnapshot | null
   tracks: ProjectTrack[]
+  comparisons: TrackComparison[]
   createdAt: string; updatedAt: string
 }
 const date = (value: unknown): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value))
@@ -40,7 +43,7 @@ export function moodSnapshot(value: MoodProjectSnapshot): MoodProjectSnapshot {
 }
 export function createProject(name: string, id = crypto.randomUUID(), now = new Date().toISOString()): StudioProject {
   if (!name.trim() || name.trim().length > 80 || !id.trim() || !date(now)) throw new Error('Enter a project name')
-  return { schemaVersion: 1, id, name: name.trim(), notes: '', genre: null, vocal: null, mood: null, tracks: [], createdAt: now, updatedAt: now }
+  return { schemaVersion: 1, id, name: name.trim(), notes: '', genre: null, vocal: null, mood: null, tracks: [], comparisons: [], createdAt: now, updatedAt: now }
 }
 export function attachIngredient<K extends 'genre' | 'vocal' | 'mood'>(project: StudioProject, kind: K, value: NonNullable<StudioProject[K]>, now = new Date().toISOString()): StudioProject {
   const snapshot = kind === 'genre' ? genreSnapshot(value as GenreProjectSnapshot) : kind === 'vocal' ? vocalSnapshot(value as VocalProjectSnapshot) : moodSnapshot(value as MoodProjectSnapshot)
@@ -57,7 +60,8 @@ export function parseProjects(raw: string | null): { projects: StudioProject[]; 
       try {
         if (!p || p.schemaVersion !== 1 || typeof p.id !== 'string' || seen.has(p.id) || typeof p.name !== 'string' || typeof p.notes !== 'string' || p.notes.length > 4000 || !date(p.createdAt) || !date(p.updatedAt)) continue
         const clean = createProject(p.name, p.id, p.createdAt)
-        projects.push({ ...clean, notes: p.notes, updatedAt: p.updatedAt, genre: p.genre === null ? null : genreSnapshot(p.genre), vocal: p.vocal === null ? null : vocalSnapshot(p.vocal), mood: p.mood === null ? null : moodSnapshot(p.mood), tracks: parseProjectTracks(p.tracks) })
+        const tracks = parseProjectTracks(p.tracks)
+        projects.push({ ...clean, notes: p.notes, updatedAt: p.updatedAt, genre: p.genre === null ? null : genreSnapshot(p.genre), vocal: p.vocal === null ? null : vocalSnapshot(p.vocal), mood: p.mood === null ? null : moodSnapshot(p.mood), tracks, comparisons: parseComparisons(p.comparisons, tracks) })
         seen.add(p.id)
       } catch { /* A damaged record cannot hide its valid neighbours. */ }
     }
@@ -115,8 +119,9 @@ export function addProjectTrack(project: StudioProject, track: ProjectTrack): St
 export function editProjectTrack(project: StudioProject, id: string, changes: Partial<Pick<ProjectTrack, 'title' | 'version' | 'source' | 'sourceDetail' | 'notes' | 'file'>>, now = new Date().toISOString()): StudioProject {
   return { ...project, tracks: project.tracks.map(t => t.id === id ? cleanProjectTrack({ ...t, ...changes, updatedAt: now }) : t), updatedAt: now }
 }
-export function removeProjectTrack(project: StudioProject, id: string, now = new Date().toISOString()): StudioProject {
-  return { ...project, tracks: project.tracks.filter(t => t.id !== id), updatedAt: now }
+export function removeProjectTrack(project: StudioProject, id: string, now = new Date().toISOString(), confirmComparisonDeletion = false): StudioProject {
+  if (comparisonsUsingTrack(project, id).length && !confirmComparisonDeletion) throw new Error('Confirm deletion of dependent comparisons before removing this track')
+  return { ...project, tracks: project.tracks.filter(t => t.id !== id), comparisons: project.comparisons.filter(c => c.trackAId !== id && c.trackBId !== id), updatedAt: now }
 }
 export function sameIdentity(a: ProjectIdentitySnapshot, b: ProjectIdentitySnapshot): boolean {
   return JSON.stringify(identitySnapshot(a)) === JSON.stringify(identitySnapshot(b))

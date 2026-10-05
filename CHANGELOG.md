@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.0 Stage 3 — A/B Compare (`2.0.0-stage.3`, 2026-10-05)
+
+- Added project-contained versioned comparisons with two distinct track references, six observation fields, optional A/B/null preference, conclusion and timestamps. Stage 2 projects default to an empty comparison list; validation strips unknown fields and isolates invalid, duplicate or dangling records.
+- Added the current-Studio Compare section with create/open/save/update/delete, factual provenance differences, collapsible side identity, availability/attachment links and active-side playback controls. Current project edits and track metadata edits preserve historical identity and comparison observations.
+- Extended the existing Visualiser bridge with generic single-player play/pause and pending position handoff; switches preserve seconds and clamp safely against duration while retaining PlaybackIntent, one graph/source and one RAF. Captured Mood/Classic follow each side; comparison state and URL ownership stay outside the audio engine.
+- Extended track deletion with an explicit dependency count and confirmed comparison cascade. Unreferenced comparisons and sibling tracks remain intact; deleting a comparison never deletes tracks.
+- Verified 179 tests (31 new), TypeScript/Vite build and whitespace checks. Headless Edge production acceptance covered two evolving identities, A/A prevention, source/personality/position switching, held-resume/navigation races, observations/preferences/conclusion, reload/reattachment, deletion dependencies, denied storage and 1280/390/320 px layouts. One element/context/source/RAF and empty final warning/error logs were confirmed.
+- Updated project status, decisions and roadmap. Final navigation/release polish are Stage 4 scope; synchronized playback, scoring, APIs, cloud and publication remain deferred.
+
 ## v2.0 Stage 2 — Project Tracks (`2.0.0-stage.2`, 2026-10-05)
 
 - Added versioned track metadata and deeply copied creation identity to StudioProject; schema 1 evolves additively so Stage 1 projects reopen with empty tracks. Parsing isolates malformed tracks, strips unknown fields, and preserves valid parent/sibling records.

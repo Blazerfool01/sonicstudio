@@ -139,7 +139,7 @@ function GenreMixer({ onNavigate, onUse, projectEnabled }: { onNavigate: (view: 
     <main className="main">
       <header className="topbar">
         <div className="wordmark">SONIC <span>STUDIO</span><small> / LAB 01</small></div>
-        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 2.0.0-stage.2</div>
+        <div className="topbar-right"><span className="status-dot" /> LOCAL SESSION <span className="top-divider" /> V 2.0.0-stage.3</div>
       </header>
       <nav className="tool-nav" aria-label="Studio tools"><button className="active" aria-current="page">01 / Genre Mixer</button><button onClick={() => onNavigate('vocal')}>02 / Vocal Persona</button><button onClick={() => onNavigate('mood')}>03 / Mood Mapper</button><button onClick={() => onNavigate('visualiser')}>04 / Visualiser</button></nav>
 
@@ -230,6 +230,7 @@ export default function App() {
   const studio = useStudioProjects()
   const [visualMood, setVisualMood] = useState<MoodDna | null>(null)
   const [view, setView] = useState<'genre' | 'vocal' | 'mood' | 'visualiser'>('genre')
+  const [audioPlaying, setAudioPlaying] = useState(false)
   const [openedTrackId, setOpenedTrackId] = useState<string | null>(null)
   const audioBridge = useRef<VisualiserAudio>(null)
   const [sessionLibrary, setSessionLibrary] = useState<TrackLibrary>({ tracks: [], selectedId: null })
@@ -245,7 +246,17 @@ export default function App() {
     setAttachment(id, null)
     if (localId && !Object.values(attachmentsRef.current).includes(localId)) audioBridge.current?.remove(localId)
   }
+  const historicalId = openedTrackId && attachments[openedTrackId] === sessionLibrary.selectedId ? openedTrackId : Object.keys(attachments).find(id => attachments[id] === sessionLibrary.selectedId)
+  const historical = studio.state.projects.flatMap(p => p.tracks).find(t => t.id === historicalId)
+  const historicalMood = historical?.creationSnapshot.mood ? deriveMoodDna(historical.creationSnapshot.mood.selections) : null
   const audio: ProjectAudioActions = {
+    currentTrackId: historical?.id ?? null, playing: audioPlaying,
+    play: id => {
+      const localId = attachments[id]
+      if (!localId || !sessionLibrary.tracks.some(t => t.id === localId)) return
+      setOpenedTrackId(id); setSessionLibrary(current => ({ ...current, selectedId: localId })); setView('visualiser'); audioBridge.current?.play(localId, true)
+    },
+    pause: () => audioBridge.current?.pause(),
     localTracks: sessionLibrary.tracks,
     attached: id => sessionLibrary.tracks.some(t => t.id === attachments[id]),
     attach: (id, file) => {
@@ -254,11 +265,8 @@ export default function App() {
       release(id); setAttachment(id, local.id); return local
     },
     useLocal: (id, local) => setAttachment(id, local.id), release,
-    open: id => { const localId = attachments[id]; if (!localId) return; setOpenedTrackId(id); audioBridge.current?.choose(localId); setView('visualiser'); requestAnimationFrame(() => document.getElementById('studio-visualiser')?.scrollIntoView({ block: 'start' })) },
+    open: id => { const localId = attachments[id]; if (!localId) return; setOpenedTrackId(id); setSessionLibrary(current => ({ ...current, selectedId: localId })); audioBridge.current?.choose(localId); setView('visualiser'); requestAnimationFrame(() => document.getElementById('studio-visualiser')?.scrollIntoView({ block: 'start' })) },
   }
-  const historicalId = openedTrackId && attachments[openedTrackId] === sessionLibrary.selectedId ? openedTrackId : Object.keys(attachments).find(id => attachments[id] === sessionLibrary.selectedId)
-  const historical = studio.state.projects.flatMap(p => p.tracks).find(t => t.id === historicalId)
-  const historicalMood = historical?.creationSnapshot.mood ? deriveMoodDna(historical.creationSnapshot.mood.selections) : null
   function openTool(next: 'genre' | 'vocal' | 'mood') {
     setView(next)
     requestAnimationFrame(() => document.getElementById(`studio-tool-${next}`)?.scrollIntoView({ block: 'start' }))
@@ -268,6 +276,6 @@ export default function App() {
     <div id="studio-tool-genre" hidden={view !== 'genre'}><GenreMixer onNavigate={setView} projectEnabled={!!studio.active} onUse={snapshot => studio.attach('genre', snapshot)}/></div>
     <div id="studio-tool-vocal" hidden={view !== 'vocal'}><VocalPersonaBuilder onNavigate={setView} projectEnabled={!!studio.active} onUse={snapshot => studio.attach('vocal', snapshot)}/></div>
     <div id="studio-tool-mood" hidden={view !== 'mood'}><MoodMapper onNavigate={setView} onCharacteristics={setVisualMood} projectEnabled={!!studio.active} onUse={snapshot => studio.attach('mood', snapshot)}/></div>
-    <div id="studio-visualiser" hidden={view !== 'visualiser'}><Visualiser audioBridge={audioBridge} onLibrary={setSessionLibrary} historicalLabel={historical?.title} previews={visualPreviews} characteristics={historical ? historicalMood?.dimensions ?? null : visualMood?.dimensions ?? null} characterName={historical ? historicalMood?.dominantMood.name ?? null : visualMood?.dominantMood.name ?? null} active={view === 'visualiser'} onNavigate={setView}/></div>
+    <div id="studio-visualiser" hidden={view !== 'visualiser'}><Visualiser onPlaying={setAudioPlaying} audioBridge={audioBridge} onLibrary={setSessionLibrary} historicalLabel={historical?.title} previews={visualPreviews} characteristics={historical ? historicalMood?.dimensions ?? null : visualMood?.dimensions ?? null} characterName={historical ? historicalMood?.dominantMood.name ?? null : visualMood?.dominantMood.name ?? null} active={view === 'visualiser'} onNavigate={setView}/></div>
   </>
 }

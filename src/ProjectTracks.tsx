@@ -3,8 +3,10 @@ import type { StudioProject, ProjectTrack } from './lib/studioProject.ts'
 import { addProjectTrack, createProjectTrack, editProjectTrack, removeProjectTrack, sameIdentity, TRACK_SOURCES } from './lib/studioProject.ts'
 import type { LocalTrack } from './lib/localTracks.ts'
 import { createTrackBrief } from './lib/creationBrief.ts'
+import { comparisonsUsingTrack } from './lib/trackComparison.ts'
 import { ingredientDescription } from './lib/projectIdentity.ts'
 export type ProjectAudioActions = {
+  currentTrackId: string | null; playing: boolean; play: (id: string) => void; pause: () => void
   localTracks: LocalTrack[]; attached: (id: string) => boolean
   attach: (id: string, file: File) => LocalTrack
   useLocal: (id: string, local: LocalTrack) => void
@@ -15,6 +17,7 @@ function TrackCard({ track, project, update, audio }: { track: ProjectTrack; pro
   const [message, setMessage] = useState('')
   const [confirmRemove, setConfirmRemove] = useState(false)
   const [copyMessage, setCopyMessage] = useState('')
+  const dependents = comparisonsUsingTrack(project, track.id)
   const brief = useMemo(() => createTrackBrief(track.creationSnapshot), [track.creationSnapshot])
   function attach(file: File | undefined, replace: boolean) {
     if (!file) return
@@ -25,7 +28,7 @@ function TrackCard({ track, project, update, audio }: { track: ProjectTrack; pro
     try { audio.attach(track.id, file); update(editProjectTrack(project, track.id, { file: metadata })); setMessage('Audio attached for this session. Creation identity is unchanged.') }
     catch (error) { setMessage(error instanceof Error ? error.message : 'Could not attach audio. Try again.') }
   }
-  return <article className="project-track" aria-label={`Project track ${track.title}`}>
+  return <article className="project-track" id={`project-track-${track.id}`} aria-label={`Project track ${track.title}`}>
     <h3>{track.title}{track.version ? ` · ${track.version}` : ''}</h3>
     <p>{audio.attached(track.id) ? 'Audio attached this session' : 'Audio not attached this session'}{track.file ? ` · ${track.file.filename} · ${track.file.type || 'Unknown audio type'} · ${track.file.size.toLocaleString()} bytes` : ' · No file metadata yet'}</p>
     <form onSubmit={e => { e.preventDefault(); try { update(editProjectTrack(project, track.id, { title: draft.title, version: draft.version, source: draft.source, sourceDetail: draft.sourceDetail, notes: draft.notes })); setMessage('Track details saved.') } catch { setMessage('Enter a valid track title and details.') } }}>
@@ -36,7 +39,7 @@ function TrackCard({ track, project, update, audio }: { track: ProjectTrack; pro
     <button disabled={!audio.attached(track.id)} onClick={() => audio.open(track.id)}>Open in Visualiser</button>
     {audio.attached(track.id) && <button onClick={() => audio.release(track.id)}>Detach session audio</button>}
     <button onClick={() => setConfirmRemove(true)}>Remove track</button>
-    {confirmRemove && <div><p>Remove this track record and its session attachment?</p><button onClick={() => { audio.release(track.id); update(removeProjectTrack(project, track.id)) }}>Confirm remove track</button><button onClick={() => setConfirmRemove(false)}>Keep track</button></div>}
+    {confirmRemove && <div><p>{dependents.length ? `This track is used in ${dependents.length} saved comparison${dependents.length === 1 ? '' : 's'}. Removing it will also delete those comparisons and its session attachment.` : 'Remove this track record and its session attachment?'}</p><button onClick={() => { audio.release(track.id); update(removeProjectTrack(project, track.id, new Date().toISOString(), true)) }}>{dependents.length ? 'Confirm remove track and comparisons' : 'Confirm remove track'}</button><button onClick={() => setConfirmRemove(false)}>Keep track</button></div>}
     <details className="studio-brief"><summary>Track creation identity</summary><p>{sameIdentity(track.creationSnapshot, project) ? 'Matches current project identity.' : 'Created from an earlier project identity. This historical provenance is retained.'}</p><div className="studio-ingredients">{(['genre', 'vocal', 'mood'] as const).map(kind => <article key={kind}><h4>{kind} used</h4><strong>{track.creationSnapshot[kind]?.label ?? 'Not captured'}</strong><p>{ingredientDescription(track.creationSnapshot, kind)}</p>{kind === 'vocal' && track.creationSnapshot.vocal && <><p>{track.creationSnapshot.vocal.identityDescription}</p><p>Breathiness {track.creationSnapshot.vocal.selections.breathiness} · Power {track.creationSnapshot.vocal.selections.power} · Warmth {track.creationSnapshot.vocal.selections.warmth} · Rasp {track.creationSnapshot.vocal.selections.rasp}</p></>}</article>)}</div><h4>Historical Creation Brief</h4><pre>{brief.prompt}</pre><button onClick={async () => { try { await navigator.clipboard.writeText(brief.prompt); setCopyMessage('Historical prompt copied.') } catch { setCopyMessage('Clipboard unavailable. Select the brief to copy manually.') } }}>Copy historical prompt</button><p role="status">{copyMessage}</p><small>Created {track.createdAt} · Updated {track.updatedAt}</small></details><p role="status">{message}</p>
   </article>
 }
