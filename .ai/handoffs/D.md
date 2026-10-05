@@ -1,6 +1,6 @@
 # Phase D Handoff
 
-- **Status:** Integrated in the review worktree; coordinator review remains pending
+- **Status:** Integrated and accepted; committed to canonical `main` as `f97b32b` and pushed on 2026-10-05.
 - **Baseline:** `42f3d4498bec62600e176eb09e774e6c6c646264`
 - **Commit:** Implementation `5cfc62ba2df0874da0a4b5eae6a9f85f7fa0f502` (`Implement Phase D visual personality mapping`); handoff record committed separately after implementation.
 - **Verification:** `npm test` — 195 passing; `npm run build` — TypeScript and Vite production build pass; `git diff --check` — pass. Automated renderer tests confirm Spectrum, Waveform, and Radial receive the same derived personality and the existing shared-analysis architecture tests pass. Coordinator browser simulation changed DPR 1→2 and the canvas bitmap from 723×328 to 1446×656 while CSS size stayed 723×328; resetting to DPR 1 restored 723×328. A real Windows Display Settings transition on the single physical display changed Scale 100%→125%→100% with Chrome zoom fixed at 100%; DPR moved 1→1.25→1, both resize and resolution-query change events fired, the backing bitmap moved 723×328→905×410→723×328, and the visualiser remained sharp.

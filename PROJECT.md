@@ -1,6 +1,6 @@
 # Sonic Studio — Project Status
 
-**Status:** SonicStudio v2.0 remains the released baseline (`2.0.0`); Phase A/B is committed locally on `main`; Phase C/D worker commits remain isolated in a review worktree, with coordinator integration/docs uncommitted and unpublished · **Next objective:** user review of the Phase C/D candidate; commit only after explicit approval · **Last reviewed:** 2026-10-05
+**Status:** SonicStudio v2.0 remains the released baseline (`2.0.0`); Phase A–D are integrated on canonical `main` · **Next objective:** plan and begin Phase E — Timeline · **Last reviewed:** 2026-10-05
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
@@ -52,7 +52,7 @@ Build four independently useful music tools, then connect them in v2.0 into one 
 
 ## Post-v2 UI/UX Overhaul — Phase C/D: Creative provenance and Visual Personality
 
-**Status:** Phase C and D worker implementation commits are present only in the isolated `phase-cd-verification` review worktree. The coordinator integration and documentation changes remain uncommitted and unpublished.
+**Status:** Phase C/D integration committed to `main` as `f97b32b` and pushed to canonical GitHub `main` on 2026-10-05. User review and acceptance are complete.
 
 **Implemented candidate:** Mood preset source IDs survive explicit project attachment and preset updates; live Mood selections remain source-less. Phase D maps Genre snapshots into six Visual Personality axes and combines Genre with the matching Mood DNA. `StudioShell` now routes current project identity and immutable historical track identity to Visualiser. Project switches clear transient Mood preview state. The visual-character selector and copy distinguish current project/preview identity from captured track identity.
 
@@ -60,7 +60,7 @@ Build four independently useful music tools, then connect them in v2.0 into one 
 
 **DPR gate:** PASS — real OS-level DPR transition verified via Windows display scaling. Cross-monitor movement between differing-DPI displays remains untested, but uses the same browser DPR-change handling path and is non-blocking.
 
-**Next milestone:** user review of this candidate before deciding whether to commit. Phase E Timeline and later UI/UX work remain unstarted.
+**Next milestone:** Phase E — Timeline remains unstarted and requires its own scope review before implementation.
 
 ## Previous milestone — v2.0 Stage 3: A/B Compare
 
