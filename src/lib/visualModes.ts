@@ -18,6 +18,14 @@ function clamp01(value: number): number {
   return Number.isFinite(value) ? Math.min(1, Math.max(0, value)) : 0
 }
 
+/** Stable backing-bitmap dimensions for CSS pixels and device-pixel ratio. */
+export function canvasBitmapSize(cssWidth: number, cssHeight: number, devicePixelRatio: number): { width: number; height: number; scale: number } {
+  const scale = Number.isFinite(devicePixelRatio) && devicePixelRatio > 0 ? devicePixelRatio : 1
+  const width = Number.isFinite(cssWidth) ? Math.max(0, cssWidth) : 0
+  const height = Number.isFinite(cssHeight) ? Math.max(0, cssHeight) : 0
+  return { width: Math.max(1, Math.round(width * scale)), height: Math.max(1, Math.round(height * scale)), scale }
+}
+
 /** Map the analyser's byte spectrum into logarithmic frequency bands. */
 function fillSpectrumBands(
   spectrum: ArrayLike<number>,
@@ -188,12 +196,14 @@ export function drawVisualFrame(
 export function drawVisualIdle(ctx: CanvasRenderingContext2D, width: number, height: number, personality: Readonly<VisualPersonality> = DEFAULT_PERSONALITY): void {
   if (width <= 0 || height <= 0) return
   prepare(ctx, width, height, personality)
-  ctx.strokeStyle = 'rgba(200, 218, 144, 0.56)'
+  ctx.strokeStyle = personality.signal
+  ctx.globalAlpha = 0.56
   ctx.lineWidth = 1.5
   ctx.beginPath()
   ctx.moveTo(0, height / 2)
   ctx.lineTo(width, height / 2)
   ctx.stroke()
+  ctx.globalAlpha = 1
 }
 
 /** Detail shapes spectral response; it cannot create energy in a silent bin. */

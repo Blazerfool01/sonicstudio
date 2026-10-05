@@ -3,7 +3,7 @@ import { addTracks, audioCandidate, displayName, removeTrack, selectTrack } from
 import type { LocalTrack, TrackLibrary } from './lib/localTracks.ts'
 import { AudioAnalyzer, SILENT_METRICS } from './lib/audioAnalysis.ts'
 import type { SignalMetrics } from './lib/audioAnalysis.ts'
-import { drawVisualFrame, drawVisualIdle, VISUAL_MODES } from './lib/visualModes.ts'
+import { canvasBitmapSize, drawVisualFrame, drawVisualIdle, VISUAL_MODES } from './lib/visualModes.ts'
 import type { VisualMode } from './lib/visualModes.ts'
 import { PlaybackIntent } from './lib/playbackIntent.ts'
 import { deriveVisualPersonality, responseStep } from './lib/visualPersonality.ts'
@@ -33,7 +33,7 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
   const [personalitySource, setPersonalitySource] = useState('current')
   const preview = previews.find(item => item.id === personalitySource)
   const activeCharacteristics = preview?.characteristics ?? (personalitySource === 'current' ? characteristics : null)
-  const activeCharacterName = preview ? `${preview.label} preview` : activeCharacteristics ? `${characterName} ${historicalLabel ? 'track creation identity' : 'influence'}` : historicalLabel ? 'Track creation identity / Classic signal' : 'Classic signal'
+  const activeCharacterName = preview ? `${preview.label} preview` : activeCharacteristics ? `${characterName ?? 'Project character'} ${historicalLabel ? 'track identity' : 'influence'}` : historicalLabel ? 'Track creation identity / Classic signal' : 'Classic signal'
   const personality = useMemo(() => deriveVisualPersonality(activeCharacteristics), [activeCharacteristics])
   const personalityRef = useRef(personality)
   personalityRef.current = personality
@@ -65,7 +65,7 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
   function drawIdle() {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
-    if (canvas && ctx) drawVisualIdle(ctx, canvas.clientWidth, canvas.clientHeight)
+    if (canvas && ctx) drawVisualIdle(ctx, canvas.clientWidth, canvas.clientHeight, personalityRef.current)
   }
 
   function drawSignalFrame(analyzer: AudioAnalyzer, mode = visualModeRef.current) {
@@ -176,27 +176,38 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-    const syncSize = () => {
-      const dpr = window.devicePixelRatio || 1
-      const width = Math.max(1, Math.round(canvas.clientWidth * dpr))
-      const height = Math.max(1, Math.round(canvas.clientHeight * dpr))
-      if (canvas.width === width && canvas.height === height) return
-      canvas.width = width
-      canvas.height = height
-      const ctx = canvas.getContext('2d')
+    const targetCanvas = canvas
+    let dprQuery: MediaQueryList | null = null
+    function handleDprChange() { syncSize(); subscribeDprChange() }
+    function subscribeDprChange() {
+      dprQuery?.removeEventListener('change', handleDprChange)
+      dprQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio || 1}dppx)`)
+      dprQuery.addEventListener('change', handleDprChange, { once: true })
+    }
+    function syncSize() {
+      const { width, height, scale } = canvasBitmapSize(targetCanvas.clientWidth, targetCanvas.clientHeight, window.devicePixelRatio)
+      const resized = targetCanvas.width !== width || targetCanvas.height !== height
+      if (resized) {
+        targetCanvas.width = width
+        targetCanvas.height = height
+      }
+      const ctx = targetCanvas.getContext('2d')
       if (!ctx) return
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      ctx.setTransform(scale, 0, 0, scale, 0, 0)
+      if (!resized) return
       const analyzer = analyzerRef.current
       if (hasSignalFrameRef.current && analyzer) drawSignalFrame(analyzer)
-      else drawVisualIdle(ctx, canvas.clientWidth, canvas.clientHeight)
+      else drawVisualIdle(ctx, targetCanvas.clientWidth, targetCanvas.clientHeight, personalityRef.current)
     }
     const observer = new ResizeObserver(syncSize)
     observer.observe(canvas)
     window.addEventListener('resize', syncSize)
+    subscribeDprChange()
     syncSize()
     return () => {
       observer.disconnect()
       window.removeEventListener('resize', syncSize)
+      dprQuery?.removeEventListener('change', handleDprChange)
     }
   }, [])
 
@@ -212,6 +223,10 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
     const analyzer = analyzerRef.current
     if (!playing && hasSignalFrameRef.current && analyzer) drawSignalFrame(analyzer, visualMode)
   }, [visualMode, playing])
+
+  useEffect(() => {
+    if (!hasSignalFrameRef.current) drawIdle()
+  }, [personality])
 
   useEffect(() => {
     const audio = audioRef.current
@@ -346,8 +361,8 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
         {visualMode === 'spectrum' ? <div className="visualiser-frequency-scale" aria-hidden="true"><span>LOW / 20 HZ</span><span>HIGH / 20 KHZ</span></div> : visualMode === 'radial' ? <p className="visualiser-radial-key">LOW TO HIGH FREQUENCY / CLOCKWISE FROM TOP</p> : null}
       </section>
       <section className="visualiser-personality" aria-labelledby="personality-heading">
-        <div><span className="eyebrow">VISUAL PERSONALITY</span><h2 id="personality-heading">{activeCharacterName}</h2><p>{personalitySource === 'classic' ? 'Original signal styling.' : preview ? 'Read-only catalogue preview. Your Mood Mapper blend stays as selected.' : historicalLabel ? `Captured Mood for ${historicalLabel}. Current project identity stays unchanged.` : characteristics ? 'Read-only from your current Mood Mapper blend. The audio remains the source of every shape.' : 'Select moods in Mood Mapper or preview a catalogue character. Classic styling is active.'}</p></div>
-        <label className="personality-select">Visual character<select aria-label="Visual character" value={personalitySource} onChange={event => setPersonalitySource(event.target.value)}><option value="current">{historicalLabel ? 'Track creation mood' : 'Current mood'}{characterName ? ` / ${characterName}` : ' / none selected'}</option><option value="classic">Classic signal</option>{previews.map(item => <option key={item.id} value={item.id}>{item.label} preview</option>)}</select></label>
+        <div><span className="eyebrow">VISUAL PERSONALITY</span><h2 id="personality-heading">{activeCharacterName}</h2><p>{personalitySource === 'classic' ? 'Original signal styling.' : preview ? 'Read-only catalogue preview. Your project identity stays unchanged.' : historicalLabel ? `Captured project characteristics for ${historicalLabel}. Current project identity stays unchanged.` : characteristics ? 'Read-only from the current project identity. The audio remains the source of every shape.' : 'Add a Genre or Mood source to the project, or preview a catalogue character. Classic styling is active.'}</p></div>
+        <label className="personality-select">Visual character<select aria-label="Visual character" value={personalitySource} onChange={event => setPersonalitySource(event.target.value)}><option value="current">{historicalLabel ? 'Track creation identity' : 'Current project identity'}{characterName ? ` / ${characterName}` : ' / none selected'}</option><option value="classic">Classic signal</option>{previews.map(item => <option key={item.id} value={item.id}>{item.label} preview</option>)}</select></label>
         {activeCharacteristics ? <p className="personality-sources">Energy {activeCharacteristics.energy} · Tension {activeCharacteristics.tension} · Atmosphere {activeCharacteristics.atmosphere} · Motion {activeCharacteristics.motion} · Weight {activeCharacteristics.weight} · Valence {activeCharacteristics.valence}</p> : null}
         <p className="personality-sources">Expansion {personality.gain.toFixed(2)}× · Line weight {personality.stroke.toFixed(2)}× · Glow {personality.glow.toFixed(0)} · Detail {Math.round(personality.detail * 100)}% · Response {Math.round(personality.responseMs)} ms · Bass pulse {Math.round(personality.bassPulse * 100)}%</p>
       </section>

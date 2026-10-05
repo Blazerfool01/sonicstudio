@@ -1,3 +1,5 @@
+import { getGenre } from '../data/registry.ts'
+
 /** Renderer configuration: no mood IDs, source selections, or canvas operations. */
 export interface VisualPersonality {
   signal: string
@@ -18,6 +20,10 @@ export interface MusicalCharacteristics {
   motion?: number
   weight?: number
   valence?: number
+}
+
+export interface GenreVisualSource {
+  genres: readonly { genreId: string; weight: number }[]
 }
 
 export const DEFAULT_PERSONALITY: Readonly<VisualPersonality> = Object.freeze({
@@ -46,6 +52,47 @@ export function deriveVisualPersonality(source?: MusicalCharacteristics | null):
     responseMs: 220 * (1 - motion),
     bassPulse: weight * 0.7,
   }
+}
+
+/**
+ * Project the saved Genre Mixer source into the renderer-neutral axes used by
+ * VisualPersonality. This adapter is the single translation boundary for genre.
+ */
+export function genreVisualCharacteristics(source?: GenreVisualSource | null): MusicalCharacteristics | null {
+  if (!source?.genres.length) return null
+  const selected: { weight: number; values: MusicalCharacteristics }[] = []
+  for (const { genreId, weight } of source.genres) {
+    let genre
+    try { genre = getGenre(genreId) } catch { continue }
+    if (!Number.isFinite(weight) || weight <= 0) continue
+    const tempo = (genre.tempo[0] + genre.tempo[1]) / 2
+    selected.push({
+      weight,
+      values: {
+        energy: genre.energy,
+        tension: genre.characteristics.intensity.strength,
+        atmosphere: genre.characteristics.production.strength,
+        motion: Math.max(0, Math.min(100, (tempo - 50) / 130 * 100)),
+        weight: genre.characteristics.bass.strength,
+        valence: 100 - genre.darkness,
+      },
+    })
+  }
+  const total = selected.reduce((sum, item) => sum + item.weight, 0)
+  if (!total) return null
+  const keys: (keyof MusicalCharacteristics)[] = ['energy', 'tension', 'atmosphere', 'motion', 'weight', 'valence']
+  return Object.fromEntries(keys.map(key => [key, Math.round(selected.reduce((sum, item) => sum + item.values[key]! * item.weight, 0) / total)])) as MusicalCharacteristics
+}
+
+/** Combine independent Genre and Mood sources into one declarative input. */
+export function combineVisualCharacteristics(
+  genre: MusicalCharacteristics | null | undefined,
+  mood: MusicalCharacteristics | null | undefined,
+): MusicalCharacteristics | null {
+  if (!genre) return mood ?? null
+  if (!mood) return genre
+  const keys: (keyof MusicalCharacteristics)[] = ['energy', 'tension', 'atmosphere', 'motion', 'weight', 'valence']
+  return Object.fromEntries(keys.map(key => [key, Math.round(((genre[key] ?? 50) + (mood[key] ?? 50)) / 2)])) as MusicalCharacteristics
 }
 
 /** Time-based response owned by the renderer host, independent of frame rate. */

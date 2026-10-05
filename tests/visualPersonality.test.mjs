@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { DEFAULT_PERSONALITY, deriveVisualPersonality, responseStep } from '../src/lib/visualPersonality.ts'
-import { drawVisualFrame, visualMagnitude, VISUAL_MODES } from '../src/lib/visualModes.ts'
+import { combineVisualCharacteristics, DEFAULT_PERSONALITY, deriveVisualPersonality, genreVisualCharacteristics, responseStep } from '../src/lib/visualPersonality.ts'
+import { canvasBitmapSize, drawVisualFrame, visualMagnitude, VISUAL_MODES } from '../src/lib/visualModes.ts'
 import { getMood } from '../src/data/moods.ts'
 
 test('no characteristics preserves the stable classic configuration', () => {
@@ -14,6 +14,35 @@ test('no characteristics preserves the stable classic configuration', () => {
 test('derivation is deterministic and does not mutate source characteristics', () => {
   const input = Object.freeze({ ...getMood('dreamlike').profile })
   assert.deepEqual(deriveVisualPersonality(input), deriveVisualPersonality(input))
+})
+
+test('Genre snapshots map through a single weighted, renderer-neutral characteristic vector', () => {
+  const house = genreVisualCharacteristics({ genres: [{ genreId: 'house', weight: 100 }] })
+  assert.equal(house.energy, 72)
+  assert.equal(house.valence, 72)
+  assert.equal(house.motion, 56)
+  assert.equal(house.weight, 82)
+  assert.deepEqual(Object.keys(house).sort(), ['atmosphere', 'energy', 'motion', 'tension', 'valence', 'weight'])
+  assert.ok(Object.values(house).every(value => Number.isInteger(value) && value >= 0 && value <= 100))
+  assert.deepEqual(genreVisualCharacteristics({ genres: [{ genreId: 'unknown', weight: 100 }] }), null)
+  const blend = genreVisualCharacteristics({ genres: [{ genreId: 'ambient', weight: 75 }, { genreId: 'drum-bass', weight: 25 }] })
+  assert.ok(blend.energy < genreVisualCharacteristics({ genres: [{ genreId: 'drum-bass', weight: 100 }] }).energy)
+  assert.deepEqual(blend, genreVisualCharacteristics({ genres: [{ genreId: 'drum-bass', weight: 25 }, { genreId: 'ambient', weight: 75 }] }))
+})
+
+test('Mood and Genre feed one declarative configuration without mutating either source', () => {
+  const genre = genreVisualCharacteristics({ genres: [{ genreId: 'house', weight: 100 }] })
+  const mood = Object.freeze({ energy: 20, tension: 10, atmosphere: 80, motion: 30, weight: 40, valence: 90 })
+  const combined = combineVisualCharacteristics(genre, mood)
+  assert.deepEqual(combined, { energy: 46, tension: Math.round((genre.tension + mood.tension) / 2), atmosphere: Math.round((genre.atmosphere + mood.atmosphere) / 2), motion: 43, weight: 61, valence: 81 })
+  assert.deepEqual(mood, { energy: 20, tension: 10, atmosphere: 80, motion: 30, weight: 40, valence: 90 })
+  assert.deepEqual(combineVisualCharacteristics(null, mood), mood)
+})
+
+test('canvas bitmap sizing stays finite and follows DPR including zero-size and invalid inputs', () => {
+  assert.deepEqual(canvasBitmapSize(320.5, 200.25, 2), { width: 641, height: 401, scale: 2 })
+  assert.deepEqual(canvasBitmapSize(0, -2, 3), { width: 1, height: 1, scale: 3 })
+  assert.deepEqual(canvasBitmapSize(Infinity, NaN, 0), { width: 1, height: 1, scale: 1 })
 })
 
 test('outlying and non-finite characteristics clamp to valid finite dimensions', () => {
