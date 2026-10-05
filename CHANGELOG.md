@@ -1,5 +1,11 @@
 # Changelog
 
+## UI/UX Overhaul Phase C + D — Integration candidate (`2.0.0`, 2026-10-05)
+
+- Integrated Mood preset provenance and Genre/Mood Visual Personality mapping into StudioShell. Current identity follows the active project; historical identity follows the selected track's creation snapshot. Project switching clears transient Mood preview state.
+- Reviewed saved Mood preset update/reopen, current-versus-historical Genre/Mood identity, and project-switch clearing. **DPR gate: PASS** — Windows Scale 100%→125%→100% changed Chrome DPR 1→1.25→1; resize and resolution-query change events fired, and canvas backing size changed 723×328→905×410→723×328 with clear visual sharpness. Cross-monitor movement remains untested and non-blocking because the same browser DPR-change handling path was exercised. `npm test` passes 197 tests; production build and `git diff --check` pass.
+- Worker implementation commits remain isolated in the review worktree; coordinator integration and docs are uncommitted pending review. No push or deployment.
+
 ## UI/UX Overhaul Phase A + B — Local commit (`2.0.0`, 2026-10-05)
 
 - Committed the verified interaction core and shell integration to local `main` as `Integrate Phase A and B studio shell`. Phase A/B status and next milestone are recorded in `PROJECT.md`.

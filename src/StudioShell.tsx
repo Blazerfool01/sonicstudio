@@ -15,6 +15,7 @@ import type { TrackLibrary } from './lib/localTracks.ts'
 import { deriveMoodDna } from './lib/moodDna.ts'
 import type { MoodDna } from './lib/moodDna.ts'
 import { getMood } from './data/moods.ts'
+import { combineVisualCharacteristics, genreVisualCharacteristics } from './lib/visualPersonality.ts'
 import { STUDIO_VIEWS, historicalTrack, playbackViewActive } from './lib/studioNavigation.ts'
 import type { StudioView, CreateTool } from './lib/studioNavigation.ts'
 import { reconcileProjectTrackSelection, selectProjectTrack, selectedProjectTrack } from './lib/studioInteraction.ts'
@@ -36,7 +37,7 @@ export default function StudioShell() {
   const [sessionLibrary, setSessionLibrary] = useState<TrackLibrary>({ tracks: [], selectedId: null })
   const [attachments, setAttachments] = useState<Record<string, string>>({})
   const attachmentsRef = useRef(attachments)
-  useEffect(() => { audioBridge.current?.pause(); setOpenedTrackId(null); setReturnView('tracks') }, [studio.state.activeId])
+  useEffect(() => { audioBridge.current?.pause(); setOpenedTrackId(null); setReturnView('tracks'); setVisualMood(null) }, [studio.state.activeId])
   useEffect(() => { setTrackSelection(current => reconcileProjectTrackSelection(studio.active, current)) }, [studio.active])
   useEffect(() => {
     if (previousView.current === view) return
@@ -64,6 +65,13 @@ export default function StudioShell() {
   const selectedTrack = selectedProjectTrack(studio.active, trackSelection)
   function selectTrack(id: string) { setTrackSelection(selectProjectTrack(studio.active, id)) }
   const historicalMood = historical?.creationSnapshot.mood ? deriveMoodDna(historical.creationSnapshot.mood.selections) : null
+  const currentMood = visualMood ?? (studio.active?.mood ? deriveMoodDna(studio.active.mood.selections) : null)
+  const currentGenre = genreVisualCharacteristics(studio.active?.genre)
+  const historicalGenre = genreVisualCharacteristics(historical?.creationSnapshot.genre)
+  const currentCharacteristics = combineVisualCharacteristics(currentGenre, currentMood?.dimensions)
+  const historicalCharacteristics = combineVisualCharacteristics(historicalGenre, historicalMood?.dimensions)
+  const currentCharacterName = [studio.active?.genre?.label.replace(/ \(current mix\)$/, ''), currentMood?.dominantMood.name].filter(Boolean).join(' · ') || null
+  const historicalCharacterName = [historical?.creationSnapshot.genre?.label.replace(/ \(current mix\)$/, ''), historicalMood?.dominantMood.name].filter(Boolean).join(' · ') || null
   const audio: ProjectAudioActions = {
     currentTrackId: historical?.id ?? null, playing: audioPlaying,
     play: id => {
@@ -117,7 +125,7 @@ export default function StudioShell() {
       <div hidden={view !== 'compare'} className="studio-composer destination-panel">{active ? <ProjectCompare key={`compare-${active.id}`} project={active} update={studio.update} audio={audio} onAttach={focusTrack}/> : <p>Create or open a project, then add at least two tracks before comparing versions.</p>}<button type="button" onClick={() => navigate('tracks')}>Return to Tracks</button></div>
       <div id="studio-visualiser" className={view === 'compare' ? 'comparison-player' : ''} hidden={view !== 'visualise' && view !== 'compare'}>
         <div hidden={view !== 'visualise'} className="listening-context"><p>{historical ? `Project track · ${historical.title}${historical.version ? ' · ' + historical.version : ''} · Track creation identity` : 'Standalone session audio · files stay in this browser session'}</p>{historical && <button type="button" onClick={() => navigate(returnView)}>Return to {returnView === 'compare' ? 'Compare' : 'Tracks'}</button>}</div>
-        <Visualiser onPlaying={setAudioPlaying} audioBridge={audioBridge} onLibrary={setSessionLibrary} onStandaloneSelect={() => setOpenedTrackId(null)} historicalLabel={historical?.title} previews={visualPreviews} characteristics={historical ? historicalMood?.dimensions ?? null : visualMood?.dimensions ?? null} characterName={historical ? historicalMood?.dominantMood.name ?? null : visualMood?.dominantMood.name ?? null} active={playbackViewActive(view)}/>
+        <Visualiser onPlaying={setAudioPlaying} audioBridge={audioBridge} onLibrary={setSessionLibrary} onStandaloneSelect={() => setOpenedTrackId(null)} historicalLabel={historical?.title} previews={visualPreviews} characteristics={historical ? historicalCharacteristics : currentCharacteristics} characterName={historical ? historicalCharacterName : currentCharacterName} active={playbackViewActive(view)}/>
       </div>
       </main>
       <StudioContextSlot/>

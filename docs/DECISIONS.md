@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-05 — Visual Personality derives from Genre and Mood without changing source ownership
+
+Phase D adds a read-only Genre adapter at the existing six-axis Visual Personality boundary: energy maps directly; tension uses `intensity.strength`; atmosphere uses `production.strength`; motion maps the midpoint of the Genre BPM range from 50–180 BPM into 0–100; weight uses `bass.strength`; and valence is `100 - darkness`. When both saved Genre and Mood sources exist, corresponding axes use an equal-weight mean; a lone source passes through unchanged. Mood intimacy remains unused because Visual Personality has six axes. These mappings make previously deferred Genre identity visible without moving source ownership into the renderer or changing any persistence contract. Current identity comes from active project state; historical identity comes only from the explicitly opened track's immutable creation snapshot. This supersedes the 2026-10-04 v1.9 decision that deferred Genre and used Mood only.
+
 ## 2026-10-05 — Studio destinations and creative steps are separate navigation layers
 
 Phase B keeps Create / Tracks / Compare / Visualise in a persistent product sidebar and presents Genre Mixer / Vocal Persona / Mood Mapper / Visualiser / Export in a distinct creative workflow stepper. The sidebar answers which Studio destination is open; the stepper selects a creative editor or listening stage. Both dispatch through the existing StudioShell state, so this separation adds no route or navigation persistence schema. Project switching reuses `useStudioProjects` through the existing project list; it does not create another project owner. Export is deferred, and the right context rail is a structural slot only until its separately scoped phase.
