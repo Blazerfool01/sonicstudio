@@ -36,11 +36,11 @@ Build four independently useful music tools, then connect them in v2.0 into one 
 
 **Verification:** `npm test` passes 192 tests (187 existing + 5 interaction tests); `npm run build` passes. Browser verification covers navigation/focus, switching between two projects, track selection/deletion, Compare handoff/playback, native field undo, and 1280/390/320 px overflow checks. Chrome project-storage write denial was injected during a temporary project create/delete; both operations stayed in memory and displayed the session-only/reload-loss message. Storage behavior was restored and no project remains. Automated storage tests cover denied storage-property access. Browser console warning/error logs were empty. Full reference fidelity belongs to later milestones.
 
-**Next milestone:** Phase A/B acceptance is complete in the integrated shell. Phase C begins after commit review; Phase D and the one-to-one reference-fidelity gate remain later work.
+**Milestone progression:** Phase A/B acceptance was followed by the completed Phase C/D integration recorded below. The next UI/UX milestone is Phase E — Timeline; the one-to-one reference-fidelity gate remains later work.
 
 ## Post-v2 UI/UX Overhaul — Phase B: Shell
 
-**Status:** Integrated and committed locally on `main` on 2026-10-05; not pushed to canonical GitHub `main`. Package version remains `2.0.0`.
+**Status:** Phase B shell is included in the Phase A–D integration on canonical GitHub `main` (`90fd159`, pushed 2026-10-05). Package version remains `2.0.0`.
 
 **Shell structure:** Added a persistent top bar with the existing active-project controller, persistent Create / Tracks / Compare / Visualise navigation, a separate Genre Mixer / Vocal Persona / Mood Mapper / Visualiser / Export workflow stepper, a stable central workspace, and a right context-rail layout slot. Export remains deferred; the context rail contains only structural placeholder copy. Project navigation remains session state and does not add a storage key or alter `sonic-studio.projects.v1`.
 
@@ -48,7 +48,7 @@ Build four independently useful music tools, then connect them in v2.0 into one 
 
 **Verification:** `npm test` passes 192 tests; `npm run build` and `git diff --check` pass. The integrated app was reviewed in the user's Edge tab at its available desktop viewport. Create, Tracks, Compare and Visualise rendered; the active project remained `Compose acceptance renamed`; and the creative workflow stepper stayed visible on Tracks and Compare, including its selected step on Visualise. Standalone audio verification selected `test-song.mp3`, confirmed playback advanced to 0:12 with non-zero analyser readings, paused playback, and removed the temporary session entries. In Chrome, standalone `test-song.mp3` loaded and briefly played with non-zero analyser readings; the file stayed session-only and was paused. Responsive checks at 390×844, 320×800 and 1672×941 CSS pixels passed with no page-wide horizontal overflow. Chrome warning/error logs were empty. Chrome project-storage write denial was injected during a temporary project create/delete; the app displayed the session-only/reload-loss message, no project remained, and normal storage behavior was restored. The empty-project shell and populated Visualise view were reviewed against the approved reference and Notion workflow. Phase B's foundation hierarchy and selected-step visibility are verified; the one-to-one reference composition is a later-phase fidelity gate, not a Phase B blocker.
 
-**Integration result:** `StudioShell.tsx` and `studio.css` combine the Phase A interaction behavior with Phase B presentation; `StudioComposer.tsx` no longer duplicates project switching, which lives in the persistent top bar. The verified integration is committed locally; no push or deployment was performed.
+**Integration result:** `StudioShell.tsx` and `studio.css` combine the Phase A interaction behavior with Phase B presentation; `StudioComposer.tsx` no longer duplicates project switching, which lives in the persistent top bar. This verified integration is part of the Phase A–D commits pushed to canonical `main`. No deployment was performed.
 
 ## Post-v2 UI/UX Overhaul — Phase C/D: Creative provenance and Visual Personality
 
