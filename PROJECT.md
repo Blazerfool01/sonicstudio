@@ -1,12 +1,18 @@
 # Sonic Studio — Project Status
 
-**Status:** SonicStudio v2.0 remains the released baseline (`2.0.0`). Phase I-B — Interaction States is implemented and locally verified on clean committed accepted I-A checkpoint `51fd9f55acb0fa8c73246ba7bb03c7b708d50fee`. I-B is uncommitted; no push or deployment included. Full Phase I remains incomplete · **Next objective:** user visual review of I-B, then separately authorize I-C — Motion · **Last reviewed:** 2026-10-06
+**Status:** SonicStudio v2.0 remains the released baseline (`2.0.0`). I-B.1 — Empty-state composition correction is implemented and locally verified on clean committed I-B checkpoint `333ccaebcd560b171c2ffd214701b6a01e49f18f`. User authorized the I-B.1 checkpoint commit and push to canonical `main`, including screenshot evidence, on 2026-10-06. No deployment included. Full Phase I remains incomplete · **Next objective:** separately authorized I-C — Motion · **Last reviewed:** 2026-10-06
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
 **Latest change record:** [CHANGELOG.md](CHANGELOG.md)
 
-## Current local milestone — Phase I-B: Interaction States
+## Current local milestone — I-B.1: Empty-state composition correction
+
+The no-project Create overview has a compact “Start a project” card, one visible shell status, a clear Create heading and tighter listening-entry spacing. Its redundant Identity & Brief treatment is hidden on the overview; the existing return control remains available inside the tools. The empty Context Rail keeps a 400 px desktop workstation panel and a compact stacked treatment at smaller widths. Existing project controls, navigation, disclosures and handlers are retained.
+
+All new geometry rules in `src/emptyState.css` require the shell's existing active-project state to be empty. Populated I-A geometry and the I-B interaction stylesheet remain unchanged. No animation, new behavior, architecture or data changes. **Verification:** 251 unchanged tests pass sequentially; production build and diff check pass. Populated Create geometry matches the baseline after reload; no-project checks at 1280/390/320 px show no page overflow. Form disabled/enabled and keyboard focus, saved-project opening, all four rail sections and reload verified; console warning/error logs empty. [Evidence and limitations](docs/IB1_VERIFICATION.md); [handoff](.ai/handoffs/I-B.1.md).
+
+## Accepted checkpoint — Phase I-B: Interaction States
 
 One static interaction vocabulary now covers the existing Studio controls: restrained hover, persistent violet selection/edge, separate cyan-white keyboard focus ring, immediate pressed feedback, readable disabled controls, local dirty/saved labels, blue historical framing and cyan playback. Explicit primary/secondary/quiet/confirmation treatments preserve the importance of actual actions. Native controls and disclosures remain native; Export feedback reuses StatusNotice with consistent semantic surfaces. Current versus historical, playback versus preference, and muted/solo/unattached Timeline states retain explicit text.
 

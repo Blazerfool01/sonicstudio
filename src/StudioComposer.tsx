@@ -25,8 +25,8 @@ export default function StudioComposer({ studio, onNavigate, audio, showIdentity
     catch { setCopyMessage('Clipboard unavailable. Select the prompt below to copy manually.') }
   }
   return <section className="studio-composer" aria-labelledby="studio-title">
-    <details className="project-management" open={!active}><summary>Project controls · create, open, rename or delete</summary>
-    <div className="studio-heading"><div><span className="eyebrow">PROJECT WORKSPACE</span><h2 id="studio-title">Project controls.</h2><p>Capture ingredients explicitly. Your tools stay independent.</p></div><span>{state.projects.length} LOCAL PROJECTS</span></div>
+    <details className="project-management" open={!active}><summary>{active ? 'Project controls · create, open, rename or delete' : 'Project controls'}</summary>
+    <div className="studio-heading"><div><span className="eyebrow">PROJECT WORKSPACE</span><h2 id="studio-title">{active ? 'Project controls.' : 'Start a project'}</h2><p>{active ? 'Capture ingredients explicitly. Your tools stay independent.' : 'Name a project to capture your sound. Each ingredient is optional.'}</p></div><span>{state.projects.length} LOCAL PROJECTS</span></div>
     <form className="studio-controls" onSubmit={e => { e.preventDefault(); const p = createProject(name); save([p, ...state.projects], p.id, 'Empty project created.'); setName('') }}>
       <label>NEW PROJECT NAME<input aria-label="New project name" maxLength={80} value={name} onChange={e => setName(e.target.value)} placeholder="Name your project"/></label><button disabled={!name.trim()}>Create project</button>
     </form>
@@ -39,7 +39,7 @@ export default function StudioComposer({ studio, onNavigate, audio, showIdentity
       <details className="studio-overview-notes"><summary>Project notes</summary><label className="studio-notes">PROJECT NOTES · SEPARATE FROM GENERATED GUIDANCE<textarea aria-label="Project notes" rows={3} maxLength={4000} value={active.notes} onChange={e => update({ ...active, notes: e.target.value, updatedAt: new Date().toISOString() })}/></label></details>
       <p data-testid="identity-summary">{brief!.identitySummary}</p><details className="studio-brief"><summary>Creation Brief</summary><div className="studio-ingredients">{[['Genre foundation', brief!.genreFoundation], ['Vocal identity', brief!.vocalIdentity], ['Mood / production direction', brief!.moodDirection]].map(([title, text]) => <article key={title}><h3>{title}</h3><pre>{text}</pre></article>)}</div><h3>Combined generator prompt</h3><button onClick={copy}>Copy combined prompt</button><pre data-testid="combined-prompt">{brief!.prompt}</pre><p role="status">{copyMessage}</p></details>
     </div></>}
-    {!active && <p>Create an empty project or open a saved one. Each ingredient is optional.</p>}
+    {!active && <p>Open a saved project using the project selector above.</p>}
     <p role="status">{message}</p>
   </section>
 }

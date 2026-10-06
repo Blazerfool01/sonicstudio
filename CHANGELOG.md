@@ -1,5 +1,17 @@
 # Changelog
 
+## I-B.1 — Authorized checkpoint (`2.0.0`, 2026-10-06)
+
+- User authorized committing and pushing the verified empty-state correction to canonical `main`, including desktop before/after and narrow screenshot evidence.
+- Retains the 251-test, production-build, populated-geometry and browser verification recorded in docs/IB1_VERIFICATION.md. That document embeds the final desktop image for review on GitHub. No deployment or I-C work.
+
+## I-B.1 — Empty-state composition correction (`2.0.0`, 2026-10-06)
+
+- Started from clean committed I-B `333ccaebcd560b171c2ffd214701b6a01e49f18f`. Polished no-project Create onboarding, Create/status hierarchy, redundant Identity & Brief treatment and vertical spacing; retained empty Context Rail workstation presence.
+- Added state-scoped `src/emptyState.css` and small presentation-only shell/composer changes. Populated I-A layout, I-B interaction styles, controls, navigation, domain/storage/audio owners and animation boundaries remain locked.
+- Verified 251 unchanged tests with concurrency 1, production build, diff check, exact populated geometry after reload, empty 1280/390/320 px overflow checks, input/focus states, saved-project opening and four rail sections; console clean. Details: docs/IB1_VERIFICATION.md; handoff: .ai/handoffs/I-B.1.md.
+- Local and uncommitted; no push/deployment. User visual acceptance and I-C authorization remain separate.
+
 ## UI/UX Overhaul Phase I-B — Interaction States (`2.0.0`, 2026-10-06)
 
 - Began on clean committed accepted I-A `51fd9f55acb0fa8c73246ba7bb03c7b708d50fee`. Added shared static state tokens/styles across navigation, workflow, buttons, native inputs/ranges, choices/cards, disclosures, Timeline, Visualiser, Compare, rail, Export and power/historical actions.

@@ -1,0 +1,85 @@
+/* I-B.1: no-project composition only. Populated geometry and I-B states stay owned by their existing layers. */
+.studio-shell[data-project-state="empty"] .studio-overview-workspace > .project-context {
+  display: none;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace > h1 {
+  margin: 7px 10px 5px 0;
+  font-size: 20px;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace > .studio-project-notice {
+  display: inline-block;
+  margin: 5px 0;
+  font-size: 11px;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace > .studio-composer {
+  padding: 16px;
+  margin: 8px 0 12px;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace .project-management {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace .studio-heading {
+  align-items: baseline;
+  gap: 12px;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace .studio-heading .eyebrow {
+  display: none;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace .studio-heading h2 {
+  margin: 10px 0 5px;
+  font-size: 20px;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace .studio-heading p {
+  margin: 0;
+  font-size: 12px;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace .studio-heading > span {
+  flex: none;
+  font-size: 9px;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace .studio-controls {
+  margin: 14px 0 10px;
+  gap: 10px;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace > .studio-composer > p {
+  margin: 0;
+  color: var(--studio-muted);
+  font-size: 11px;
+}
+/* The shell already announces this same message. Keep a single visible status in the empty overview. */
+.studio-shell[data-project-state="empty"] .studio-overview-workspace > .studio-composer > p[role="status"] {
+  display: none;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace .workflow-next {
+  margin: 0;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace .studio-listening-entry {
+  margin-bottom: 0;
+  padding: 12px;
+}
+.studio-shell[data-project-state="empty"] .studio-overview-workspace .studio-listening-entry > .studio-wave-art {
+  height: 52px;
+}
+.studio-shell[data-project-state="empty"] .context-rail.studio-context-slot {
+  min-height: 400px;
+  box-sizing: border-box;
+}
+.studio-shell[data-project-state="empty"] .context-rail-panel {
+  border-top: 1px solid var(--studio-border);
+  padding-top: 12px;
+}
+.studio-shell[data-project-state="empty"] .context-rail-panel > .status-notice {
+  padding: 12px;
+  border: 1px solid var(--studio-border);
+  border-radius: var(--studio-radius);
+  background: var(--studio-raised);
+  font-size: 12px;
+}
+@media (max-width: 1100px) {
+  .studio-shell[data-project-state="empty"] .context-rail.studio-context-slot { min-height: 240px; }
+}
+@media (max-width: 600px) {
+  .studio-shell[data-project-state="empty"] .studio-overview-workspace .studio-heading > span { display: block; margin-top: 8px; }
+}

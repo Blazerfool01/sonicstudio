@@ -189,13 +189,13 @@ export default function StudioShell() {
     seek: sourcePosition => audioBridge.current?.seek(sourcePosition),
     pause: () => audioBridge.current?.pause(),
   }
-  return <div className="studio-shell">
+  return <div className="studio-shell" data-project-state={active ? 'active' : 'empty'}>
     <div className="studio-shell-layout">
     <StudioTopBar active={active ?? null} projects={studio.state.projects} onSwitchProject={id => studio.save(studio.state.projects, id, id ? 'Project opened.' : 'No active project.')}/>
       <StudioSidebar view={view} onNavigate={navigate}/>
       <main className={`workflow-content${view === 'create' && tool === 'overview' ? ' studio-overview-workspace' : ''}`}>
       {view === 'create' && tool === 'overview' && <StudioHero project={active ?? null}/>}
-      {view === 'create' && <button type="button" className={`studio-create-overview${tool === 'overview' ? ' active' : ''}`} aria-current={tool === 'overview' ? 'page' : undefined} onClick={() => setTool('overview')}>Identity &amp; Brief</button>}
+      {view === 'create' && <button type="button" hidden={!active && tool === 'overview'} className={`studio-create-overview${tool === 'overview' ? ' active' : ''}`} aria-current={tool === 'overview' ? 'page' : undefined} onClick={() => setTool('overview')}>Identity &amp; Brief</button>}
       <StudioWorkflowStepper view={view} tool={tool} onOpenTool={openTool} onNavigate={navigate} onExport={() => { setView('create'); setTool('export') }}/>
       <h1 ref={headingRef} tabIndex={-1}>{STUDIO_VIEWS.find(item => item.id === view)!.label}</h1>
       <p className="project-context"><strong>{active?.name ?? 'No active project'}</strong>{active && <span> · {active.tracks.length} tracks · {active.comparisons.length} comparisons · {['genre', 'vocal', 'mood'].filter(k => active[k as 'genre' | 'vocal' | 'mood']).length}/3 ingredients</span>}</p>
