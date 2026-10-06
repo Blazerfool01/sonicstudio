@@ -14,6 +14,7 @@ import './dashboardAssetPilot.css'
 import './dashboardAssetCollection.css'
 import './referenceMotion.css'
 import './referenceDashboard.css'
+import './projectWorkspace.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode><App /></React.StrictMode>,

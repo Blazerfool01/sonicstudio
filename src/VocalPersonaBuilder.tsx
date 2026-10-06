@@ -1,4 +1,5 @@
-import { useEffect, useRef, useMemo, useState } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
+import { useStudioDraftState } from './StudioProvider.tsx'
 import type { VocalProjectSnapshot } from './lib/studioProject.ts'
 import { deliveries, registers, textures, vocalEffects } from './data/vocalTraits.ts'
 import { createVoiceDna, defaultVocalSelections } from './lib/voiceDna.ts'
@@ -30,26 +31,26 @@ import type { HistoricalDraftRequest } from './lib/experimentActions.ts'
 import HistoricalDraftNotice from './HistoricalDraftNotice.tsx'
 
 export default function VocalPersonaBuilder({ onUse, projectEnabled, historicalDraft }: { onUse: (snapshot: VocalProjectSnapshot) => void; projectEnabled: boolean; historicalDraft?: HistoricalDraftRequest<'vocal'> | null }) {
-  const [selections, setSelections] = useState<VocalSelections>(defaultVocalSelections)
+  const [selections, setSelections] = useStudioDraftState<VocalSelections>('vocal.selections', defaultVocalSelections)
   const dna = useMemo(() => createVoiceDna(selections), [selections])
-  const [personaName, setPersonaName] = useState('')
-  const [identityDescription, setIdentityDescription] = useState('')
-  const [personas, setPersonas] = useState<VocalPersona[]>(() => readBrowserStorage(readSavedPersonas, []))
-  const [openedPersonaId, setOpenedPersonaId] = useState<string | null>(null)
-  const [creationMessage, setCreationMessage] = useState('')
-  const [copyMessage, setCopyMessage] = useState('')
-  const [compareFirstId, setCompareFirstId] = useState('')
-  const [compareSecondId, setCompareSecondId] = useState('')
-  const [experiments, setExperiments] = useState<VocalExperiment[]>(() => readBrowserStorage(readVocalExperiments, []))
-  const [experimentLabel, setExperimentLabel] = useState('')
-  const [experimentNote, setExperimentNote] = useState('')
-  const [experimentPersonaId, setExperimentPersonaId] = useState('')
-  const [experimentMessage, setExperimentMessage] = useState('')
-  const [history, setHistory] = useState<HistoricalDraftRequest<'vocal'> | null>(null)
+  const [personaName, setPersonaName] = useStudioDraftState('vocal.personaName', '')
+  const [identityDescription, setIdentityDescription] = useStudioDraftState('vocal.identityDescription', '')
+  const [personas, setPersonas] = useStudioDraftState<VocalPersona[]>('vocal.personas', () => readBrowserStorage(readSavedPersonas, []))
+  const [openedPersonaId, setOpenedPersonaId] = useStudioDraftState<string | null>('vocal.openedPersonaId', null)
+  const [creationMessage, setCreationMessage] = useStudioDraftState('vocal.creationMessage', '')
+  const [copyMessage, setCopyMessage] = useStudioDraftState('vocal.copyMessage', '')
+  const [compareFirstId, setCompareFirstId] = useStudioDraftState('vocal.compareFirstId', '')
+  const [compareSecondId, setCompareSecondId] = useStudioDraftState('vocal.compareSecondId', '')
+  const [experiments, setExperiments] = useStudioDraftState<VocalExperiment[]>('vocal.experiments', () => readBrowserStorage(readVocalExperiments, []))
+  const [experimentLabel, setExperimentLabel] = useStudioDraftState('vocal.experimentLabel', '')
+  const [experimentNote, setExperimentNote] = useStudioDraftState('vocal.experimentNote', '')
+  const [experimentPersonaId, setExperimentPersonaId] = useStudioDraftState('vocal.experimentPersonaId', '')
+  const [experimentMessage, setExperimentMessage] = useStudioDraftState('vocal.experimentMessage', '')
+  const [history, setHistory] = useStudioDraftState<HistoricalDraftRequest<'vocal'> | null>('vocal.history', null)
   const loadedRequest = useRef<string | null>(null)
   useEffect(() => {
     if (!historicalDraft) { setHistory(null); return }
-    if (loadedRequest.current === historicalDraft.requestId) return
+    if (history?.requestId === historicalDraft.requestId || loadedRequest.current === historicalDraft.requestId) return
     loadedRequest.current = historicalDraft.requestId
     const captured = historicalDraft.captured
     setSelections({ ...captured.selections }); setOpenedPersonaId(null); setPersonaName(''); setIdentityDescription(captured.identityDescription); setCopyMessage(''); setCreationMessage('')

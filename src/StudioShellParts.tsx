@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import type { KeyboardEvent } from 'react'
-import type { CreateTool, StudioView } from './lib/studioNavigation.ts'
 import type { StudioProject } from './lib/studioProject.ts'
 import { getMood } from './data/moods.ts'
+import type { StudioRoute, ProjectTab } from './StudioRouter.tsx'
+import { projectTabUrl } from './StudioRouter.tsx'
 
 export function StudioTopBar({ active, projects, onSwitchProject, onToggleContext }: {
   active: StudioProject | null
@@ -59,7 +60,7 @@ export function studioStatus(active: StudioProject | null | undefined, message: 
   return { tone: 'ready', label: 'All work stays on this device' }
 }
 
-type NavItem = { icon: string; label: string; active: boolean; onClick: () => void }
+type NavItem = { icon: string; label: string; active: boolean; href?: string; onClick?: () => void }
 const navPaths: Record<string,string> = {
   Home:'M3 11 12 3 21 11 M5 10v11h5v-7h4v7h5V10',
   'Genre Mixer':'M5 3v18 M12 3v18 M19 3v18 M2 8h6 M9 16h6 M16 10h6',
@@ -73,25 +74,33 @@ const navPaths: Record<string,string> = {
   Help:'M9.6 9a2.6 2.6 0 1 1 4.5 1.8c-1.4 1.2-2.1 1.7-2.1 3.2m0 3v.1M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z',
 }
 
-export function StudioSidebar({ view, tool, status, onNavigate, onOpenTool, onExport, onOpenProjects, onOpenSettings, onOpenHelp }: { view: StudioView; tool: CreateTool; status: StudioStatus; onNavigate: (view: StudioView) => void; onOpenTool: (tool: 'genre' | 'vocal' | 'mood') => void; onExport: () => void; onOpenProjects: () => void; onOpenSettings: () => void; onOpenHelp: () => void }) {
-  const inCreate = view === 'create'
+export function StudioSidebar({ pathname, search, status, onNavigate, onOpenSettings, onOpenHelp }: { pathname: StudioRoute; search: string; status: StudioStatus; onNavigate: (path: string) => void; onOpenSettings: () => void; onOpenHelp: () => void }) {
+  const projectTab = new URLSearchParams(search).get('tab') ?? 'overview'
   const workspace: NavItem[] = [
-    { icon: '⌂', label: 'Home', active: inCreate && tool === 'overview', onClick: () => onNavigate('create') },
-    { icon: '☷', label: 'Genre Mixer', active: inCreate && tool === 'genre', onClick: () => onOpenTool('genre') },
-    { icon: '♩', label: 'Vocal Persona', active: inCreate && tool === 'vocal', onClick: () => onOpenTool('vocal') },
-    { icon: '♡', label: 'Mood Mapper', active: inCreate && tool === 'mood', onClick: () => onOpenTool('mood') },
-    { icon: '▥', label: 'Visualiser', active: view === 'visualise', onClick: () => onNavigate('visualise') },
+    { icon: '⌂', label: 'Home', href: '/dashboard', active: pathname === '/dashboard' },
+    { icon: '☷', label: 'Genre Mixer', href: '/genre-mixer', active: pathname === '/genre-mixer' },
+    { icon: '♩', label: 'Vocal Persona', href: '/vocal-persona', active: pathname === '/vocal-persona' },
+    { icon: '♡', label: 'Mood Mapper', href: '/mood-mapper', active: pathname === '/mood-mapper' },
+    { icon: '▥', label: 'Visualiser', href: '/visualiser', active: pathname === '/visualiser' },
   ]
   const library: NavItem[] = [
-    { icon: '▤', label: 'Library', active: view === 'tracks' || view === 'compare', onClick: () => onNavigate('tracks') },
-    { icon: '▦', label: 'Projects', active: false, onClick: onOpenProjects },
-    { icon: '↗', label: 'Export', active: inCreate && tool === 'export', onClick: onExport },
+    { icon: '▤', label: 'Library', href: projectTabUrl('tracks'), active: pathname === '/project' && projectTab === 'tracks' },
+    { icon: '▦', label: 'Projects', href: '/project', active: pathname === '/project' && projectTab !== 'tracks' && projectTab !== 'export' },
+    { icon: '↗', label: 'Export', href: projectTabUrl('export'), active: pathname === '/project' && projectTab === 'export' },
   ]
   const utility: NavItem[] = [
     { icon: '⚙', label: 'Settings', active: false, onClick: onOpenSettings },
     { icon: '?', label: 'Help', active: false, onClick: onOpenHelp },
   ]
-  const render = (item: NavItem) => <button type="button" key={item.label} aria-current={item.active ? 'page' : undefined} className={item.active ? 'active' : ''} onClick={item.onClick}><span className="studio-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d={navPaths[item.label]} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span>{item.label}</span></button>
+  const render = (item: NavItem) => {
+    const content = <><span className="studio-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d={navPaths[item.label]} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></span><span>{item.label}</span></>
+    if (item.href) return <a key={item.label} href={item.href} aria-current={item.active ? 'page' : undefined} className={item.active ? 'active' : ''} onClick={event => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+      event.preventDefault()
+      onNavigate(item.href!)
+    }}>{content}</a>
+    return <button type="button" key={item.label} aria-current={item.active ? 'page' : undefined} className={item.active ? 'active' : ''} onClick={item.onClick}>{content}</button>
+  }
   return <nav className="studio-sidebar" aria-label="Studio destinations">
     <div className="studio-brand"><svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path d="M3 14v4m6-9v14m7-20v26m7-21v16m6-11v6" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/></svg><span>SonicStudio <small>v2.0</small></span></div>
     {workspace.map(render)}
@@ -101,19 +110,17 @@ export function StudioSidebar({ view, tool, status, onNavigate, onOpenTool, onEx
   </nav>
 }
 
-export function StudioWorkflowStepper({ view, tool, onOpenTool, onNavigate, onExport }: {
-  view: StudioView
-  tool: CreateTool
-  onOpenTool: (tool: 'genre' | 'vocal' | 'mood') => void
-  onNavigate: (view: StudioView) => void
-  onExport: () => void
+export function StudioWorkflowStepper({ pathname, projectTab, onNavigate }: {
+  pathname: StudioRoute
+  projectTab: ProjectTab
+  onNavigate: (path: string) => void
 }) {
   const steps: { label: string; action?: () => void; active: boolean; deferred?: boolean }[] = [
-    { label: 'Genre Mixer', action: () => onOpenTool('genre'), active: view !== 'visualise' && tool === 'genre' },
-    { label: 'Vocal Persona', action: () => onOpenTool('vocal'), active: view !== 'visualise' && tool === 'vocal' },
-    { label: 'Mood Mapper', action: () => onOpenTool('mood'), active: view !== 'visualise' && tool === 'mood' },
-    { label: 'Visualiser', action: () => onNavigate('visualise'), active: view === 'visualise' },
-    { label: 'Export', action: onExport, active: view !== 'visualise' && tool === 'export' },
+    { label: 'Genre Mixer', action: () => onNavigate('/genre-mixer'), active: pathname === '/genre-mixer' },
+    { label: 'Vocal Persona', action: () => onNavigate('/vocal-persona'), active: pathname === '/vocal-persona' },
+    { label: 'Mood Mapper', action: () => onNavigate('/mood-mapper'), active: pathname === '/mood-mapper' },
+    { label: 'Visualiser', action: () => onNavigate('/visualiser'), active: pathname === '/visualiser' },
+    { label: 'Export', action: () => onNavigate(projectTabUrl('export')), active: pathname === '/project' && projectTab === 'export' },
   ]
   return <nav className="studio-stepper" aria-label="Creative workflow">
     <div className="studio-stepper-heading"><span>CREATIVE WORKFLOW</span><span className="studio-stepper-current">{steps.find(step => step.active)?.label ?? 'Identity & Brief'}</span></div>

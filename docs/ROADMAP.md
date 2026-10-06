@@ -2,6 +2,10 @@
 
 The current implemented state and gate results live in `PROJECT.md`. Planned work follows the independent-tool sequence in its roadmap table.
 
+## Completed — Route Separation (`2.0.0`, 2026-10-06)
+
+Primary workspace navigation is URL-driven across Dashboard, Genre Mixer, Vocal Persona, Mood Mapper, Visualiser and Project. Project tabs use query state. `StudioProvider` owns shared project and session state; `StudioLayout` owns persistent shell chrome; route pages compose the existing feature components. Dashboard no longer mounts the full editor or Visualiser workspaces. The existing Visualiser instance retains browser-session audio state while its complete workspace is rendered only on its route and Compare. Production build, 253 tests, direct-route/refresh browser checks, Dashboard boundary, and soft-navigation audio-element retention passed. No saved schema, UI styling or #7/#8 scope changed.
+
 ## Completed — Post-v2 UI/UX Overhaul Phases E/F
 
 Phases E — Lightweight Timeline and F — Context Rail are integrated and coordinator-accepted in canonical `main` commit `752fadb535a72d1cb55d73cc7c55c63666c8724b`. E stores arrangement clips additively on the existing project envelope and sequences existing tracks through the single existing playback owner. F projects current or historical Studio context from its established owners. The Timeline occupies a workspace region within Tracks; the four product destinations and five creative steps remain as approved in Phase B. Navigation/dependent-deletion review corrections are committed in canonical `41cd61c987019a45c13caa398ff2a237de2e2c23`. Their verification is recorded in `PROJECT.md`. G/H are separately authorized and implemented locally as recorded below.

@@ -1,4 +1,5 @@
-import { useEffect, useRef, useMemo, useState } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
+import { useStudioDraftState } from './StudioProvider.tsx'
 import { genres, getGenre } from './data/registry.ts'
 import { mergeGenres } from './lib/merge.ts'
 import type { Relationship } from './lib/merge.ts'
@@ -18,22 +19,22 @@ import type { HistoricalDraftRequest } from './lib/experimentActions.ts'
 import HistoricalDraftNotice from './HistoricalDraftNotice.tsx'
 
 export default function GenreMixer({ onUse, projectEnabled, historicalDraft }: { onUse: (snapshot: GenreProjectSnapshot) => void; projectEnabled: boolean; historicalDraft?: HistoricalDraftRequest<'genre'> | null }) {
-  const [firstId, setFirstId] = useState('dark-rnb')
-  const [secondId, setSecondId] = useState('hardwave')
-  const [weight, setWeight] = useState(60)
-  const [activeSlot, setActiveSlot] = useState<Slot>('a')
-  const [savedMixes, setSavedMixes] = useState<SavedMix[]>(() => {
+  const [firstId, setFirstId] = useStudioDraftState('genre.firstId', 'dark-rnb')
+  const [secondId, setSecondId] = useStudioDraftState('genre.secondId', 'hardwave')
+  const [weight, setWeight] = useStudioDraftState('genre.weight', 60)
+  const [activeSlot, setActiveSlot] = useStudioDraftState<Slot>('genre.activeSlot', 'a')
+  const [savedMixes, setSavedMixes] = useStudioDraftState<SavedMix[]>('genre.savedMixes', () => {
     return readBrowserStorage(storage => readSavedMixes(storage, genres.map(genre => genre.id)), [])
   })
-  const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [mixName, setMixName] = useState('')
-  const [saveMessage, setSaveMessage] = useState('')
-  const [copyMessage, setCopyMessage] = useState('')
-  const [history, setHistory] = useState<HistoricalDraftRequest<'genre'> | null>(null)
+  const [selectedId, setSelectedId] = useStudioDraftState<string | null>('genre.selectedId', null)
+  const [mixName, setMixName] = useStudioDraftState('genre.mixName', '')
+  const [saveMessage, setSaveMessage] = useStudioDraftState('genre.saveMessage', '')
+  const [copyMessage, setCopyMessage] = useStudioDraftState('genre.copyMessage', '')
+  const [history, setHistory] = useStudioDraftState<HistoricalDraftRequest<'genre'> | null>('genre.history', null)
   const loadedRequest = useRef<string | null>(null)
   useEffect(() => {
     if (!historicalDraft) { setHistory(null); return }
-    if (loadedRequest.current === historicalDraft.requestId) return
+    if (history?.requestId === historicalDraft.requestId || loadedRequest.current === historicalDraft.requestId) return
     loadedRequest.current = historicalDraft.requestId
     const captured = historicalDraft.captured
     setFirstId(captured.genres[0].genreId); setSecondId(captured.genres[1].genreId); setWeight(captured.genres[0].weight); setSelectedId(null); setMixName(''); setActiveSlot('a'); setCopyMessage(''); setSaveMessage('')

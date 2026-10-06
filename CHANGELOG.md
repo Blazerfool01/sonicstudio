@@ -1,5 +1,12 @@
 # Changelog
 
+## Route separation (`2.0.0`, 2026-10-06)
+
+- Added URL-driven Dashboard, Genre Mixer, Vocal Persona, Mood Mapper, Visualiser and consolidated Project workspaces. Project Overview, Tracks, Compare and Export use URL query tabs; sidebar destinations and active state follow the browser location.
+- Moved shared project and cross-route/session state to `StudioProvider`; split persistent chrome into `StudioLayout` and route composition into `StudioRoutePages`. Replaced the old `view` / `tool` / `openTool` primary navigation with History API routing and removed hidden creative workspaces from Dashboard.
+- Kept one Visualiser audio/session owner mounted so existing browser-session files and its audio element survive soft navigation. Its full workspace renders only on Visualiser and Compare. Saved schemas and audio persistence remain unchanged; no router dependency was added.
+- Verified the production build, all 253 tests, direct navigation and refresh on every primary route and Compare, Dashboard workspace absence, single audio element, soft-navigation element retention, and no browser runtime exceptions. No visual redesign, commit, push or deployment.
+
 ## `example-dash` Home composition (`2.0.0`, 2026-10-06)
 
 - Reworked Home into the supplied hero, four-destination card row, top-bar search, primary navigation and four-tab context rail. Tuned the project thumbnail, rail spacing and desktop viewport fit in `referenceDashboard.css`; refined the decorative hero terrain in `StudioOverview.tsx`.

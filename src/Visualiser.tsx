@@ -11,7 +11,7 @@ import type { MusicalCharacteristics } from './lib/visualPersonality.ts'
 import './visualiser.css'
 import { clampPlaybackPosition, TrackSeek } from './lib/trackSeek.ts'
 import { SessionAudio } from './lib/sessionAudio.ts'
-import type { Ref } from 'react'
+import type { ReactNode, Ref } from 'react'
 export type VisualiserPlaybackState = { localTrackId: string | null; currentTime: number; duration: number; playing: boolean; ended: boolean }
 export type VisualiserAudio = {
   importFile: (file: File) => LocalTrack
@@ -33,7 +33,7 @@ function timeLabel(seconds: number): string {
 
 const emptyLibrary: TrackLibrary = { tracks: [], selectedId: null }
 
-export default function Visualiser({ active, onStandaloneSelect, characteristics, characterName, previews, audioBridge, onLibrary, historicalLabel, onPlaying, onPlaybackState }: { onStandaloneSelect: () => void; onPlaying?: (playing: boolean) => void; onPlaybackState?: (state: VisualiserPlaybackState) => void; audioBridge?: Ref<VisualiserAudio>; onLibrary?: (library: TrackLibrary) => void; historicalLabel?: string; previews: readonly { id: string, label: string, characteristics: MusicalCharacteristics }[], characteristics: MusicalCharacteristics | null, characterName: string | null, active: boolean, }) {
+export default function Visualiser({ active, onStandaloneSelect, characteristics, characterName, previews, audioBridge, onLibrary, historicalLabel, onPlaying, onPlaybackState, workspace = true, comparison = false, context }: { onStandaloneSelect: () => void; onPlaying?: (playing: boolean) => void; onPlaybackState?: (state: VisualiserPlaybackState) => void; audioBridge?: Ref<VisualiserAudio>; onLibrary?: (library: TrackLibrary) => void; historicalLabel?: string; previews: readonly { id: string, label: string, characteristics: MusicalCharacteristics }[], characteristics: MusicalCharacteristics | null, characterName: string | null, active: boolean; workspace?: boolean; comparison?: boolean; context?: ReactNode }) {
   const [library, setLibrary] = useState<TrackLibrary>(emptyLibrary)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -265,7 +265,7 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
       window.removeEventListener('resize', syncSize)
       dprQuery?.removeEventListener('change', handleDprChange)
     }
-  }, [])
+  }, [workspace])
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -396,7 +396,23 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
 
   const progress = duration > 0 ? Math.min(100, currentTime / duration * 100) : 0
 
-  return <div className="app-shell">
+  return <div className="visualiser-session-owner">
+    <audio
+      ref={audioRef}
+      hidden
+      aria-hidden="true"
+      preload="metadata"
+      onLoadedMetadata={event => metadataLoaded(event.currentTarget)}
+      onDurationChange={event => metadataLoaded(event.currentTarget)}
+      onTimeUpdate={event => { setCurrentTime(event.currentTarget.currentTime); reportPlayback() }}
+      onPause={event => { if (!event.currentTarget.paused) return; playback.cancel(); setPlaying(false); stopAnalysis(); reportPlayback() }}
+      onPlay={event => { if (!playback.playing) { playback.cancel(); return }; if (event.currentTarget.paused) return; setPlaying(true); startAnalysis(); reportPlayback() }}
+      onEnded={() => { playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setCurrentTime(audioRef.current?.duration || 0); reportPlayback(true) }}
+      onError={() => { if (selected) { trackSeek.clear(); playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setMessage('This file could not be read or played in this browser.'); reportPlayback() } }}
+    />
+    {workspace && <section id="studio-visualiser" className={`${comparison ? 'comparison-player ' : ''}visualiser-route-workspace`} aria-label="Visualiser workspace">
+      {context}
+      <div className="app-shell">
     <div className="main visualiser-main">
       <section className="intro"><div className="eyebrow">LISTENING / VISUAL MODES</div><div className="intro-row"><div><h2 className="tool-title">Listen <em>locally.</em></h2><p>Import a few tracks, choose one, and inspect their live signal. Your files stay in this browser session.</p></div><div className="intro-index">SONIC STUDIO<span>04 / 04</span></div></div></section>
       <div className="visualiser-layout">
@@ -404,17 +420,6 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
           <div className="visualiser-current"><span>SELECTED TRACK</span><strong>{historicalLabel ?? selected?.name ?? 'No track selected'}</strong><small>{selected?.filename ?? 'Import audio to begin'}</small></div>
           <div className="visualiser-controls"><button className="action-primary" data-playback-active={playing} type="button" onClick={togglePlayback} disabled={!selected} aria-label={playing ? 'Pause' : 'Play'}>{playing ? 'Pause' : 'Play'}</button><div className="visualiser-seek"><input type="range" min="0" max={duration || 0} step="0.01" value={Math.min(currentTime, duration || 0)} disabled={!selected || !duration} aria-label="Seek through track" style={{ '--progress': `${progress}%` } as React.CSSProperties} onChange={event => { const audio = audioRef.current; if (!audio) return; const next = Number(event.target.value); trackSeek.clear(); audio.currentTime = next; setCurrentTime(next); reportPlayback() }}/><div className="visualiser-times"><span>{timeLabel(currentTime)}</span><span>{timeLabel(duration)}</span></div></div></div>
           <p className="visualiser-message" role="status">{analysisError || message}</p>
-        <audio
-          ref={audioRef}
-          preload="metadata"
-          onLoadedMetadata={event => metadataLoaded(event.currentTarget)}
-          onDurationChange={event => metadataLoaded(event.currentTarget)}
-          onTimeUpdate={event => { setCurrentTime(event.currentTarget.currentTime); reportPlayback() }}
-          onPause={event => { if (!event.currentTarget.paused) return; playback.cancel(); setPlaying(false); stopAnalysis(); reportPlayback() }}
-          onPlay={event => { if (!playback.playing) { playback.cancel(); return }; if (event.currentTarget.paused) return; setPlaying(true); startAnalysis(); reportPlayback() }}
-          onEnded={() => { playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setCurrentTime(audioRef.current?.duration || 0); reportPlayback(true) }}
-          onError={() => { if (selected) { trackSeek.clear(); playback.cancel(); setPlaying(false); stopAnalysis(); hasSignalFrameRef.current = false; setHasRenderedSignal(false); drawIdle(); setMessage('This file could not be read or played in this browser.'); reportPlayback() } }}
-        />
         </section>
         <section className="visualiser-panel" aria-labelledby="tracks-heading"><div className="section-heading"><div><span className="eyebrow">02 / IMPORTED TRACKS</span><h2 id="tracks-heading">Your session<span className="heading-period">.</span></h2></div><span className="visualiser-count">{library.tracks.length} TRACKS</span></div>
           <label className="visualiser-import">Import audio files<input type="file" accept="audio/*,.mp3,.wav,.ogg,.oga,.m4a,.aac,.mp4" multiple onChange={event => { importFiles(event.target.files); event.target.value = '' }}/></label>
@@ -436,5 +441,7 @@ export default function Visualiser({ active, onStandaloneSelect, characteristics
       <section className="visualiser-diagnostics" aria-labelledby="analysis-heading"><div className="section-heading"><div><span className="eyebrow">04 / ANALYSIS</span><h2 id="analysis-heading">Audio diagnostics<span className="heading-period">.</span></h2></div><span className="visualiser-count">{playing ? analyzerRef.current ? 'ANALYSING' : 'UNAVAILABLE' : 'IDLE'}</span></div><p>Live levels from the selected track. Readings settle to zero when playback stops.</p><div className="visualiser-meter-grid">{([['amplitude', 'Overall amplitude'], ['low', 'Low · 20–250 Hz'], ['mid', 'Mid · 250–2,000 Hz'], ['high', 'High · 2,000–10,000 Hz']] as const).map(([key, label]) => <div className="visualiser-meter" key={key}><div><span>{label}</span><strong>{metrics[key].toFixed(3)}</strong></div><div className="visualiser-meter-track"><span style={{ width: `${metrics[key] * 100}%` }}/></div></div>)}</div><small>0 = no measured signal · 1 = maximum normalised level. Every visual mode reads these same reusable analyser buffers.</small></section>
       <footer className="page-footer"><span>SONIC STUDIO / VISUAL MODES</span><span>AUDIO × MUSICAL CHARACTER.</span></footer>
     </div>
+      </div>
+    </section>}
   </div>
 }

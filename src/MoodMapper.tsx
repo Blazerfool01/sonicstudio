@@ -1,4 +1,5 @@
-import { useEffect, useRef, useMemo, useState } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
+import { useStudioDraftState } from './StudioProvider.tsx'
 import type { MoodProjectSnapshot } from './lib/studioProject.ts'
 import { moods, moodDimensions } from './data/moods.ts'
 import { deriveMoodDna } from './lib/moodDna.ts'
@@ -18,13 +19,13 @@ import type { HistoricalDraftRequest } from './lib/experimentActions.ts'
 import HistoricalDraftNotice from './HistoricalDraftNotice.tsx'
 
 export default function MoodMapper({ onCharacteristics, onUse, projectEnabled, historicalDraft }: { onCharacteristics: (dna: MoodDna | null) => void; onUse: (snapshot: MoodProjectSnapshot) => void; projectEnabled: boolean; historicalDraft?: HistoricalDraftRequest<'mood'> | null }) {
-  const [selections, setSelections] = useState<MoodSelection[]>([])
-  const [sourcePreset, setSourcePreset] = useState<{ id: string; name: string } | null>(null)
-  const [history, setHistory] = useState<HistoricalDraftRequest<'mood'> | null>(null)
+  const [selections, setSelections] = useStudioDraftState<MoodSelection[]>('mood.selections', [])
+  const [sourcePreset, setSourcePreset] = useStudioDraftState<{ id: string; name: string } | null>('mood.sourcePreset', null)
+  const [history, setHistory] = useStudioDraftState<HistoricalDraftRequest<'mood'> | null>('mood.history', null)
   const loadedRequest = useRef<string | null>(null)
   useEffect(() => {
     if (!historicalDraft) { setHistory(null); return }
-    if (loadedRequest.current === historicalDraft.requestId) return
+    if (history?.requestId === historicalDraft.requestId || loadedRequest.current === historicalDraft.requestId) return
     loadedRequest.current = historicalDraft.requestId
     const captured = historicalDraft.captured
     setSelections(captured.selections.map(item => ({ ...item }))); setSourcePreset(null)

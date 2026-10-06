@@ -1,5 +1,13 @@
 # Decisions
 
+## 2026-10-06 — Browser URL owns primary workspace navigation
+
+Use a small History API router without adding a dependency. `/` and invalid paths resolve to `/dashboard`; the six top-level workspaces are Dashboard, Genre Mixer, Vocal Persona, Mood Mapper, Visualiser and Project. Project subviews use the `tab` query parameter so Overview, Tracks, Compare and Export remain one management workspace. Sidebar active state is derived from the URL, and normal browser history remains authoritative.
+
+`StudioProvider` owns the existing shared project controller and transient cross-route state; it does not add persistence or a second project copy. `StudioLayout` owns persistent chrome, and route content composes the established feature components. Editor selections and drafts remain session-only.
+
+The Visualiser component remains mounted as a session owner because its existing cleanup releases browser `File` URLs and its media element. It therefore keeps one hidden audio element and the in-memory track library across soft navigation, but renders the full Visualiser workspace only on `/visualiser` and Project Compare. This satisfies the Dashboard boundary without duplicating or rewriting playback, analyzer, canvas or project logic. A hard browser reload still clears session audio as before.
+
 ## 2026-10-06 — `example-dash.png` specifies the complete Home composition
 
 The user's latest instruction makes `Images-dashboard/assets/example-dash.png` the Home visual and interaction reference, including the hero, four destination cards, navigation, top bar, and four-tab context rail. This expands the earlier motion note that treated it as panel relationships only. Project names, tempo, moods, and active ingredients still come from the canonical active project; unavailable fields stay unavailable. This preserves the existing live-data decision and project/editor/audio owners while making the screenshot's layout and styling authoritative.
