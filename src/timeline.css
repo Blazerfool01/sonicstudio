@@ -297,7 +297,7 @@
 }
 
 .timeline-unarranged {
-  color: #6f8792 !important;
+  color: #6f8792;
 }
 
 .timeline-lane {
@@ -321,9 +321,9 @@
   justify-content: center;
   overflow: hidden;
   padding: 0.35rem 0.6rem !important;
-  border: 1px solid rgba(105, 236, 216, 0.55) !important;
+  border: 1px solid rgba(105, 236, 216, 0.55);
   border-radius: 0.5rem !important;
-  background: linear-gradient(110deg, rgba(20, 93, 93, 0.92), rgba(34, 45, 91, 0.95)) !important;
+  background: linear-gradient(110deg, rgba(20, 93, 93, 0.92), rgba(34, 45, 91, 0.95));
   box-shadow: 0 0 20px rgba(75, 224, 202, 0.11), inset 0 1px rgba(255, 255, 255, 0.09);
   text-align: left;
   white-space: nowrap;
@@ -345,18 +345,18 @@
 }
 
 .timeline-clip.selected {
-  border-color: #b7fff2 !important;
+  border-color: #b7fff2;
   box-shadow: 0 0 0 2px rgba(121, 255, 231, 0.45), 0 0 24px rgba(75, 224, 202, 0.24);
 }
 
 .timeline-clip.muted {
-  border-style: dashed !important;
-  background: linear-gradient(110deg, rgba(64, 70, 83, 0.88), rgba(40, 45, 59, 0.92)) !important;
+  border-style: dashed;
+  background: linear-gradient(110deg, rgba(64, 70, 83, 0.88), rgba(40, 45, 59, 0.92));
   opacity: 0.6;
 }
 
 .timeline-clip.solo {
-  border-color: #ffcf89 !important;
+  border-color: #ffcf89;
   box-shadow: 0 0 18px rgba(255, 183, 117, 0.18);
 }
 
@@ -394,9 +394,9 @@
 }
 
 .timeline-remove {
-  border-color: rgba(255, 171, 130, 0.44) !important;
-  background: rgba(83, 43, 37, 0.54) !important;
-  color: #ffd9c7 !important;
+  border-color: rgba(255, 171, 130, 0.44);
+  background: rgba(83, 43, 37, 0.54);
+  color: #ffd9c7;
 }
 
 .timeline-edit-grid {

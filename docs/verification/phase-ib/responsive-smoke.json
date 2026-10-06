@@ -1,0 +1,170 @@
+[
+  {
+    "client": 1265,
+    "destination": "◈Create01",
+    "scroll": 1265,
+    "step": "overview",
+    "width": 1280
+  },
+  {
+    "client": 1265,
+    "destination": "▤Tracks02",
+    "scroll": 1265,
+    "step": "overview",
+    "width": 1280
+  },
+  {
+    "client": 1280,
+    "destination": "◫Compare03",
+    "scroll": 1280,
+    "step": "overview",
+    "width": 1280
+  },
+  {
+    "client": 1265,
+    "destination": "◉Visualise04",
+    "scroll": 1265,
+    "step": "4VisualiserSee your sound",
+    "width": 1280
+  },
+  {
+    "client": 1265,
+    "destination": "◈Create01",
+    "scroll": 1265,
+    "step": "1Genre MixerBlend your sound",
+    "width": 1280
+  },
+  {
+    "client": 1265,
+    "destination": "◈Create01",
+    "scroll": 1265,
+    "step": "2Vocal PersonaShape your voice",
+    "width": 1280
+  },
+  {
+    "client": 1265,
+    "destination": "◈Create01",
+    "scroll": 1265,
+    "step": "3Mood MapperSet the emotional direction",
+    "width": 1280
+  },
+  {
+    "client": 1265,
+    "destination": "◈Create01",
+    "scroll": 1265,
+    "step": "5ExportShare your creation",
+    "width": 1280
+  },
+  {
+    "client": 375,
+    "destination": "◈Create01",
+    "scroll": 375,
+    "step": "overview",
+    "width": 390
+  },
+  {
+    "client": 375,
+    "destination": "▤Tracks02",
+    "scroll": 375,
+    "step": "overview",
+    "width": 390
+  },
+  {
+    "client": 375,
+    "destination": "◫Compare03",
+    "scroll": 375,
+    "step": "overview",
+    "width": 390
+  },
+  {
+    "client": 375,
+    "destination": "◉Visualise04",
+    "scroll": 375,
+    "step": "4VisualiserSee your sound",
+    "width": 390
+  },
+  {
+    "client": 375,
+    "destination": "◈Create01",
+    "scroll": 375,
+    "step": "1Genre MixerBlend your sound",
+    "width": 390
+  },
+  {
+    "client": 375,
+    "destination": "◈Create01",
+    "scroll": 375,
+    "step": "2Vocal PersonaShape your voice",
+    "width": 390
+  },
+  {
+    "client": 375,
+    "destination": "◈Create01",
+    "scroll": 375,
+    "step": "3Mood MapperSet the emotional direction",
+    "width": 390
+  },
+  {
+    "client": 375,
+    "destination": "◈Create01",
+    "scroll": 375,
+    "step": "5ExportShare your creation",
+    "width": 390
+  },
+  {
+    "client": 305,
+    "destination": "◈Create01",
+    "scroll": 305,
+    "step": "overview",
+    "width": 320
+  },
+  {
+    "client": 305,
+    "destination": "▤Tracks02",
+    "scroll": 305,
+    "step": "overview",
+    "width": 320
+  },
+  {
+    "client": 305,
+    "destination": "◫Compare03",
+    "scroll": 305,
+    "step": "overview",
+    "width": 320
+  },
+  {
+    "client": 305,
+    "destination": "◉Visualise04",
+    "scroll": 305,
+    "step": "4VisualiserSee your sound",
+    "width": 320
+  },
+  {
+    "client": 305,
+    "destination": "◈Create01",
+    "scroll": 305,
+    "step": "1Genre MixerBlend your sound",
+    "width": 320
+  },
+  {
+    "client": 305,
+    "destination": "◈Create01",
+    "scroll": 305,
+    "step": "2Vocal PersonaShape your voice",
+    "width": 320
+  },
+  {
+    "client": 305,
+    "destination": "◈Create01",
+    "scroll": 305,
+    "step": "3Mood MapperSet the emotional direction",
+    "width": 320
+  },
+  {
+    "client": 305,
+    "destination": "◈Create01",
+    "scroll": 305,
+    "step": "5ExportShare your creation",
+    "width": 320
+  }
+]

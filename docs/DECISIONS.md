@@ -1,5 +1,11 @@
 # Decisions
 
+## 2026-10-06 — Interaction states consume existing owners and keep separate meanings
+
+Phase I-B defines static endpoints in one final interaction-state CSS layer using shared tokens. Hover signals interactivity through a cool surface/border; selection persists as violet fill/edge; keyboard location gets an independent offset cyan-white ring; cyan playback can coexist with violet selection. Historical framing and explicit labels remain separate from current identity. Dirty styling applies only to existing local drafts, never to immediately persisted project fields. Destructive emphasis is reserved for actual confirmation context. StatusNotice remains the shared semantic feedback component; Export reuses it instead of introducing toast/status infrastructure.
+
+These meanings must survive simultaneous hover, focus, selection, mute/solo, disabled and playback states. Native pseudo-classes, existing ARIA/classes and presentation attributes derived from existing component state are sufficient; new persisted/control stores, custom native-control replacements and per-component palettes were rejected. Phase I-C may animate these endpoints only under separate scope, and must preserve focus visibility, disabled precedence, textual historical/preference/availability distinctions and existing audio/state ownership. This extends I-A presentation without reversing its composition or earlier domain decisions.
+
 ## 2026-10-05 — Export is a separate deterministic interchange projection
 
 Phase G introduces sonic-studio.project-export schema 1 rather than exposing the browser-storage envelope. Explicit nested cleaners project current identity and historical saved records; stored timestamps stay authoritative and no generation timestamp enters the payload. JSON contains metadata, never playable audio or runtime/draft state. Brief notes are a separately labeled appendix and never alter musical guidance. Empty metadata is useful; a brief needs at least one ingredient, and partial choices are warnings. A browser download is only acknowledged as requested because the browser does not confirm saving to the app. Rendering and import are excluded. This supersedes the earlier deferral of exporting while retaining the existing storage and notes/guidance boundaries.

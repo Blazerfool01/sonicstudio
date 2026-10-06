@@ -1,5 +1,12 @@
 # Changelog
 
+## UI/UX Overhaul Phase I-B — Interaction States (`2.0.0`, 2026-10-06)
+
+- Began on clean committed accepted I-A `51fd9f55acb0fa8c73246ba7bb03c7b708d50fee`. Added shared static state tokens/styles across navigation, workflow, buttons, native inputs/ranges, choices/cards, disclosures, Timeline, Visualiser, Compare, rail, Export and power/historical actions.
+- Distinguished hover, persistent selection, keyboard focus, press, disabled, local dirty/saved, historical context, playback and semantic feedback. Added presentation attributes/text from existing state; Export feedback now reuses StatusNotice. Removed Timeline color precedence barriers while retaining geometry and sequencing.
+- Verified 251 unchanged tests, production build and diff check; 1664 × 920 desktop states/workflows, 128 visible page-control focus samples, 24 responsive checks at 1280/390/320, one audio/canvas/graph and clean console. Actual download saving remains unverified; requested-download feedback and clipboard success/error recovery verified. Details/screenshots: docs/IB_VERIFICATION.md; handoff: .ai/handoffs/I-B.md.
+- I-B is local/uncommitted. No model/schema/ownership change, new dependency or motion system. I-C/I-D and full Phase I remain incomplete; no commit, push or deployment.
+
 ## UI/UX Overhaul Phase I-A — Reference Fidelity (`2.0.0`, 2026-10-06)
 
 - Started from clean accepted G/H checkpoint `17b933115a70c84c33a40a2d8b1357bc944937ec`; no reset to the earlier E/F baseline.

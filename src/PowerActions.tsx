@@ -18,7 +18,7 @@ export default function PowerActions({ project, update, onSelectTrack, snapshotR
       <p>Capture current Genre, Vocal and Mood settings as historical track identity. This creates no audio.</p>
       <label>Snapshot title<input ref={input} aria-label="Snapshot title" value={title} maxLength={160} onChange={e => setTitle(e.target.value)}/></label>
       <label>Version / label<input aria-label="Snapshot version" value={version} maxLength={160} onChange={e => setVersion(e.target.value)}/></label>
-      <button disabled={!title.trim()}>Capture snapshot</button><button type="button" onClick={() => setOpen(false)}>Cancel snapshot</button>
+      <button className="action-primary" disabled={!title.trim()}>Capture snapshot</button><button type="button" onClick={() => setOpen(false)}>Cancel snapshot</button>
       {!title.trim() && <small>Enter a title before capturing this experiment.</small>}
     </form>}
     <StatusNotice>{message}</StatusNotice>

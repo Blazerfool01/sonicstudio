@@ -382,10 +382,10 @@ export default function Timeline({ project, update, selectedTrackId, onSelectTra
     return track ? `${track.title}${track.version ? ` · ${track.version}` : ''}` : 'Missing project track'
   }
 
-  return <section className="timeline-panel" aria-labelledby="timeline-heading">
+  return <section className="timeline-panel" data-playback-active={isPlayingTimelineClip} aria-labelledby="timeline-heading">
     <div className="timeline-heading-row">
       <div><span className="timeline-eyebrow">STUDIO / ARRANGEMENT</span><h2 id="timeline-heading">Timeline<span>.</span></h2></div>
-    <div className="timeline-transport"><button type="button" onClick={togglePlayback} disabled={!project.timeline.length}>{runRef.current || isPlayingTimelineClip ? 'Pause timeline' : 'Play timeline'}</button><span>{transport?.state.playing ? 'PLAYING' : runRef.current ? 'SEQUENCING' : 'PAUSED'}</span></div>
+    <div className="timeline-transport"><button className="action-primary" data-playback-active={isPlayingTimelineClip} type="button" onClick={togglePlayback} disabled={!project.timeline.length}>{runRef.current || isPlayingTimelineClip ? 'Pause timeline' : 'Play timeline'}</button><span>{transport?.state.playing ? 'PLAYING' : runRef.current ? 'SEQUENCING' : 'PAUSED'}</span></div>
     </div>
     <details className="timeline-playback-guidance"><summary>Single-source sequencing · playback rules</summary><p className="timeline-intro">Arrange project tracks on one shared time ruler. Only one source plays at once. The latest-starting eligible clip shadows earlier overlaps; when it ends, older clips do not resume, so playback may stay silent until a later eligible clip. Ties go to the earliest project row, then the lexically earliest clip ID.</p></details>
 
@@ -423,8 +423,8 @@ export default function Timeline({ project, update, selectedTrackId, onSelectTra
                   const width = Math.max(18, (visualEnd - clip.start) * PIXELS_PER_SECOND)
                   const attached = transport?.isTrackAttached(track.id) ?? false
                   const chosen = selectedClipId === clip.id
-                  return <button type="button" key={clip.id} className={`timeline-clip${chosen ? ' selected' : ''}${clip.muted ? ' muted' : ''}${clip.solo ? ' solo' : ''}`} aria-pressed={chosen} aria-label={`${trackLabel(clip)}, starts at ${formatTime(clip.start)}, ${clip.sourceOut === null ? 'full source' : `source ${formatTime(clip.sourceIn)} to ${formatTime(clip.sourceOut)}`}${attached ? ', audio attached' : ', audio unattached'}`} style={{ left: clip.start * PIXELS_PER_SECOND, width }} onClick={() => selectClip(clip)}>
-                    <span>{trackLabel(clip)}</span><small>{clip.sourceOut === null ? 'FULL SOURCE ↗' : `${formatTime(clip.sourceIn)} — ${formatTime(clip.sourceOut)}`}</small>
+                  return <button type="button" key={clip.id} className={`timeline-clip${chosen ? ' selected' : ''}${clip.muted ? ' muted' : ''}${clip.solo ? ' solo' : ''}`} data-audio-attached={attached} data-playback-active={Boolean(isPlayingTimelineClip && transport?.state.projectTrackId === clip.trackId && activeTimelineClipAt(project.timeline, trackIds, playhead, durations)?.id === clip.id)} aria-pressed={chosen} aria-label={`${trackLabel(clip)}, starts at ${formatTime(clip.start)}, ${clip.sourceOut === null ? 'full source' : `source ${formatTime(clip.sourceIn)} to ${formatTime(clip.sourceOut)}`}${attached ? ', audio attached' : ', audio unattached'}`} style={{ left: clip.start * PIXELS_PER_SECOND, width }} onClick={() => selectClip(clip)}>
+                    <span>{trackLabel(clip)}</span><small>{clip.muted ? 'MUTED · ' : clip.solo ? 'SOLO · ' : ''}{!attached ? 'NO AUDIO · ' : ''}{clip.sourceOut === null ? 'FULL SOURCE ↗' : `${formatTime(clip.sourceIn)} — ${formatTime(clip.sourceOut)}`}</small>
                   </button>
                 })}
               </div>

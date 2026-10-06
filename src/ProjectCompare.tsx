@@ -16,14 +16,16 @@ const observationLabels: Record<ObservationField, string> = {
   mix: 'Mix', improved: 'Improved', regressed: 'Regressed',
 }
 function trackLabel(track: ProjectTrack): string { return `${track.title}${track.version ? ` · ${track.version}` : ''}` }
-function Side({ side, track, audio, onAttach }: { onAttach: (id: string) => void; side: 'A' | 'B'; track: ProjectTrack; audio: ProjectAudioActions }) {
+function Side({ side, track, audio, onAttach, preferred }: { preferred: boolean; onAttach: (id: string) => void; side: 'A' | 'B'; track: ProjectTrack; audio: ProjectAudioActions }) {
   const attached = audio.attached(track.id)
   const active = audio.currentTrackId === track.id
-  return <article className={`comparison-side${active ? ' active' : ''}`} aria-label={`Comparison side ${side}`}>
+  return <article className={`comparison-side${active ? ' active' : ''}`} data-playback-active={active && audio.playing} data-preferred={preferred} aria-label={`Comparison side ${side}`}>
     <h3>{side} · {trackLabel(track)}</h3>
+    {active && <p className="comparison-playback-label">{audio.playing ? 'Playing' : 'Paused / selected'} side {side}</p>}
+    {preferred && <p className="comparison-preference-label">Your preferred version</p>}
     <p>Source: {track.source}{track.sourceDetail ? ` / ${track.sourceDetail}` : ''}</p>
     <p>{attached ? 'Audio attached this session' : 'Track record exists · audio unavailable this session'}</p>
-    <button type="button" disabled={!attached} aria-pressed={active} onClick={() => audio.play(track.id)}>Play {side}</button>
+    <button type="button" className="action-primary" data-playback-active={active && audio.playing} disabled={!attached} aria-pressed={active} onClick={() => audio.play(track.id)}>Play {side}</button>
     <button type="button" onClick={() => onAttach(track.id)}>Attach / reattach {side}</button>
     <button type="button" disabled={!attached} onClick={() => audio.open(track.id)}>Open {side} in Visualise</button>
     <details><summary>{side} captured provenance</summary>{(['genre', 'vocal', 'mood'] as const).map(kind => <div key={kind}><h4>{kind} used</h4><strong>{track.creationSnapshot[kind]?.label ?? 'Not captured'}</strong><p>{ingredientDescription(track.creationSnapshot, kind)}</p></div>)}</details>
@@ -43,7 +45,7 @@ function ComparisonEditor({ comparison, project, update, audio, onDeleted, onAtt
   const dirty = JSON.stringify(observations) !== JSON.stringify(comparison.observations) || preferred !== comparison.preferredTrackId || conclusion !== comparison.conclusion
   return <div className="comparison-editor">
     <p className="comparison-state" role="status">{activeSide ? `Active side: ${activeSide} · ${audio.playing ? 'Playing' : 'Paused / selected'}` : 'No comparison side active'}</p>
-    <div className="comparison-sides"><Side side="A" track={a} audio={audio} onAttach={onAttach}/><Side side="B" track={b} audio={audio} onAttach={onAttach}/></div>
+    <div className="comparison-sides"><Side side="A" track={a} preferred={preferred === a.id} audio={audio} onAttach={onAttach}/><Side side="B" track={b} preferred={preferred === b.id} audio={audio} onAttach={onAttach}/></div>
     <div className="comparison-actions"><button type="button" disabled={!audio.attached(target.id)} onClick={() => audio.play(target.id)}>Switch A ↔ B</button><button type="button" disabled={!activeSide || !audio.playing} onClick={audio.pause}>Pause comparison</button></div>
     <p>One player switches between versions near the current position, clamped to the next track’s duration. Leaving Compare and Visualise pauses playback.</p>
     <div className="comparison-differences" aria-label="Provenance differences"><h3>What changed in the captured identity?</h3>{differences.map(d => <article key={d.dimension}><h4>{d.dimension} · {d.unchanged ? 'Unchanged' : d.changes.join(', ') + ' changed'}</h4>{d.unchanged ? <p>{d.before}</p> : <><p><strong>A:</strong> {d.before}</p><p><strong>B:</strong> {d.after}</p></>}</article>)}</div>
@@ -52,11 +54,11 @@ function ComparisonEditor({ comparison, project, update, audio, onDeleted, onAtt
       <div className="comparison-observations">{OBSERVATION_FIELDS.map(field => <label className="studio-notes" key={field}>{observationLabels[field]}<textarea aria-label={`${observationLabels[field]} observations`} rows={2} maxLength={2000} value={observations[field]} onChange={e => setObservations({ ...observations, [field]: e.target.value })}/></label>)}</div>
       <label className="studio-notes comparison-preference">Preferred version<select aria-label="Preferred track" value={preferred ?? ''} onChange={e => setPreferred(e.target.value || null)}><option value="">No preference / undecided</option><option value={a.id}>A · {trackLabel(a)}</option><option value={b.id}>B · {trackLabel(b)}</option></select></label>
       <label className="studio-notes">Conclusion / free notes<textarea aria-label="Comparison conclusion" rows={3} maxLength={4000} value={conclusion} onChange={e => setConclusion(e.target.value)}/></label>
-      <p>{draftStateLabel(dirty, 'Saved comparison')} · Created {comparison.createdAt}</p>
-      <button type="submit">Save comparison</button>
+      <p data-draft-state={dirty ? "dirty" : "saved"}>{draftStateLabel(dirty, 'Saved comparison')} · Created {comparison.createdAt}</p>
+      <button className="action-primary" type="submit">Save comparison</button>
     </form>
     <button type="button" onClick={() => setConfirmDelete(true)}>Delete comparison</button>
-    {confirmDelete && <div role="group" aria-label="Confirm comparison deletion"><p>Delete this comparison and its observations? Both tracks will remain.</p><button type="button" onClick={() => { update(deleteComparison(project, comparison.id)); onDeleted() }}>Confirm delete comparison</button><button type="button" onClick={() => setConfirmDelete(false)}>Keep comparison</button></div>}
+    {confirmDelete && <div className="destructive-confirmation" role="group" aria-label="Confirm comparison deletion"><p>Delete this comparison and its observations? Both tracks will remain.</p><button className="action-destructive" type="button" onClick={() => { update(deleteComparison(project, comparison.id)); onDeleted() }}>Confirm delete comparison</button><button type="button" onClick={() => setConfirmDelete(false)}>Keep comparison</button></div>}
     <StatusNotice tone={message.startsWith('Could not') ? 'error' : 'success'}>{message}</StatusNotice>
   </div>
 }
@@ -87,7 +89,7 @@ export default function ProjectCompare({ project, update, audio, onAttach, compa
     <form className="studio-controls" onSubmit={e => { e.preventDefault(); create() }}><label>Track A<select aria-label="Comparison Track A" value={trackAId} onChange={e => { setTrackAId(e.target.value); if (e.target.value === trackBId) setTrackBId('') }}><option value="">Choose A</option>{project.tracks.map(t => <option key={t.id} value={t.id} disabled={t.id === trackBId}>{trackLabel(t)}</option>)}</select></label><label>Track B<select aria-label="Comparison Track B" value={trackBId} onChange={e => setTrackBId(e.target.value)}><option value="">Choose B</option>{project.tracks.map(t => <option key={t.id} value={t.id} disabled={t.id === trackAId}>{trackLabel(t)}</option>)}</select></label><button disabled={!validPair} aria-describedby={!validPair ? 'comparison-create-help' : undefined}>Create comparison</button></form>{!validPair && <small id="comparison-create-help">Choose two distinct project tracks to create a comparison.</small>}
     {seedActive && <button type="button" onClick={() => { setTrackAId(''); setTrackBId(''); setSeedActive(false); onClearCompareSeed?.(); setMessage('Comparison draft cancelled. No comparison was saved.') }}>Cancel comparison draft</button>}
     <label className="studio-notes">Open saved comparison<select aria-label="Open comparison" value={selected?.id ?? ''} onChange={e => setSelectedId(e.target.value)}><option value="">Choose a saved comparison</option>{project.comparisons.map((c, index) => <option key={c.id} value={c.id}>{index + 1}. {trackLabel(project.tracks.find(t => t.id === c.trackAId)!)} vs {trackLabel(project.tracks.find(t => t.id === c.trackBId)!)}</option>)}</select></label>
-    <StatusNotice tone={message.startsWith('Could not') ? 'error' : 'success'}>{message}</StatusNotice>{selected && <ComparisonEditor key={selected.id} comparison={selected} project={project} update={update} audio={audio} onAttach={onAttach} onDeleted={() => setSelectedId('')}/>}
+    <StatusNotice tone={seedActive || message.startsWith('Comparison draft cancelled') ? 'info' : message.startsWith('Could not') || message.includes('no longer available') || message.startsWith('Choose two') ? 'error' : 'success'}>{message}</StatusNotice>{selected && <ComparisonEditor key={selected.id} comparison={selected} project={project} update={update} audio={audio} onAttach={onAttach} onDeleted={() => setSelectedId('')}/>}
     {!project.comparisons.length && <StatusNotice tone="empty">No saved comparisons yet.</StatusNotice>}
   </section>
 }

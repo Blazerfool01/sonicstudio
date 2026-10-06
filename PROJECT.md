@@ -1,12 +1,22 @@
 # Sonic Studio — Project Status
 
-**Status:** SonicStudio v2.0 remains the released baseline (`2.0.0`); Phase I-A — Reference Fidelity is implemented and locally verified on the clean accepted G/H checkpoint `17b933115a70c84c33a40a2d8b1357bc944937ec`. I-A is uncommitted; no push or deployment is included. Full Phase I is not complete · **Next objective:** separately authorize Phase I-B — Interaction States after visual review of I-A · **Last reviewed:** 2026-10-06
+**Status:** SonicStudio v2.0 remains the released baseline (`2.0.0`). Phase I-B — Interaction States is implemented and locally verified on clean committed accepted I-A checkpoint `51fd9f55acb0fa8c73246ba7bb03c7b708d50fee`. I-B is uncommitted; no push or deployment included. Full Phase I remains incomplete · **Next objective:** user visual review of I-B, then separately authorize I-C — Motion · **Last reviewed:** 2026-10-06
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
 **Latest change record:** [CHANGELOG.md](CHANGELOG.md)
 
-## Current local milestone — Phase I-A: Reference Fidelity
+## Current local milestone — Phase I-B: Interaction States
+
+One static interaction vocabulary now covers the existing Studio controls: restrained hover, persistent violet selection/edge, separate cyan-white keyboard focus ring, immediate pressed feedback, readable disabled controls, local dirty/saved labels, blue historical framing and cyan playback. Explicit primary/secondary/quiet/confirmation treatments preserve the importance of actual actions. Native controls and disclosures remain native; Export feedback reuses StatusNotice with consistent semantic surfaces. Current versus historical, playback versus preference, and muted/solo/unattached Timeline states retain explicit text.
+
+The final state layer lives in `src/interactionStates.css`. Small presentation attributes/classes consume existing owners; no model/lib, dependency, schema, shortcut handler, media lifecycle or canvas renderer changes. The I-A shell remains 200/60/310 px sidebar/header/rail with a 144 px hero. No keyframes, new transitions, particles, lift, ripple or other I-C effects.
+
+**Verification:** 251 unchanged tests pass; production build and diff check pass. Live desktop review at 1664 × 920 covers pointer/keyboard/pressed/invalid/disabled states, real Timeline and Compare playback, power/historical handoffs, local drafts/native undo, disclosures, all rail sections, Export ready/warning/blocker/success/controlled clipboard error and reload. All 128 sampled page controls had visible keyboard focus outside hidden views; 24 checks at 1280/390/320 passed without page overflow. Console warning/error logs were empty. One audio element, one canvas and one analyser graph were observed across playback/navigation/switching. [Detailed inventory, evidence and limits](docs/IB_VERIFICATION.md); [handoff](.ai/handoffs/I-B.md).
+
+**Gate:** I-B local Interaction States PASS; user visual acceptance and commit approval remain separate. Download request feedback was verified, but actual file saving was not confirmed. Full accessibility/contrast hardening and responsive redesign remain I-D; I-C motion remains separately authorized and unstarted. The review project remains locally available; reload cleared its session audio. The pre-existing project/libraries were not edited.
+
+## Accepted checkpoint — Phase I-A: Reference Fidelity
 
 The supplied Neon Music Production Dashboard guides static composition: a full-height 200 px sidebar, 60 px workspace header, 310 px desktop context rail, compact hero/workflow strip, and three read-only creative identity cards. Genre weights, four Vocal values and the seven-axis Mood fingerprint come from captured current project identity, with existing explicit editor actions. Project notes, source provenance and the Creation Brief remain reachable through native disclosures. Static studio artwork is labeled separately from live analysis; the overview opens the existing Visualiser rather than mounting another player or canvas.
 

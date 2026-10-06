@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { StudioProject } from './lib/studioProject.ts'
 import { copyExport, createProjectExport, downloadExport, validateProjectExport } from './lib/projectExport.ts'
 import type { ExportArtifact, ExportFormat } from './lib/projectExport.ts'
+import StatusNotice from './StatusNotice.tsx'
 import './export.css'
 
 export default function ExportPanel({ project }: { project: StudioProject | null }) {
@@ -36,9 +37,9 @@ export default function ExportPanel({ project }: { project: StudioProject | null
       <label><input type="radio" name="export-format" checked={format === 'brief'} onChange={() => setFormat('brief')}/><span><strong>Creation Brief · .txt</strong><small>Current musical guidance and separate project notes for external generation workflows such as Suno or Udio. No provider connection required.</small></span></label>
       <label><input type="radio" name="export-format" checked={format === 'json'} onChange={() => setFormat('json')}/><span><strong>Project package · .json</strong><small>Current identity, notes, saved track provenance, Timeline arrangement and comparison observations. Metadata only; no playable audio.</small></span></label>
     </fieldset>
-    <div className="export-validation" aria-label="Export validation"><h3>{validation.allowed ? 'Ready to export' : 'Before you export'}</h3><ul>{validation.notices.map(notice => <li key={notice.code} className={`export-notice export-${notice.level}`}><strong>{notice.level === 'blocker' ? 'Required' : notice.level === 'warning' ? 'Note' : 'About this export'}:</strong> {notice.message}</li>)}</ul></div>
-    <div className="export-actions"><button disabled={!artifact} onClick={copy}>Copy {format === 'brief' ? 'Creation Brief' : 'JSON'}</button><button disabled={!artifact} onClick={download}>Download {format === 'brief' ? '.txt' : '.json'}</button></div>
-    {feedback && <p className={`export-feedback${feedback.error ? ' export-error' : ''}`} role={feedback.error ? 'alert' : 'status'}>{feedback.text}</p>}
+    <div className="export-validation" data-export-ready={validation.allowed} aria-label="Export validation"><h3>{validation.allowed ? 'Ready to export' : 'Before you export'}</h3><ul>{validation.notices.map(notice => <li key={notice.code} className={`export-notice export-${notice.level}`}><strong>{notice.level === 'blocker' ? 'Required' : notice.level === 'warning' ? 'Note' : 'About this export'}:</strong> {notice.message}</li>)}</ul></div>
+    <div className="export-actions"><button disabled={!artifact} onClick={copy}>Copy {format === 'brief' ? 'Creation Brief' : 'JSON'}</button><button className="action-primary" disabled={!artifact} onClick={download}>Download {format === 'brief' ? '.txt' : '.json'}</button></div>
+    {feedback && <StatusNotice className="export-feedback" tone={feedback.error ? 'error' : 'success'}>{feedback.text}</StatusNotice>}
     {artifact && <label className="export-preview">Export preview · {artifact.filename}<textarea readOnly aria-label="Export preview" value={artifact.content} rows={14}/></label>}
     <p className="export-boundary">Only saved project fields are exported. Unsaved editor drafts are excluded. Audio rendering and project import are not available.</p>
   </section>

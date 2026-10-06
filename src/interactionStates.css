@@ -1,0 +1,231 @@
+/* Phase I-B: static state endpoints. No motion or layout ownership. */
+:root {
+  --state-hover-surface: #19263b;
+  --state-hover-border: #6b7c99;
+  --state-selected-surface: #292047;
+  --state-selected-border: var(--studio-violet);
+  --state-focus-ring: #b4f5ff;
+  --state-pressed-surface: #111b2d;
+  --state-disabled-opacity: .72;
+  --state-success: #66e2bb;
+  --state-info: #87c5ff;
+  --state-warning: #f0c984;
+  --state-error: #ffadba;
+  --state-destructive: #ffadba;
+  --state-playback: var(--studio-cyan);
+  --state-draft: #cfb7ff;
+}
+
+/* Shared defaults preserve the accepted geometry, typography and control sizes. */
+.studio-shell.studio-shell button {
+  color: var(--studio-text);
+  background: var(--studio-raised);
+  border-color: var(--studio-border);
+  box-shadow: none;
+}
+.studio-shell .studio-sidebar button:not([aria-current]) { background: transparent; border-color: transparent; }
+.studio-shell .studio-stepper button:not([aria-current]) { background: transparent; border-color: transparent; }
+.studio-shell button:not(:disabled):not([aria-disabled="true"]):hover {
+  background: var(--state-hover-surface);
+  border-color: var(--state-hover-border);
+  color: var(--studio-text);
+}
+.studio-shell :is(button[aria-pressed="true"], button[aria-current], .genre-option.current,
+  .saved-item.active, .persona-opened, .mood-preset-item.active) {
+  background: var(--state-selected-surface);
+  border-color: var(--state-selected-border);
+  box-shadow: inset 3px 0 var(--state-selected-border);
+  color: var(--studio-text);
+}
+.studio-shell :is(button[aria-pressed="true"], button[aria-current], .genre-option.current):not(:disabled):hover {
+  background: #322951;
+  border-color: var(--state-selected-border);
+  box-shadow: inset 3px 0 var(--state-selected-border);
+}
+.studio-shell .studio-sidebar button[aria-current] .studio-nav-icon { color: var(--studio-violet); }
+.studio-shell .studio-stepper button[aria-current] .studio-step-number {
+  background: #6638b6;
+  color: #fff;
+  border-color: #c49dff;
+  box-shadow: 0 0 8px #a970ff42;
+}
+.studio-shell button[aria-expanded="true"] { border-color: var(--studio-blue); }
+
+/* Bright primary endpoints are assigned by action, never by button position. */
+.studio-shell button.action-primary, .studio-shell .project-use {
+  background: linear-gradient(105deg, #7541c3, #2855b5);
+  border-color: #aa8bea;
+  color: #fff;
+}
+.studio-shell button.action-primary:not(:disabled):hover, .studio-shell .project-use:not(:disabled):hover {
+  background: linear-gradient(105deg, #8851d6, #3268ce);
+  border-color: #d0b7ff;
+}
+.studio-shell :is(.text-button, .studio-create-overview, .visualiser-remove,
+  .studio-module header button, .track-power-actions button) {
+  background: transparent;
+  color: #c5d2e8;
+}
+
+.studio-shell.studio-shell :is(input:where(:not([type="range"]):not([type="radio"]):not([type="checkbox"])), select, textarea) {
+  background: var(--studio-raised);
+  border-color: #41516b;
+  color: var(--studio-text);
+  accent-color: var(--studio-violet);
+}
+.studio-shell :is(input, select, textarea):not(:disabled):hover { border-color: var(--state-hover-border); }
+.studio-shell :is(input, textarea)::placeholder { color: var(--studio-muted); opacity: 1; }
+.studio-shell :is(input, textarea):not(:placeholder-shown) { caret-color: var(--studio-cyan); }
+.studio-shell :where(input[value]:not([value=""]):is([type="text"], :not([type])),
+  select:has(option:checked:not([value=""]))) { box-shadow: inset 0 -1px #607391; }
+.studio-shell :is(input, textarea)[readonly] { border-style: dashed; }
+.studio-shell select:open { border-color: var(--studio-blue); }
+.studio-shell :is(input, select, textarea):is([aria-invalid="true"], :user-invalid):not(:disabled) {
+  border-color: var(--state-error);
+  box-shadow: inset 3px 0 var(--state-error);
+}
+.studio-shell input::file-selector-button {
+  background: #22334d;
+  color: var(--studio-text);
+  border: 1px solid #637794;
+  border-radius: 4px;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+.studio-shell input[type="range"] {
+  accent-color: var(--studio-violet);
+  cursor: pointer;
+}
+/* Native range keyboard/pointer behavior remains authoritative. */
+.studio-shell input[type="range"]::-webkit-slider-thumb { border-radius: 50%; background: var(--studio-violet); box-shadow: 0 0 0 2px #e4d5ff, 0 0 8px #a970ff66; }
+.studio-shell input[type="range"]::-moz-range-thumb { border: 2px solid #e4d5ff; background: var(--studio-violet); }
+.studio-shell input[type="range"]::-moz-range-progress { background: var(--studio-violet); }
+.studio-shell .balance input[type="range"] { background: linear-gradient(90deg, var(--studio-violet) var(--split), #243048 var(--split)); }
+.studio-shell .visualiser-seek input[type="range"] { background: linear-gradient(90deg, var(--studio-violet) var(--progress), #243048 var(--progress)); }
+.studio-shell :is(.vocal-slider, .mood-weight, .balance-labels) strong { color: #d9c2ff; }
+.studio-shell :is(input[type="radio"], input[type="checkbox"]) { accent-color: var(--studio-violet); }
+
+.studio-shell :is(.studio-module, .project-track, .comparison-side, .visualiser-track) {
+  border-color: var(--studio-border);
+}
+.studio-shell :is(.studio-module, .project-track, .comparison-side, .visualiser-track):hover {
+  border-color: var(--state-hover-border);
+}
+.studio-shell :is(.studio-module, .project-track, .comparison-side, .visualiser-track):has(:focus-visible) {
+  border-color: var(--studio-blue);
+}
+.studio-shell .studio-module[data-source-state="missing"] { border-style: dashed; }
+.studio-shell :is(.project-track.selected, .visualiser-track.selected, .comparison-side.active) {
+  background: var(--state-selected-surface);
+  border-color: var(--state-selected-border);
+  box-shadow: inset 3px 0 var(--state-selected-border);
+}
+.studio-shell .export-formats label:has(input:checked) {
+  background: var(--state-selected-surface);
+  border-color: var(--state-selected-border);
+  box-shadow: inset 3px 0 var(--state-selected-border);
+}
+.studio-shell .export-formats label:hover { border-color: var(--state-hover-border); }
+.studio-shell .export-formats label:has(input:checked):hover { border-color: var(--state-selected-border); }
+.studio-shell :is(.context-rail-history, .historical-draft-notice) {
+  background: #171f36;
+  border-color: var(--studio-blue);
+  box-shadow: inset 3px 0 var(--studio-blue);
+  color: var(--studio-text);
+}
+.studio-shell :is(.context-rail-history-tag, .historical-draft-notice strong) { color: var(--state-info); }
+.studio-shell [data-draft-state] {
+  color: var(--studio-muted);
+  border-left: 3px solid #64748c;
+  padding-left: 8px;
+}
+.studio-shell [data-draft-state="dirty"] { color: var(--state-draft); border-color: var(--studio-violet); }
+
+/* Playback is cyan; selection is violet. They can be visible together. */
+.studio-shell [data-playback-active="true"] { border-color: var(--state-playback); }
+.studio-shell button[data-playback-active="true"] {
+  color: #b4f5ff;
+  background: #12323e;
+  border-color: var(--state-playback);
+  box-shadow: inset 0 -3px var(--state-playback);
+}
+.studio-shell button[data-playback-active="true"]:not(:disabled):hover,
+.studio-shell button[data-playback-active="true"][aria-pressed="true"]:not(:disabled):hover {
+  color: #b4f5ff;
+  background: #194250;
+  border-color: var(--state-playback);
+  box-shadow: inset 0 -3px var(--state-playback);
+}
+.studio-shell .timeline-track-row.project-selected .timeline-row-label { box-shadow: inset 3px 0 var(--state-selected-border); }
+.studio-shell .timeline-clip { background: linear-gradient(90deg, #34285e, #17405c); border-color: #7583ae; color: var(--studio-text); }
+.studio-shell .timeline-clip.selected { background: var(--state-selected-surface); border-color: var(--state-selected-border); box-shadow: inset 3px 0 var(--state-selected-border); }
+.studio-shell .timeline-clip.muted { background: #202938; border-style: dashed; color: #c0cbdd; opacity: 1; }
+.studio-shell .timeline-clip.solo { border-bottom: 3px solid var(--studio-blue); }
+.studio-shell .timeline-clip[data-audio-attached="false"] { background-image: none; border-style: dashed; }
+.studio-shell .timeline-clip[data-playback-active="true"] { border-bottom: 3px solid var(--state-playback); box-shadow: inset 0 -2px #39d7e83d; }
+.studio-shell .timeline-clip.selected[data-playback-active="true"] { box-shadow: inset 3px 0 var(--state-selected-border), inset 0 -2px #39d7e83d; }
+.studio-shell .timeline-clip.selected:not(:disabled):hover { border-color: var(--state-selected-border); background: #322951; }
+.studio-shell .timeline-clip.muted:not(:disabled):hover { background: #293548; }
+.studio-shell .timeline-playhead-line { border-color: #aab7cb; box-shadow: none; }
+.studio-shell .timeline-playhead-line::before { background: #aab7cb; box-shadow: none; }
+.studio-shell .timeline-panel[data-playback-active="true"] .timeline-playhead-line { border-color: var(--state-playback); box-shadow: 0 0 5px #39d7e855; }
+.studio-shell .timeline-panel[data-playback-active="true"] .timeline-playhead-line::before { background: var(--state-playback); }
+.studio-shell .timeline-row-switches button[aria-pressed="true"] { background: var(--state-selected-surface); border-color: var(--state-selected-border); color: var(--studio-text); }
+.studio-shell .comparison-side[data-playback-active="true"] { border-bottom: 3px solid var(--state-playback); }
+.studio-shell .comparison-preference-label { color: #d9c2ff; font-size: 11px; }
+.studio-shell .comparison-playback-label { color: #b4f5ff; font-size: 11px; }
+.studio-shell .timeline-clip small { color: inherit; }
+
+.studio-shell summary { cursor: pointer; color: #bfcee4; }
+.studio-shell summary:hover { color: #fff; background: var(--state-hover-surface); }
+.studio-shell details[open] > summary { color: var(--state-info); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Shared feedback surfaces; text and live-region semantics retain meaning. */
+.studio-shell .status-notice {
+  --notice-accent: var(--state-info);
+  padding: 8px 10px;
+  border: 1px solid #34465e;
+  border-left: 3px solid var(--notice-accent);
+  border-radius: 6px;
+  background: #121e30;
+  color: var(--notice-accent);
+}
+.studio-shell .status-notice-success { --notice-accent: var(--state-success); background: #102720; }
+.studio-shell .status-notice-warning { --notice-accent: var(--state-warning); background: #282318; }
+.studio-shell .status-notice-error { --notice-accent: var(--state-error); background: #2b1c28; }
+.studio-shell .status-notice-empty { --notice-accent: var(--studio-muted); background: #111b29; border-left-style: dashed; }
+.studio-shell :is(.persona-message, .vocal-action-message, .mood-preset-message, .copy-message, .timeline-message, .visualiser-message) { color: var(--state-info); }
+.studio-shell .export-blocker { color: var(--state-error); border-color: var(--state-error); background: #2b1c28; }
+.studio-shell .export-warning { color: var(--state-warning); border-color: var(--state-warning); background: #282318; }
+.studio-shell .export-info { color: var(--state-info); }
+.studio-shell .export-validation[data-export-ready="true"] h3 { color: var(--state-success); }
+.studio-shell .visualiser-import { background: var(--studio-raised); color: var(--studio-text); border: 1px solid var(--studio-border); }
+.studio-shell .visualiser-import:hover { background: var(--state-hover-surface); border-color: var(--state-hover-border); }
+.studio-shell .destructive-confirmation { border: 1px solid var(--state-destructive); border-radius: 6px; padding: 10px; background: #291c28; }
+.studio-shell button.action-destructive { color: var(--state-destructive); border-color: var(--state-destructive); background: #32212d; }
+.studio-shell button.action-destructive:hover { color: #fff; background: #50313f; }
+
+/* Last in the cascade: unavailable never inherits hover/selection emphasis. */
+.studio-shell.studio-shell button:not(:disabled):not([aria-disabled="true"]):active {
+  background: var(--state-pressed-surface);
+  border-color: var(--studio-cyan);
+  box-shadow: inset 0 0 0 1px var(--studio-cyan);
+}
+.studio-shell.studio-shell :is(button, input, select, textarea):is(:disabled, [aria-disabled="true"]) {
+  color: #bbc5d6;
+  background: #17202e;
+  border-color: #465169;
+  box-shadow: none;
+  opacity: var(--state-disabled-opacity);
+  cursor: not-allowed;
+}
+.studio-shell input[type="range"]:disabled::-webkit-slider-thumb { box-shadow: none; }
+.studio-shell :is(button, input, select, textarea, summary, a, [tabindex]):focus-visible {
+  outline: 2px solid var(--state-focus-ring);
+  outline-offset: 3px;
+}
+.studio-shell .visualiser-import:focus-within { outline: none; }
+.studio-shell :is(.project-track, .mood-presets > input):focus:not(:focus-visible) { outline: none; }
+.studio-shell .visualiser-import:has(input:focus-visible) { outline: 2px solid var(--state-focus-ring); outline-offset: 3px; }
+/* Keep the established hidden contract explicit even if future state rules grow. */
+.studio-shell [hidden] { display: none !important; }

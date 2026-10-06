@@ -67,7 +67,7 @@ export default function MoodPresetLibrary({ selections, onOpen, onUpdate, onClea
     <label className="mood-preset-name" htmlFor="mood-preset-name">PRESET NAME</label>
     <input id="mood-preset-name" maxLength={80} value={name} onChange={event => setName(event.target.value)} placeholder="Preset name"/>
     <div className="mood-preset-actions"><button onClick={saveNew} disabled={!canSaveNew}>Save as new</button><button onClick={update} disabled={!selected || !dirty || !name.trim() || selections.length === 0}>Update open preset</button></div>
-    {selected && <p className="mood-preset-current">Open: {selected.name} · {dirty ? 'Unsaved edits' : 'Up to date'}</p>}
+    {selected && <p className="mood-preset-current" data-draft-state={dirty ? "dirty" : "saved"}>Open: {selected.name} · {dirty ? 'Unsaved edits' : 'Up to date'}</p>}
     <p className="mood-preset-message" role="status">{message}</p>
     {presets.length === 0 ? <p className="mood-preset-empty">No saved mood presets yet.</p> : <div className="mood-preset-list">{presets.map(preset => <article className={`mood-preset-item ${preset.id === selectedId ? 'active' : ''}`} key={preset.id}><div><strong>{preset.name}</strong><span>{preset.selections.map(item => `${getMood(item.moodId)!.name} ${item.weight}`).join(' · ')}</span></div><div className="mood-preset-item-actions"><button onClick={() => open(preset)}>Open</button><button onClick={() => remove(preset)}>Delete</button></div></article>)}</div>}
   </section>

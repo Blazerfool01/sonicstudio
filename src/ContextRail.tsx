@@ -123,7 +123,7 @@ export default function ContextRail({ project, selection, statusMessage, onProje
               value={trackNotesDraft}
               onChange={event => setTrackNotesDraft(event.target.value)}
             />
-            <p className="context-rail-draft-state" aria-live="polite">{draftStateLabel(trackNotesDirty, 'Saved track notes')}</p>
+            <p className="context-rail-draft-state" data-draft-state={trackNotesDirty ? "dirty" : "saved"} aria-live="polite">{draftStateLabel(trackNotesDirty, 'Saved track notes')}</p>
             <button
               type="button"
               className="context-rail-save"

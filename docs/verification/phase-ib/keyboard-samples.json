@@ -1,0 +1,1150 @@
+[
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "▤Tracks02",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "◫Compare03",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "◉Visualise04",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Identity & Brief",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "1Genre MixerBlend your sound",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "2Vocal PersonaShape your voice",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "3Mood MapperSet the emotional direction",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "4VisualiserSee your sound",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "5ExportShare your creation",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Project controls · create, open, rename or delete",
+    "ring": true,
+    "tag": "SUMMARY",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "INPUT",
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Copy Creation Brief",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Download .txt",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Export preview",
+    "ring": true,
+    "tag": "TEXTAREA",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Project",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Guidance",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Presets / Sources",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Notes",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Project notes",
+    "ring": true,
+    "tag": "TEXTAREA",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Track notes",
+    "ring": true,
+    "tag": "TEXTAREA",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": false,
+    "hidden": false,
+    "name": "\n    ACTIVE PROJECTNo active projectI-B interaction acceptancePha",
+    "ring": false,
+    "tag": "BODY",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Switch project",
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "◈Create01",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "▤Tracks02",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "◫Compare03",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "◉Visualise04",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "Identity & Brief",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◈Create01",
+    "focus": true,
+    "hidden": false,
+    "name": "1Genre MixerBlend your sound",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "◫Compare03",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "◉Visualise04",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "1Genre MixerBlend your sound",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "2Vocal PersonaShape your voice",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "3Mood MapperSet the emotional direction",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "4VisualiserSee your sound",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "5ExportShare your creation",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Project controls · create, open, rename or delete",
+    "ring": true,
+    "tag": "SUMMARY",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Snapshot current experiment Alt+Shift+S",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Compare selected track… Alt+Shift+C",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Play timeline",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Single-source sequencing · playback rules",
+    "ring": true,
+    "tag": "SUMMARY",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Project track to add to timeline",
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "New clip start position",
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Timeline playhead position",
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Mute",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Unsolo",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "State A, starts at 0:00, full source, audio attached",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "New track title",
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Existing session audio",
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Selected project track",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Track title",
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Track version",
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Track source",
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Track source detail",
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Track notes",
+    "ring": true,
+    "tag": "TEXTAREA",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Save track details",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "▤Tracks02",
+    "focus": true,
+    "hidden": false,
+    "name": "Reattach local file",
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "TEXTAREA",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "◉Visualise04",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "1Genre MixerBlend your sound",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "2Vocal PersonaShape your voice",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "3Mood MapperSet the emotional direction",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "4VisualiserSee your sound",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "5ExportShare your creation",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Project controls · create, open, rename or delete",
+    "ring": true,
+    "tag": "SUMMARY",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Comparison Track A",
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Comparison Track B",
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Open comparison",
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Return to Tracks",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Play",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Seek through track",
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Project",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Guidance",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Presets / Sources",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Notes",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Project notes",
+    "ring": true,
+    "tag": "TEXTAREA",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Track notes",
+    "ring": true,
+    "tag": "TEXTAREA",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": false,
+    "hidden": false,
+    "name": "\n    ACTIVE PROJECTNo active projectI-B interaction acceptancePha",
+    "ring": false,
+    "tag": "BODY",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "Switch project",
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "◈Create01",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "▤Tracks02",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "◫Compare03",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "◉Visualise04",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "1Genre MixerBlend your sound",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "2Vocal PersonaShape your voice",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◫Compare03",
+    "focus": true,
+    "hidden": false,
+    "name": "3Mood MapperSet the emotional direction",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "1Genre MixerBlend your sound",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "2Vocal PersonaShape your voice",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "3Mood MapperSet the emotional direction",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "4VisualiserSee your sound",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "5ExportShare your creation",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Project controls · create, open, rename or delete",
+    "ring": true,
+    "tag": "SUMMARY",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Play",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Seek through track",
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "INPUT",
+    "ring": true,
+    "tag": "INPUT",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "01interaction-toneinteraction-tone.wav · audio/wav · 0.50 MB",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Remove interaction-tone",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "02interaction-toneinteraction-tone.wav · audio/wav · 0.50 MB",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Remove interaction-tone",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Spectrum",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Waveform",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Radial",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Visual character",
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Project",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Guidance",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Presets / Sources",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Notes",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Project notes",
+    "ring": true,
+    "tag": "TEXTAREA",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Track notes",
+    "ring": true,
+    "tag": "TEXTAREA",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": false,
+    "hidden": false,
+    "name": "\n    ACTIVE PROJECTNo active projectI-B interaction acceptancePha",
+    "ring": false,
+    "tag": "BODY",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "Switch project",
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "◈Create01",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "▤Tracks02",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "destination": "◉Visualise04",
+    "focus": true,
+    "hidden": false,
+    "name": "◫Compare03",
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "BUTTON",
+    "visible": true
+  },
+  {
+    "focus": true,
+    "hidden": false,
+    "ring": true,
+    "tag": "SELECT",
+    "visible": true
+  },
+  {
+    "focus": false,
+    "hidden": false,
+    "ring": false,
+    "tag": "BODY",
+    "visible": true
+  }
+]
