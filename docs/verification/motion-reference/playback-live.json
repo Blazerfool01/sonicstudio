@@ -1,0 +1,7 @@
+{
+  "diagnostics": "04 / ANALYSIS\nAudio diagnostics.\nANALYSING\n\nLive levels from the selected track. Readings settle to zero when playback stops.\n\nOverall amplitude\n0.002\nLow · 20–250 Hz\n0.141\nMid · 250–2,000 Hz\n0.041\nHigh · 2,000–10,000 Hz\n0.000\n0 = no measured signal · 1 = maximum normalised level. Every visual mode reads these same reusable analyser buffers.",
+  "error": null,
+  "paused": false,
+  "ready": 4,
+  "time": 1.491882
+}

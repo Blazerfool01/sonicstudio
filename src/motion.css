@@ -42,9 +42,24 @@
     studio-success var(--motion-emphasis) var(--ease-out);
 }
 
-/* One ambient surface. Other decorative waves and mood vectors remain still. */
+/* The hero stays ambient; reference-approved charts animate their real derived endpoints. */
 .studio-shell .studio-hero > .studio-wave-art {
   animation: studio-hero-flow 12s var(--ease-standard) infinite alternate;
+}
+.studio-shell .blend-progress-value {
+  transition: stroke-dasharray var(--motion-emphasis) var(--ease-out);
+  animation: blend-ring-glow 2.8s ease-in-out infinite alternate;
+}
+.studio-shell .mood-radar-surface {
+  animation: mood-radar-breathe 4.2s ease-in-out infinite alternate;
+}
+@keyframes blend-ring-glow {
+  from { filter: drop-shadow(0 0 3px #b24cff66); }
+  to { filter: drop-shadow(0 0 9px #a143ffcc); }
+}
+@keyframes mood-radar-breathe {
+  from { transform: scale(.985) rotate(-.6deg); filter: brightness(.96); }
+  to { transform: scale(1.025) rotate(.6deg); filter: brightness(1.14); }
 }
 @keyframes studio-hero-flow {
   from { transform: translateX(0); }

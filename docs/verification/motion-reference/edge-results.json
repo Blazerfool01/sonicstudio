@@ -1,0 +1,100 @@
+{
+  "passed": 9,
+  "results": [
+    {
+      "actual": {
+        "opacity": "0.88",
+        "scale": "0.985"
+      },
+      "name": "Centre keyboard focus recedes sides to .985",
+      "pass": true
+    },
+    {
+      "actual": {
+        "rect": {
+          "bottom": 49,
+          "height": 28,
+          "left": 1627,
+          "right": 1653,
+          "top": 21,
+          "width": 26,
+          "x": 1627,
+          "y": 21
+        },
+        "topmost": "<span aria-hidden=\"true\">«</span>"
+      },
+      "name": "Collapsed rail toggle is visible and hit-testable in header",
+      "pass": true
+    },
+    {
+      "actual": "0.4s",
+      "name": "Restoring panel uses 400ms",
+      "pass": true
+    },
+    {
+      "actual": false,
+      "name": "Collapsed content regains access on expansion",
+      "pass": true
+    },
+    {
+      "actual": "0.5s",
+      "name": "Leaving full-focus uses 500ms",
+      "pass": true
+    },
+    {
+      "actual": [
+        {
+          "composite": "auto",
+          "computedOffset": 0,
+          "easing": "linear",
+          "offset": null,
+          "opacity": "1",
+          "transform": "translateX(0px)"
+        },
+        {
+          "composite": "auto",
+          "computedOffset": 1,
+          "easing": "linear",
+          "offset": null,
+          "opacity": "0",
+          "transform": "translateX(-16px)"
+        }
+      ],
+      "name": "Fallback animates outgoing centre",
+      "pass": true
+    },
+    {
+      "actual": [
+        {
+          "composite": "auto",
+          "computedOffset": 0,
+          "easing": "linear",
+          "offset": null,
+          "opacity": "0",
+          "transform": "translateX(16px)"
+        },
+        {
+          "composite": "auto",
+          "computedOffset": 1,
+          "easing": "linear",
+          "offset": null,
+          "opacity": "1",
+          "transform": "translateX(0px)"
+        }
+      ],
+      "name": "Fallback animates incoming centre without remount",
+      "pass": true
+    },
+    {
+      "actual": "running",
+      "name": "Selection echo does not cancel fallback entry",
+      "pass": true
+    },
+    {
+      "actual": "Home",
+      "name": "Fallback rapid navigation also honours latest selection",
+      "pass": true
+    }
+  ],
+  "total": 9
+}

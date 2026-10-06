@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import type { ProjectTrackSelection } from './lib/studioInteraction.ts'
 import type { StudioProject } from './lib/studioProject.ts'
 import { deriveContextRailProjection } from './lib/contextRailProjection.ts'
@@ -16,7 +16,8 @@ const toolLabels: Record<IngredientKind, string> = {
   genre: 'Genre Mixer', vocal: 'Vocal Persona', mood: 'Mood Mapper',
 }
 
-export default function ContextRail({ project, selection, statusMessage, onProjectNotesChange, onSaveTrackNotes, onOpenIngredient }: {
+export default function ContextRail({ project, selection, statusMessage, onProjectNotesChange, onSaveTrackNotes, onOpenIngredient, follow }: {
+  follow?: { kind: IngredientKind; sequence: number } | null
   project: StudioProject | null
   selection: ProjectTrackSelection | null
   statusMessage: string
@@ -25,6 +26,7 @@ export default function ContextRail({ project, selection, statusMessage, onProje
   onOpenIngredient: (kind: IngredientKind) => void
 }) {
   const [section, setSection] = useState<Section>('project')
+  useLayoutEffect(() => { if (follow) setSection('guidance') }, [follow])
   const projection = deriveContextRailProjection(project, selection)
   const selectedTrack = projection.selectedTrack
   const [trackNotesDraft, setTrackNotesDraft] = useState(selectedTrack?.notes ?? '')
@@ -81,9 +83,11 @@ export default function ContextRail({ project, selection, statusMessage, onProje
       {section === 'guidance' && <>
         {activeIdentity ? <>
           <p className="context-rail-context-label">Derived from {activeIdentity.label.toLowerCase()}.</p>
-          <GuidanceSection title="Genre" guidance={activeIdentity.guidance.genre}/>
-          <GuidanceSection title="Vocal" guidance={activeIdentity.guidance.vocal}/>
-          <GuidanceSection title="Mood" guidance={activeIdentity.guidance.mood}/>
+          <div className="motion-guidance-blocks" data-follow={follow?.kind}>
+            <GuidanceSection title="Genre" guidance={activeIdentity.guidance.genre}/>
+            <GuidanceSection title="Vocal" guidance={activeIdentity.guidance.vocal}/>
+            <GuidanceSection title="Mood" guidance={activeIdentity.guidance.mood}/>
+          </div>
         </> : <StatusNotice tone="empty">Guidance appears when a project identity is available.</StatusNotice>}
       </>}
 
@@ -160,7 +164,7 @@ function SourceList({ ingredients }: { ingredients: ContextRailIngredient[] }) {
 }
 
 function GuidanceSection({ title, guidance }: { title: string; guidance: { present: boolean; lines: string[] } }) {
-  return <section className="context-rail-guidance" aria-label={`${title} guidance`}>
+  return <section className="context-rail-guidance" data-motion-guidance={title.toLowerCase()} aria-label={`${title} guidance`}>
     <h4>{title}</h4>
     {guidance.present ? guidance.lines.map((line, index) => <p key={`${title}-${index}`}>{line}</p>)
       : <p className="context-rail-missing">No {title.toLowerCase()} ingredient is attached; its guidance remains open.</p>}

@@ -1,5 +1,55 @@
 # Decisions
 
+## 2026-10-06 — `example-dash.png` specifies the complete Home composition
+
+The user's latest instruction makes `Images-dashboard/assets/example-dash.png` the Home visual and interaction reference, including the hero, four destination cards, navigation, top bar, and four-tab context rail. This expands the earlier motion note that treated it as panel relationships only. Project names, tempo, moods, and active ingredients still come from the canonical active project; unavailable fields stay unavailable. This preserves the existing live-data decision and project/editor/audio owners while making the screenshot's layout and styling authoritative.
+
+## 2026-10-06 — Supplied motion sheets govern shell choreography
+
+The user explicitly authorized the motion references in `Images-dashboard/assets` as requirements. Their 200 / flexible-min-720 / 310 px desktop relationship, 16 px focus transfer, panel collapse/reveal and directional exit/entry supersede the earlier I-C restrictions against width interpolation and exit choreography. At widths below 1280 px, retain the existing stacked layout rather than shrinking the reference desktop minimum or hiding controls.
+
+`useReferenceMotion` and `MotionSidePanel` own only transient presentation: collapsed/expanded sides, focus transfer, the selected guidance target and cancellable one-shot animations. No package, schema, domain or media owner is introduced. Native View Transitions capture only the centre's pixels, not another React tree; browsers without that API use sequential 175 ms exit/entry on the same element. Rapid requests discard obsolete navigation callbacks. Selection echoes and fallback navigation use separate animation lifetimes so feedback cannot cancel the incoming scene. Reduced motion bypasses optional choreography; hidden-document/unmount cleanup stops owned effects.
+
+Rail follow reorders the existing Genre/Vocal/Mood guidance blocks while keeping the rail and note state. Guidance continues to describe captured project or selected historical identity; editing a draft does not capture it. The 550 ms bridge and 700 ms shared-edge pulses occur only after the existing explicit ingredient capture callback. The default desktop rail and navigation can become 48 px ambient strips; inert content cannot trap keyboard focus, and strip hover/click restores access. Visualise uses these same panels and the same mounted analyser/player/canvas. No continuous JavaScript animation loop or resizing feature is added.
+
+## 2026-10-06 — Component assets describe treatments on real states
+
+The user accepted the two-reference pilot and authorized the other 19 assets together. Cropped and duplicate panels are component specifications, not separate screens or new business state. Reuse the original high-resolution hero/wave artwork and preserve live Genre/Vocal/Mood values. TSX computes chart geometry; CSS animates toward those actual values. Preview artwork motion remains decorative; Live Preview retains the existing analyzer and player.
+
+Loading treatments appear only during the existing pending clipboard operation, without invented progress percentages or audio-render claims. Toast visibility/timers are presentation state; callers own the operation/message. Success/info expire after six seconds, pausing on hover/focus; errors/warnings require dismissal or a subsequent operation. Returning to a destination does not replay old events. Metadata export keeps its existing accessible inline feedback. No saved schema or media ownership changes.
+
+## 2026-10-06 — User resolves Home fidelity versus live-data conflict
+
+The user chose **“Live project values on Home; match reference styling only.”** This supersedes the earlier Home reference-preset decision. Home must project actual captured Genre weights, computed BlendProgress relationships, Vocal values and all seven Mood DNA dimensions. It must not restore Electronic/R&B/Cinematic, 92%, five illustrative vocal values or six reference mood labels as pretend project data.
+
+Reference parity applies to layout, density, source thumbnails, wave artwork, rail height, borders, cyan/violet glow and controls. Source count and chart labels/geometry follow the real model. Both active chats should preserve this resolution. The existing canonical editor, persistence and audio owners remain unchanged.
+
+## 2026-10-06 — Isolate the active Home reference presentation
+
+The current fidelity task explicitly requires three reference sources and 92% compatibility on Home. `ReferenceStudioModules.tsx` therefore owns that display preset, with an info control exposing the actual captured sources and computed BlendProgress. This supersedes the concurrent chart change's removal of that preset from Home for this reference task; the standalone Genre Mixer and Mood Mapper retain their calculated charts. The preset is identified as artwork/reference data, never a computed result.
+
+`ReferenceContextRail.tsx` preserves functional section tabs and existing save/editor callbacks while projecting Project Info, derived Guidance, Mix Notes and WAV settings together. Separate presentation components and final reference styles prevent concurrent captured-source styling from replacing the requested geometry. Domain, persistence and audio ownership remain with the existing project systems. Full visual acceptance is still pending.
+
+## 2026-10-06 — Blend Progress and Mood Mapper stay derived from canonical project inputs
+
+Blend Progress displays the existing lead Genre's weight in its ring and the four relationship counts from `analyzeCompatibility`. It is a source-share visualization, not an overall compatibility score. Home renders the active project's Genre pair by default; no reference-preset 92% value or substitute sources are presented as project data. Mood Radar uses the existing seven-axis `MoodDna` result in the Home summary and Mood Mapper, with the mapper's numeric rows remaining visible. An empty mapper draft stays empty rather than receiving a decorative profile. SVG geometry stays in TSX; CSS owns chart color, glow and scoped motion. These chart animations keep the existing reduced-motion and hidden-view behavior. No project state, saved schema, audio, timeline or navigation owner changes. This supersedes the Fidelity Pass 2 reference-preset display decision below for Blend and Mood data.
+
+## 2026-10-06 — Fidelity Pass 2 distinguishes reference display presets from captured identity
+
+The user's explicit second fidelity pass requires the target's three-source Electronic/R&B/Cinematic composition and 92% High Compatibility label. This supersedes the previous Target Parity decision's restriction on displaying those values. They now belong to an identified reference display preset, isolated in `ReferenceStudioModules.tsx`; they do not overwrite captured two-source Genre identity or pretend to come from the compatibility analyzer. The info control switches between the reference preset and captured sources with computed BlendProgress. Concurrently introduced computed BlendProgress and MoodRadar components remain intact in their native workflows.
+
+Visualiser style tabs select artwork previews, including the target's exact wave artwork; Live Preview retains the existing analyzer. WAV/sample-rate/Stems/Normalize controls configure a visual request preview. Generate / Render reports the renderer's absence instead of downloading metadata under an audio label or claiming an audio result. Save remains canonical project persistence. Connecting a real audio renderer is a separate implementation scope with signal/output verification.
+
+Dashboard Mute/Solo edits the existing Timeline clips and persists through the existing project updater. It introduces no second Timeline, player, source-audio store or gain control. The adjacent thin track meter is decorative clip-presence framing, not a volume slider.
+
+## 2026-10-06 — Target Parity opens a real starter and projects the arrangement on Home
+
+The explicit Target Parity request supersedes the earlier no-project startup composition for the initial Studio view. Startup selects an existing Midnight Echoes record, otherwise creates a valid starter in the existing project controller; it preserves all other saved projects. The starter stays session-only until an ordinary Save/update persists it. Reload deliberately returns to Midnight Echoes while the selector can still open other projects.
+
+Home now uses an equal three-column creative grid and a compact projection of persisted track/clip metadata, with direct handoffs to the existing Timeline editor in Tracks. This extends the earlier decision to locate the editable Timeline in Tracks; there is no second arrangement or playback owner. Context sections appear together on Home, while established context workflows remain available in other destinations.
+
+Supplied target artwork is reused for hero/thumbnail decoration. Native two-source Genre, four-dimensional Voice, seven-axis Mood and metadata-only Export contracts remain unchanged; inventing a 92% compatibility score, additional persisted dimensions, playable stems or WAV rendering was rejected. Visualiser artwork is explicitly labeled and points to existing live analysis. Exact feature parity requires separately authorized domain work.
+
 ## 2026-10-06 — Motion is a final presentation layer over existing states
 
 Phase I-C adds a dedicated CSS layer after fidelity, interaction and empty-state CSS. Shared duration/easing tokens animate only existing endpoints; layout dimensions, audio clocks and canvas modes never interpolate. The hero is the single continuous decorative surface; other artwork stays static. Native hidden surfaces cancel animations. Reduced motion removes optional effects and focus/disabled feedback stays immediate. Pointer lifts/scales require hover and a fine pointer.

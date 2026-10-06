@@ -1,0 +1,426 @@
+{
+  "passed": 23,
+  "results": [
+    {
+      "actual": [
+        200,
+        1116,
+        310
+      ],
+      "name": "Default widths: 200 / flexible >=720 / 310",
+      "pass": true
+    },
+    {
+      "actual": [
+        {
+          "delay": 0,
+          "duration": 350,
+          "easing": "linear",
+          "name": "-ua-view-transition-group-anim-studio-centre",
+          "pseudo": "::view-transition-group(studio-centre)",
+          "target": ""
+        },
+        {
+          "delay": 0,
+          "duration": 350,
+          "easing": "linear",
+          "name": "reference-pan-in",
+          "pseudo": "::view-transition-new(studio-centre)",
+          "target": ""
+        },
+        {
+          "delay": 0,
+          "duration": 350,
+          "easing": "linear",
+          "name": "reference-pan-out",
+          "pseudo": "::view-transition-old(studio-centre)",
+          "target": ""
+        }
+      ],
+      "name": "Centre camera old and new snapshots animate at 350ms",
+      "pass": true
+    },
+    {
+      "actual": [
+        200,
+        1132,
+        294
+      ],
+      "name": "Sidebar selection transfers 16px from rail to centre",
+      "pass": true
+    },
+    {
+      "actual": "genre",
+      "name": "Genre selection follows existing rail guidance",
+      "pass": true
+    },
+    {
+      "actual": [
+        200,
+        1116,
+        310
+      ],
+      "name": "Centre interaction restores default widths",
+      "pass": true
+    },
+    {
+      "actual": [
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option "
+        },
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option "
+        },
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option "
+        },
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option "
+        },
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option "
+        },
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option "
+        },
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option current"
+        },
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option current"
+        },
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option current"
+        },
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option current"
+        },
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option current"
+        },
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "genre-option current"
+        },
+        {
+          "delay": 0,
+          "duration": 2800,
+          "easing": "linear",
+          "name": "blend-ring-glow",
+          "pseudo": null,
+          "target": "blend-progress-value"
+        },
+        {
+          "delay": 0,
+          "duration": 300,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "active"
+        },
+        {
+          "delay": 75,
+          "duration": 350,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": ""
+        },
+        {
+          "delay": 150,
+          "duration": 350,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "context-rail-guidance"
+        },
+        {
+          "delay": 0,
+          "duration": 350,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "context-rail-guidance"
+        }
+      ],
+      "name": "Editor selection echoes across corresponding surfaces",
+      "pass": true
+    },
+    {
+      "actual": true,
+      "name": "Draft selection does not capture project data",
+      "pass": true
+    },
+    {
+      "actual": [
+        {
+          "delay": 0,
+          "duration": 140,
+          "easing": "linear",
+          "name": "studio-notice",
+          "pseudo": null,
+          "target": "status-notice status-notice-success studio-project-notice"
+        },
+        {
+          "delay": 0,
+          "duration": 2800,
+          "easing": "linear",
+          "name": "blend-ring-glow",
+          "pseudo": null,
+          "target": "blend-progress-value"
+        },
+        {
+          "delay": 0,
+          "duration": 300,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "active"
+        },
+        {
+          "delay": 75,
+          "duration": 350,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": ""
+        },
+        {
+          "delay": 150,
+          "duration": 350,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "context-rail-guidance"
+        },
+        {
+          "delay": 0,
+          "duration": 350,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "context-rail-guidance"
+        },
+        {
+          "delay": 0,
+          "duration": 550,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": ""
+        },
+        {
+          "delay": 0,
+          "duration": 700,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "motion-divider"
+        },
+        {
+          "delay": 0,
+          "duration": 700,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "motion-divider"
+        }
+      ],
+      "name": "Explicit capture sends 550ms energy bridge",
+      "pass": true
+    },
+    {
+      "actual": [
+        {
+          "delay": 0,
+          "duration": 700,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "motion-divider"
+        },
+        {
+          "delay": 0,
+          "duration": 700,
+          "easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "name": "WAAPI",
+          "pseudo": null,
+          "target": "motion-divider"
+        }
+      ],
+      "name": "Explicit capture pulses both shared edges once at 700ms",
+      "pass": true
+    },
+    {
+      "actual": [
+        {
+          "delay": 0,
+          "duration": 2800,
+          "easing": "linear",
+          "name": "blend-ring-glow",
+          "pseudo": null,
+          "target": "blend-progress-value"
+        }
+      ],
+      "name": "Transfer effects settle without looping",
+      "pass": true
+    },
+    {
+      "actual": {
+        "genreTop": 524.5625,
+        "moodTop": 245
+      },
+      "name": "Mood block rises to first visible guidance position",
+      "pass": true
+    },
+    {
+      "actual": "vocal",
+      "name": "Vocal block follows without recreating the rail",
+      "pass": true
+    },
+    {
+      "actual": {
+        "duration": "0.12s, 0.12s, 0.12s",
+        "offset": "3px"
+      },
+      "name": "Divider proximity requests 3px over 120ms",
+      "pass": true
+    },
+    {
+      "actual": "matrix(1, 0, 0, 1, 0, 0)",
+      "name": "Divider returns when pointer moves away",
+      "pass": true
+    },
+    {
+      "actual": [
+        48,
+        1284,
+        294
+      ],
+      "name": "Navigation collapses to 48px with inert content and icons",
+      "pass": true
+    },
+    {
+      "actual": [
+        200,
+        1132,
+        294
+      ],
+      "name": "Click restores navigation and keyboard access",
+      "pass": true
+    },
+    {
+      "actual": [
+        200,
+        1378,
+        48
+      ],
+      "name": "Rail collapses to 48px",
+      "pass": true
+    },
+    {
+      "actual": [
+        200,
+        1132,
+        294
+      ],
+      "name": "Rail restores without remounting guidance",
+      "pass": true
+    },
+    {
+      "actual": "0.5s",
+      "name": "Full-focus expansion uses 500ms",
+      "pass": true
+    },
+    {
+      "actual": [
+        48,
+        1530,
+        48
+      ],
+      "name": "Visualiser expands centre and leaves both edge strips",
+      "pass": true
+    },
+    {
+      "actual": {
+        "audio": 1,
+        "canvas": 1
+      },
+      "name": "Single mounted audio and canvas survive all choreography",
+      "pass": true
+    },
+    {
+      "actual": "Home",
+      "name": "Rapid navigation settles on last requested destination",
+      "pass": true
+    },
+    {
+      "actual": {
+        "innerWidth": 1672,
+        "scrollWidth": 1672
+      },
+      "name": "Desktop has no horizontal overflow",
+      "pass": true
+    }
+  ],
+  "total": 23
+}

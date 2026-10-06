@@ -1,0 +1,171 @@
+{
+  "activeTabBackground": "linear-gradient(110deg, rgb(68, 34, 173), rgb(21, 33, 92))",
+  "audioExportFormat": "wav",
+  "audioOwners": 1,
+  "border": "1px solid rgba(168, 85, 247, 0.25)",
+  "canvases": 1,
+  "clips": 8,
+  "compatibility": "Blend Analysis\n92%\nHigh Compatibility\nMelodic Harmony\nRhythmic Balance\nEmotional Range",
+  "cta": "🎵 Generate / Render →",
+  "dualSinePreview": true,
+  "genres": [
+    {
+      "box": {
+        "bottom": 479,
+        "height": 146,
+        "left": 229,
+        "right": 338.5625,
+        "top": 333,
+        "width": 109.5625,
+        "x": 229,
+        "y": 333
+      },
+      "label": "Electronic",
+      "weight": "45%"
+    },
+    {
+      "box": {
+        "bottom": 479,
+        "height": 146,
+        "left": 346.5625,
+        "right": 456.125,
+        "top": 333,
+        "width": 109.5625,
+        "x": 346.5625,
+        "y": 333
+      },
+      "label": "R&B",
+      "weight": "35%"
+    },
+    {
+      "box": {
+        "bottom": 479,
+        "height": 146,
+        "left": 464.125,
+        "right": 573.6875,
+        "top": 333,
+        "width": 109.5625,
+        "x": 464.125,
+        "y": 333
+      },
+      "label": "Cinematic",
+      "weight": "20%"
+    }
+  ],
+  "grid": "grid",
+  "horizontalOverflow": false,
+  "modules": [
+    {
+      "box": {
+        "bottom": 589,
+        "height": 306,
+        "left": 216,
+        "right": 694.6875,
+        "top": 283,
+        "width": 478.6875,
+        "x": 216,
+        "y": 283
+      },
+      "title": "◈ Sound DNA / Genre Blend ⓘ"
+    },
+    {
+      "box": {
+        "bottom": 589,
+        "height": 306,
+        "left": 706.6875,
+        "right": 1026.8125,
+        "top": 283,
+        "width": 320.125,
+        "x": 706.6875,
+        "y": 283
+      },
+      "title": "♩ Vocal Persona Lab"
+    },
+    {
+      "box": {
+        "bottom": 589,
+        "height": 306,
+        "left": 1038.8125,
+        "right": 1338,
+        "top": 283,
+        "width": 299.1875,
+        "x": 1038.8125,
+        "y": 283
+      },
+      "title": "✤ Mood Mapper"
+    }
+  ],
+  "rail": {
+    "bottom": 925,
+    "height": 865,
+    "left": 1354,
+    "right": 1658,
+    "top": 60,
+    "width": 304,
+    "x": 1354,
+    "y": 60
+  },
+  "railBottomMatchesTimeline": true,
+  "sampleRate": "48 kHz",
+  "singleGenreRow": true,
+  "switches": [
+    {
+      "checked": "true",
+      "name": "Export individual stems"
+    },
+    {
+      "checked": "true",
+      "name": "Normalize audio"
+    }
+  ],
+  "tabs": [
+    {
+      "name": "Waveform",
+      "selected": "true"
+    },
+    {
+      "name": "Spectrum",
+      "selected": "false"
+    },
+    {
+      "name": "3D View",
+      "selected": "false"
+    },
+    {
+      "name": "Particles",
+      "selected": "false"
+    }
+  ],
+  "timeline": {
+    "bottom": 925,
+    "height": 164,
+    "left": 216,
+    "right": 1338,
+    "top": 761,
+    "width": 1122,
+    "x": 216,
+    "y": 761
+  },
+  "tracks": [
+    "Drums",
+    "Synths",
+    "Vocals",
+    "Atmosphere"
+  ],
+  "viewport": {
+    "height": 941,
+    "width": 1672
+  },
+  "visibleForms": 0,
+  "visualiser": {
+    "bottom": 753,
+    "height": 156,
+    "left": 216,
+    "right": 1338,
+    "top": 597,
+    "width": 1122,
+    "x": 216,
+    "y": 597
+  },
+  "waveform": true
+}

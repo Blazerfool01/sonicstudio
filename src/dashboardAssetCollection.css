@@ -1,0 +1,102 @@
+/* The remaining 19 supplied panels: reference styling on existing live owners. */
+@property --blend-count {syntax:'<integer>';inherits:false;initial-value:0}
+.studio-shell .blend-progress-visual {position:relative}
+.studio-shell .blend-progress-count {position:absolute;top:41%;left:50%;transform:translate(-50%,-50%);color:#57e3ff;font-size:0;font-weight:600;white-space:nowrap;counter-reset:blend var(--blend-count);animation:asset-blend-count 650ms ease-out}
+.studio-shell .blend-progress-count:before {content:counter(blend) '%';font:600 25px 'DM Sans',sans-serif;letter-spacing:-.05em}
+.studio-shell .blend-progress.compact .blend-progress-count:before {font-size:19px}
+.studio-shell .blend-progress-number {opacity:0}
+.studio-shell .blend-progress-value {animation:asset-blend-fill 650ms ease-out,blend-ring-glow 2.8s ease-in-out infinite alternate}
+.studio-shell .mood-radar-shape,.studio-shell .mood-radar-glow {d:var(--mood-radar-path);transition:d 500ms ease-in-out}
+.studio-shell .studio-sidebar>button,.studio-shell .dashboard-sidebar-tools button {position:relative;overflow:visible;border-radius:9px}
+.studio-shell .studio-sidebar button:before {content:'';position:absolute;left:-1px;top:20%;height:60%;width:3px;border-radius:5px;background:linear-gradient(#cc4fff,#5e45ff);opacity:0;transition:opacity 160ms ease}
+.studio-shell .studio-sidebar button.active {border-color:#a65cff;background:linear-gradient(110deg,#52268c66,#211d3c);box-shadow:inset 0 0 14px #b13cff22,0 0 9px #962cff22}
+.studio-shell .studio-sidebar button.active:before {opacity:1}
+.studio-shell .studio-sidebar .studio-nav-icon {display:flex;align-items:center;justify-content:center;transition:transform 180ms ease,filter 180ms ease,color 180ms ease}
+.studio-shell .studio-sidebar button.active .studio-nav-icon {color:#cdacff;filter:drop-shadow(0 0 4px #a04bff)}
+.studio-shell .studio-stepper li {border-radius:24px;position:relative;transition:background 220ms ease,box-shadow 220ms ease}
+.studio-shell .studio-stepper li.active {background:linear-gradient(110deg,#44247d88,#21172f44);box-shadow:inset 0 0 0 1px #8250d866,0 0 10px #883bff22}
+.studio-shell .studio-stepper li.active .studio-step-number {background:radial-gradient(circle at 40% 35%,#7f44ff,#3b20a9);border-color:#c183ff;box-shadow:0 0 0 2px #6e3eff33,0 0 12px #9e4dff99;color:white;animation:asset-step-highlight 420ms ease-out}
+.studio-shell[data-dashboard=true] .studio-hero {position:relative;isolation:isolate;overflow:hidden}
+.studio-shell[data-dashboard=true] .studio-hero:before {content:'';position:absolute;inset:-10px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 62% 60%,#7523f22b,transparent 45%),radial-gradient(ellipse at 88% 25%,#08aaff22,transparent 38%);mix-blend-mode:screen;animation:asset-hero-flow 12s ease-in-out infinite alternate}
+.studio-shell[data-dashboard=true] .studio-hero h2,.studio-shell[data-dashboard=true] .studio-hero p {animation:asset-text-enter 500ms ease-out}
+.studio-shell .dashboard-export-actions .dashboard-primary {background:linear-gradient(105deg,#dc13ff,#782cff 35%,#00c8ff 70%,#126fff);background-size:120% 100%;background-position:50% 0;border-color:#d676ff;box-shadow:0 0 13px #ae26ff55,inset 0 0 9px #b870ff44;transition:background-position 350ms ease,box-shadow 180ms ease,transform 180ms ease}
+.studio-shell .dashboard-export-actions>button:nth-child(2) {border-color:#725b9d;background:linear-gradient(120deg,#111222,#08101b);box-shadow:inset 0 0 10px #634f9e12}
+.studio-shell :is(.dashboard-primary,.visualiser-controls .action-primary,.export-actions .action-primary) {position:relative;overflow:hidden}
+.studio-shell :is(.dashboard-primary,.visualiser-controls .action-primary,.export-actions .action-primary):after {content:'';position:absolute;inset:-30%;background:radial-gradient(circle at center,#b6efff44,transparent 38%);opacity:0;pointer-events:none;transform:scale(.3);transition:opacity 180ms ease,transform 300ms ease}
+.studio-shell :is(.dashboard-primary,.visualiser-controls .action-primary,.export-actions .action-primary):active:after {opacity:1;transform:scale(1)}
+.studio-shell .visualiser-controls .action-primary[data-playback-active=true] {background:linear-gradient(105deg,#5726ff,#146ed3);border-color:#a56aff;box-shadow:0 0 14px #974dff44}
+.studio-shell .neon-switch {transition:background 200ms ease,border-color 180ms ease,box-shadow 180ms ease}
+.studio-shell .neon-switch i {transition:left 200ms cubic-bezier(.2,.8,.2,1),box-shadow 180ms ease}
+.studio-shell button.neon-switch[aria-checked=true] {background:linear-gradient(100deg,#542aff,#006eff);border-color:#7477ff;box-shadow:0 0 9px #372aff88}
+.studio-shell .neon-switch[aria-checked=true] i {box-shadow:0 0 5px #efffff,0 0 12px #58bfffbb}
+.studio-shell .neon-switch:active i {box-shadow:0 0 0 5px #942fff33,0 0 17px #772affaa}
+.studio-shell .blend-progress-value {stroke-width:5.5;filter:drop-shadow(0 0 5px #994bff88)}
+.studio-shell .blend-progress-number {fill:#57e3ff}
+.studio-shell .blend-progress-breakdown li:before {box-shadow:0 0 7px currentColor}
+.studio-shell .mood-radar-fill-start {stop-color:#da4fff;stop-opacity:.75}
+.studio-shell .mood-radar-fill-middle {stop-color:#8340ff;stop-opacity:.5}
+.studio-shell .mood-radar-fill-end {stop-color:#0ad8ff;stop-opacity:.35}
+.studio-shell .mood-radar-value-point {filter:drop-shadow(0 0 4px #38dfff) drop-shadow(0 0 7px #9555ff)}
+.studio-shell .mood-radar-core {fill:#b6f7ff;filter:drop-shadow(0 0 5px #35dfff) drop-shadow(0 0 10px #a045ff)}
+.studio-shell .dashboard-mode-tabs button {transition:background 180ms ease,border-color 180ms ease,box-shadow 180ms ease,color 180ms ease}
+.studio-shell .dashboard-mode-tabs button.selected {box-shadow:0 0 9px #793bff88,inset 0 0 9px #9864ff22}
+.preview-waveform .reference-wave image,.preview-3d-view .reference-wave image {transform-origin:center;animation:asset-wave-flow 6s ease-in-out infinite alternate}
+.preview-spectrum .dashboard-wave line {transform-box:fill-box;transform-origin:center;animation:asset-spectrum-flow 2s ease-in-out infinite alternate}
+.preview-spectrum .dashboard-wave line:nth-child(3n) {animation-duration:1700ms;animation-delay:-900ms}
+.preview-spectrum .dashboard-wave line:nth-child(4n) {animation-duration:2400ms;animation-delay:-1200ms}
+.preview-particles i {animation:asset-particle-flow 3s ease-in-out infinite alternate}
+.preview-particles i:nth-child(3n) {animation-delay:-1500ms;animation-duration:4s}
+.preview-particles i:nth-child(4n) {animation-delay:-800ms;animation-duration:2600ms}
+.sound-card .reference-wave image {transform-origin:center;animation:asset-sine-flow 8s ease-in-out infinite alternate}
+.studio-shell :is(.dashboard-track-clips button,.timeline-clip) {transition:border-color 140ms ease,box-shadow 140ms ease,filter 140ms ease}
+.studio-shell .timeline-clip.selected {border-color:#df9cff;box-shadow:0 0 0 1px #bc61ff66,0 0 14px #ad30ff77}
+.studio-shell .timeline-clip[data-playback-active=true] {filter:brightness(1.22);box-shadow:0 0 12px #47dfff99}
+.studio-shell .timeline-playhead-line {border-color:#e6dfff;box-shadow:0 0 5px #b985ff,0 0 11px #883cff99}
+.studio-feedback-toast {position:fixed;top:76px;right:24px;width:min(390px,calc(100vw - 32px));z-index:100;display:grid;grid-template-columns:34px minmax(0,1fr) 24px;gap:10px;align-items:start;padding:13px;border:1px solid #7064ac;border-radius:9px;background:linear-gradient(120deg,#111b2bf5,#09111cf5);box-shadow:0 7px 25px #0007,0 0 13px #472d8b33;animation:asset-toast-enter 250ms ease-out}
+.studio-feedback-toast>div {min-width:0}
+.studio-feedback-toast:is(.toast-info,.toast-success) {animation:asset-toast-enter 250ms ease-out,asset-toast-exit 350ms ease-in 5650ms forwards}
+.studio-feedback-toast:hover,.studio-feedback-toast:focus-within {animation:none;opacity:1;transform:none}
+.studio-feedback-toast strong {font-size:12px;font-weight:500;line-height:1.45;display:block;color:#e7eaff;overflow-wrap:anywhere}
+.studio-feedback-toast small {display:block;font-size:10px;margin-top:4px;color:#a8b3d4}
+.studio-feedback-toast .toast-icon {display:grid;place-items:center;width:30px;height:30px;border:1px solid #746bff;border-radius:50%;color:#d9e8ff;background:linear-gradient(145deg,#283eff,#4826ba);box-shadow:0 0 13px #3558ff88;font-weight:700}
+.studio-feedback-toast.toast-success {border-color:#28cfb655;box-shadow:0 7px 25px #0007,0 0 12px #11cdaa22}
+.studio-feedback-toast.toast-success .toast-icon {color:#062e30;border-color:#60f6d9;background:linear-gradient(140deg,#4df3c8,#0fbbb2);box-shadow:0 0 13px #13d9ba88}
+.studio-feedback-toast:is(.toast-error,.toast-warning) {border-color:#df986f88}
+.studio-feedback-toast:is(.toast-error,.toast-warning) .toast-icon {background:#553320;border-color:#e6b16e;color:#ffdfaa;box-shadow:0 0 12px #e5a56255}
+.studio-shell .studio-feedback-toast button {border:0;background:transparent;color:#c4caeb;padding:0;font-size:20px;line-height:24px}
+.studio-shell .studio-feedback-toast button:focus-visible {outline:2px solid #60deff;outline-offset:3px}
+.studio-operation-loading {display:grid;grid-template-columns:36px minmax(100px,1fr) 70px;gap:15px;align-items:center;padding:15px;margin:12px 0;border:1px solid #7353c677;border-radius:9px;background:#101424;color:#dfe2ff}
+.studio-loading-ring {width:30px;height:30px;border:3px solid #302557;border-top-color:#63dfff;border-right-color:#9554ff;border-radius:50%;box-shadow:0 0 8px #763fff44;animation:asset-loader-spin 900ms linear infinite}
+.studio-operation-loading strong {font-size:11px}
+.studio-loading-bar {display:block;height:6px;margin-top:8px;border:1px solid #593d80;border-radius:10px;overflow:hidden;background:#080a14}
+.studio-loading-bar:before {content:'';display:block;width:45%;height:100%;background:linear-gradient(90deg,#5735ff,#c956ff,#42d9ff);animation:asset-loader-slide 1200ms ease-in-out infinite alternate}
+.studio-loading-skeleton {display:grid;gap:5px;width:70px;padding:7px;border:1px solid #36345f;border-radius:6px;background:#151c31}
+.studio-loading-skeleton i {height:5px;border-radius:3px;background:linear-gradient(90deg,#282950,#55528a,#282950);background-size:200% 100%;animation:asset-skeleton-shimmer 1500ms linear infinite}
+.studio-loading-skeleton i:nth-child(2) {width:75%}.studio-loading-skeleton i:nth-child(3) {width:55%}
+@media(hover:hover) and (pointer:fine) {
+  .studio-shell .studio-sidebar button:hover {border-color:#b05aff;background:linear-gradient(110deg,#44226c88,#16172d);box-shadow:0 0 10px #a32bff33}
+  .studio-shell .studio-sidebar button:hover:before {opacity:.8}
+  .studio-shell .studio-sidebar button:hover .studio-nav-icon {transform:translateX(2px);color:#c992ff;filter:drop-shadow(0 0 4px #a73bff)}
+  .studio-shell .dashboard-export-actions .dashboard-primary:hover {background-position:100% 0;transform:scale(1.01);box-shadow:0 0 18px #bf2aff77,0 0 10px #1fbfff44}
+  .studio-shell .dashboard-export-actions>button:nth-child(2):hover {border-color:#9e70df;box-shadow:0 0 10px #6e41ab33}
+  .studio-shell :is(.dashboard-track-clips button,.timeline-clip):hover {border-color:#eaa2ff;filter:brightness(1.2);box-shadow:0 0 0 1px #c64eff77,0 0 14px #b336ff88}
+}
+@keyframes asset-step-highlight {from{box-shadow:0 0 0 #9e4dff00}to{box-shadow:0 0 0 2px #6e3eff33,0 0 12px #9e4dff99}}
+@keyframes asset-blend-count {from{--blend-count:0}to{--blend-count:var(--blend-target)}}
+@keyframes asset-blend-fill {from{stroke-dasharray:0 100}to{stroke-dasharray:var(--blend-arc)}}
+@keyframes asset-hero-flow {from{transform:translateX(-4px);opacity:.6}to{transform:translateX(8px);opacity:1}}
+@keyframes asset-text-enter {from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:none}}
+@keyframes asset-wave-flow {from{transform:translateX(-2px) scaleY(.97);filter:brightness(.96)}to{transform:translateX(2px) scaleY(1.02);filter:brightness(1.1)}}
+@keyframes asset-sine-flow {from{filter:brightness(.96)}to{filter:brightness(1.12)}}
+@keyframes asset-spectrum-flow {from{transform:scaleY(.7);opacity:.6}to{transform:scaleY(1);opacity:.95}}
+@keyframes asset-particle-flow {from{transform:translate(-2px,2px);opacity:.4}to{transform:translate(4px,-4px);opacity:.9}}
+@keyframes asset-toast-enter {from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+@keyframes asset-toast-exit {to{opacity:0;transform:translateX(10px)}}
+@keyframes asset-loader-spin {to{transform:rotate(360deg)}}
+@keyframes asset-loader-slide {from{transform:translateX(0)}to{transform:translateX(120%)}}
+@keyframes asset-skeleton-shimmer {to{background-position:-200% 0}}
+@media(max-width:650px) {.studio-feedback-toast{top:16px;right:16px}.studio-operation-loading{grid-template-columns:30px minmax(0,1fr)}.studio-loading-skeleton{display:none}}
+@media(prefers-reduced-motion:reduce) {
+  .studio-shell[data-dashboard=true] .studio-hero:before,.studio-shell .reference-wave image,.studio-shell .dashboard-wave line,.studio-shell .preview-particles i,.studio-feedback-toast,.studio-loading-ring,.studio-loading-bar:before,.studio-loading-skeleton i {animation:none!important;transform:none!important}
+  .studio-shell .studio-sidebar button:hover .studio-nav-icon,.studio-shell .dashboard-export-actions .dashboard-primary:hover {transform:none!important}
+}

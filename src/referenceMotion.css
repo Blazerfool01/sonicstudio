@@ -1,0 +1,106 @@
+/* Supplied motion sheets, applied last. No domain state or media clocks here. */
+.reference-motion {
+  --reference-spring: cubic-bezier(.22, 1, .36, 1);
+  --reference-magnetic: 120ms;
+  --reference-depth: 250ms;
+  --reference-focus: 350ms;
+  --reference-reveal: 400ms;
+  --reference-expand: 500ms;
+  --reference-bridge: 550ms;
+  --reference-pulse: 700ms;
+}
+.reference-motion .studio-shell-layout { position: relative; }
+.motion-side { min-width: 0; position: relative; }
+.motion-navigation { grid-column: 1; grid-row: 1 / 4; }
+.motion-rail { grid-column: 3; grid-row: 2; }
+.motion-panel-toggle, .motion-ambient-strip, .motion-divider, .motion-energy { display: none; }
+.motion-guidance-blocks { display: flex; flex-direction: column; }
+.motion-guidance-blocks[data-follow=genre] [data-motion-guidance=genre],
+.motion-guidance-blocks[data-follow=vocal] [data-motion-guidance=vocal],
+.motion-guidance-blocks[data-follow=mood] [data-motion-guidance=mood] { order: -1; }
+.reference-motion .workflow-content { view-transition-name: studio-centre; }
+:root:has(.reference-motion) { view-transition-name: none; }
+/* Only the centre is captured. The live outer shell is stationary. */
+::view-transition-group(root), ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+::view-transition-old(root) { display: none; }
+::view-transition-group(studio-centre) { animation-duration: 350ms; animation-timing-function: cubic-bezier(.22,1,.36,1); }
+::view-transition-old(studio-centre) { animation: reference-pan-out 350ms cubic-bezier(.22,1,.36,1) both; }
+::view-transition-new(studio-centre) { animation: reference-pan-in 350ms cubic-bezier(.22,1,.36,1) both; }
+::view-transition { pointer-events: none; }
+@keyframes reference-pan-out { to { transform: translateX(-20px); opacity: 0; } }
+@keyframes reference-pan-in { from { transform: translateX(20px); opacity: 0; } }
+@keyframes reference-rail-reveal { from { transform: translateX(-24px); opacity: .2; filter: blur(3px); } to { transform: none; opacity: 1; filter: blur(0); } }
+
+@media (min-width: 1280px) {
+  .reference-motion .studio-shell-layout {
+    --navigation-width: 200px;
+    --rail-width: 310px;
+    display: grid;
+    grid-template-columns: var(--navigation-width) minmax(720px, 1fr) var(--rail-width);
+    grid-template-rows: 60px 1fr;
+    gap: 0 16px;
+    padding-right: 14px;
+    transition: grid-template-columns var(--reference-focus) var(--reference-spring);
+  }
+  .reference-motion[data-focus-shift=true] .studio-shell-layout { --rail-width: 294px; }
+  .reference-motion .studio-shell-layout:has(.motion-navigation[data-collapsed=true]) { --navigation-width: 48px; }
+  .reference-motion .studio-shell-layout:has(.motion-rail[data-collapsed=true]) { --rail-width: 48px; }
+  .reference-motion[data-layout-motion=collapse] .studio-shell-layout { transition-duration: var(--reference-reveal); }
+  .reference-motion[data-layout-motion=canvas] .studio-shell-layout { transition-duration: var(--reference-expand); }
+  .reference-motion .studio-topbar { grid-column: 2 / 4; padding-right: 55px; }
+  .motion-navigation { grid-row: 1 / 3; position: sticky; top: 0; height: 100vh; }
+  .reference-motion .motion-navigation .studio-sidebar { position: relative; top: 0; width: 200px; height: 100vh; min-height: 100vh; padding: 0 12px 20px; }
+  .reference-motion .motion-navigation .studio-brand { font-size: 16px; padding-left: 12px; }
+  .reference-motion .motion-navigation .studio-brand small { display: none; }
+  /* The existing sticky topbar is z=20; the rail toggle lives in its reserved space. */
+  .motion-rail { position: sticky; z-index: 21; top: 72px; align-self: start; margin-top: 12px; }
+  .reference-motion .motion-rail :is(.dashboard-rail, .context-rail.studio-context-slot) { position: relative; top: 0; margin: 0; width: 100%; box-sizing: border-box; }
+  .motion-rail-content { max-height: calc(100vh - 90px); overflow: auto; scrollbar-width: thin; }
+  .motion-navigation-content, .motion-rail-content {
+    transition: opacity var(--reference-reveal) var(--reference-spring), transform var(--reference-reveal) var(--reference-spring), filter var(--reference-reveal) var(--reference-spring), visibility var(--reference-reveal);
+  }
+  .motion-navigation-content { overflow: clip; }
+  .motion-panel-viewport { overflow: clip; }
+  .motion-rail-content { animation: reference-rail-reveal var(--reference-reveal) var(--reference-spring); }
+  .motion-side { isolation: isolate; background: #090e16; border-radius: 8px; transition: scale var(--reference-depth) var(--reference-spring), opacity var(--reference-depth) var(--reference-spring); }
+  .motion-side[data-collapsed=true] { box-shadow: inset 0 0 0 1px #7957ca77, inset 0 0 15px #6d3cbb22; min-height: 260px; }
+  .motion-side[data-collapsed=true] .motion-navigation-content { transform: translateX(-24px); opacity: 0; visibility: hidden; }
+  .motion-side[data-collapsed=true] .motion-rail-content { transform: translateX(-24px); opacity: 0; filter: blur(3px); visibility: hidden; }
+  .reference-motion[data-full-focus=true] .motion-side[data-collapsed=true] .motion-rail-content { transform: translateX(24px); }
+  .reference-motion[data-layout-motion=canvas] :is(.motion-navigation-content, .motion-rail-content, .motion-ambient-strip) { transition-duration: var(--reference-expand); }
+  .reference-motion .motion-panel-toggle { display: block; position: absolute; z-index: 3; top: 12px; right: 5px; width: 26px; height: 28px; padding: 0; font-size: 18px; border: 1px solid #655091; border-radius: 6px; background: #101a2b; color: #c3b2f7; }
+  .motion-rail .motion-panel-toggle { top: -51px; }
+  .motion-ambient-strip { position: absolute; inset: 55px 0 auto; display: flex; flex-direction: column; align-items: center; gap: 25px; color: #bb86ff; opacity: 0; pointer-events: none; transition: opacity var(--reference-reveal) var(--reference-spring); }
+  .motion-side[data-collapsed=true] .motion-ambient-strip { opacity: 1; }
+  .motion-divider { display: block; position: absolute; z-index: 4; top: 0; bottom: 0; width: 1px; pointer-events: none; background: #4e397333; transform: translateX(var(--magnetic-offset, 0px)); transition: transform var(--reference-magnetic) var(--reference-spring), background var(--reference-magnetic), box-shadow var(--reference-magnetic); }
+  .motion-navigation .motion-divider { right: -8px; }
+  .motion-rail .motion-divider { left: -8px; }
+  .motion-divider[data-near=true] { background: #85c9ff; box-shadow: 0 0 10px 2px #9b5cff; }
+  .motion-energy { display: block; position: absolute; z-index: 22; left: 100px; right: 100px; top: 230px; width: calc(100% - 200px); height: 90px; overflow: visible; pointer-events: none; }
+  .motion-energy path { stroke: url(#motion-energy-gradient); stroke-width: 1.5; fill: none; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; filter: drop-shadow(0 0 4px #9d5cff); }
+  .reference-motion .studio-shell-layout:has(.workflow-content:focus-within) .motion-side { scale: .985; opacity: .88; }
+}
+@media (min-width: 1280px) and (hover: hover) and (pointer: fine) {
+  .reference-motion .studio-shell-layout:has(.workflow-content:hover) .motion-side { scale: .985; opacity: .88; }
+}
+/* The reference's three-panel minimum needs 1276px including gaps/padding.
+   Below it, retain the established stacked layout rather than squeezing data. */
+@media (min-width: 761px) and (max-width: 1279px) {
+  .reference-motion .studio-shell-layout { grid-template-columns: 150px minmax(0, 1fr); grid-template-rows: 60px auto auto; }
+  .reference-motion .studio-topbar { grid-column: 2; }
+  .motion-rail { grid-column: 2; grid-row: 3; }
+  .reference-motion .motion-rail :is(.dashboard-rail, .context-rail.studio-context-slot) { position: static; max-height: none; }
+  .reference-motion .reference-context-rail { height: auto !important; display: flex !important; flex-direction: column; }
+}
+@media (max-width: 760px) {
+  .reference-motion .studio-shell-layout { display: flex; flex-direction: column; }
+  .motion-navigation { order: 0; width: 100%; }
+  .motion-rail { order: 3; width: 100%; }
+  .reference-motion .studio-stepper { max-width: 100%; overflow-x: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reference-motion *, .reference-motion *::before, .reference-motion *::after { animation: none !important; transition: none !important; }
+  .reference-motion .motion-side { scale: 1 !important; opacity: 1 !important; }
+  .motion-energy, .motion-divider { display: none !important; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}

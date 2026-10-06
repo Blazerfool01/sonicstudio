@@ -1,0 +1,72 @@
+[
+  {
+    "audio": 1,
+    "canvas": 1,
+    "inaccessiblePanels": false,
+    "label": "Home",
+    "overflow": false,
+    "reduced": false,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "audio": 1,
+    "canvas": 1,
+    "inaccessiblePanels": false,
+    "label": "Genre Mixer",
+    "overflow": false,
+    "reduced": false,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "audio": 1,
+    "canvas": 1,
+    "inaccessiblePanels": false,
+    "label": "Vocal Persona",
+    "overflow": false,
+    "reduced": false,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "audio": 1,
+    "canvas": 1,
+    "inaccessiblePanels": false,
+    "label": "Mood Mapper",
+    "overflow": false,
+    "reduced": false,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "audio": 1,
+    "canvas": 1,
+    "inaccessiblePanels": false,
+    "label": "Tracks",
+    "overflow": false,
+    "reduced": false,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "audio": 1,
+    "canvas": 1,
+    "inaccessiblePanels": false,
+    "label": "Compare",
+    "overflow": false,
+    "reduced": false,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "audio": 1,
+    "canvas": 1,
+    "inaccessiblePanels": false,
+    "label": "Visualiser",
+    "overflow": false,
+    "reduced": false,
+    "scrollWidth": 320,
+    "width": 320
+  }
+]

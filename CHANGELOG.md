@@ -1,5 +1,62 @@
 # Changelog
 
+## `example-dash` Home composition (`2.0.0`, 2026-10-06)
+
+- Reworked Home into the supplied hero, four-destination card row, top-bar search, primary navigation and four-tab context rail. Tuned the project thumbnail, rail spacing and desktop viewport fit in `referenceDashboard.css`; refined the decorative hero terrain in `StudioOverview.tsx`.
+- Kept project names, tempo, moods, captured modules, navigation, editors, persistence, audio and timeline tied to their existing owners. Reference-only `Neon Skies` / `F minor` values were not written into the active `Midnight Echoes` project.
+- Verified the 1280 × 594 production preview, main routes and rail/panel controls; `npm test` passes 253/253, TypeScript/Vite build passes (128 modules), and `git diff --check` passes. Layout review is complete; literal sample-content parity remains open. Evidence and limits: `docs/MOTION_REFERENCE_VERIFICATION.md`.
+
+## Supplied reference motion system (`2.0.0`, 2026-10-06)
+
+- Mapped all 15 supplied images to existing shell/state owners before implementation, including 11 interaction requirements. Added `useReferenceMotion.ts`, `MotionSidePanel.tsx` and final scoped `referenceMotion.css`; connected existing navigation/capture callbacks and ContextRail guidance blocks.
+- Implemented 200/min-720/310 px desktop geometry, 16 px focus transfer, 350 ms centre camera pan and rail follow, 250 ms side depth, 120 ms magnetic edges, 400 ms collapse/reveal, 500 ms selection echo/full-focus expansion, 550 ms energy bridge and 700 ms one-shot edge pulse using cubic-bezier(.22,1,.36,1). Retained 48 px icon strips and existing mounted editors/player. Native view snapshots and sequential fallback never duplicate React or media owners.
+- Kept draft selections separate from explicit project capture; preserved domain models, saved schemas and audio/timeline ownership. Added reduced-motion/hidden/unmount cleanup, obsolete-navigation cancellation and inert collapsed content. Contained retreating panel content and the mobile workflow strip after responsive checks identified overflow.
+- Verified 253/253 tests, production TypeScript/Vite build, 23 reference checks, 9 edge/fallback checks, 28 responsive and 14 reduced-motion screen checks, live MP3 playback/navigation pause, keyboard access, and visual review of rendered desktop/mobile/full-focus/transfer frames. Detailed evidence and limits: `docs/MOTION_REFERENCE_VERIFICATION.md`. No commit, push or deployment.
+
+## Dashboard full asset collection (`2.0.0`, 2026-10-06)
+
+- User accepted the two-asset pilot and authorized the remaining 19 references. Added scoped navigation/stepper, button/switch, chart, hero, visualiser artwork and timeline feedback in `dashboardAssetCollection.css`; kept live project values and existing owners.
+- Added dismissible success/info/error notifications and spinner/bar/skeleton feedback only while a real metadata clipboard request is pending. Successful notifications expire after six seconds with hover/focus pause; errors persist. Superseded requests cannot publish stale feedback, and returning to a view does not replay an old notification.
+- Verified TypeScript/Vite production build, 253/253 tests, desktop screenshots, preview modes, active navigation/stepper, clip hover, pending-copy success/error/cancellation, toast timing, Home reload, 390/320 px no-overflow and reduced motion. Evidence: `docs/ASSET_COLLECTION_VERIFICATION.md`. Full collection visual review pending; no audio rendering, commit, push or deployment.
+
+## Dashboard two-asset pilot (`2.0.0`, 2026-10-06)
+
+- Piloted `slider_controls.png` and `module-card_hover.png` through scoped Home CSS: brighter purple/cyan captured-value meter handles, source-card lift/border glow, slight thumbnail zoom and decorative hover particles. Existing values, editor handoffs and persistence unchanged.
+- Vite production build passes (123 modules). Browser verifies 5 px hover lift, animated particles, unchanged Vocal values, reduced-motion suppression, 390 px no-overflow and no page errors. No domain tests added or rerun for this CSS-only pilot. Captures: `docs/verification/asset-pilot/`.
+- Visual review pending; the other 19 assets are not started. No commit, push or deployment.
+
+## Fidelity Pass 2 — user-approved live-data styling (`2.0.0`, 2026-10-06)
+
+- User resolved the shared Home conflict: live project values take precedence; match reference styling only. Earlier three-source/92% preset acceptance is superseded. Both project-derived charts remain authoritative.
+- Refined Home styling with saturated cyan/violet selected tabs, keyboard-focus card glow, two-source thumbnail geometry beside calculated BlendProgress, vocal meter handles and stronger filled Mood Radar glow. No domain values or chart paths changed.
+- Verified fresh 253/253 tests, TypeScript/Vite build (122 modules), final 1672 × 941 production capture, four preview modes, settings, Save/reload, mute persistence, empty browser error report and 390/320 px no-overflow checks. Evidence: `docs/LIVE_FIDELITY_PASS_2_VERIFICATION.md`. Revised fidelity scope complete. No commit, push, deployment or audio rendering.
+
+## Fidelity Pass 2 — isolated presentation checkpoint (`2.0.0`, 2026-10-06)
+
+- Isolated the requested Home reference presentation in `ReferenceStudioModules.tsx`, `ReferenceContextRail.tsx` and `referencePreset.css`. Captured-source BlendProgress and MoodRadar remain available; the info control switches Sound DNA between the reference preset and computed project data. This Home preset supersedes the default-view removal noted in the concurrent chart entry below for the active reference task.
+- Final build: TypeScript/Vite pass (122 modules); existing full-suite run: 253/253 pass. Fresh desktop capture proves three thumbnail cards in one row, four visualiser modes, four tracks/eight clips and a context rail ending at the timeline baseline. Source switching, rail tabs, settings switches, mute/reload and 390/320 px no-overflow checks pass.
+- Full 100/100 visual acceptance remains open: live Vocal Persona and Mood Mapper graphics differ from the target. No commit, push, deployment or audio rendering.
+
+## Blend Progress and Mood Mapper (#7 / #8, `2.0.0`, 2026-10-06)
+
+- Added shared `BlendProgress` and `MoodRadar` charts to Genre Mixer, Mood Mapper and the Home creative cards. The ring uses the real lead-source weight and existing relationship counts; the Mood radar and seven numeric values use existing Mood DNA calculations. Removed the dashboard's hardcoded 92% compatibility display and decorative three-source data from its default view.
+- Kept SVG geometry in TSX and chart styling/motion in CSS. Scoped glow/breathing effects honor reduced motion; project persistence, shell navigation and audio/timeline ownership are unchanged.
+- Verified `npm run build`, `git diff --check`, production-browser dashboard geometry/data and a Mood Mapper profile against its seven displayed values. Browser console errors: none. No tests were run for this request.
+
+## Fidelity Pass 2 — Reference graphics and lower dashboard (`2.0.0`, 2026-10-06)
+
+- Rebuilt Sound DNA as the requested three-thumbnail reference preset, 92% compatibility block, bullet metrics and dual sine-wave preview. Isolated the display in `ReferenceStudioModules.tsx`, retaining native captured identity and concurrently added computed chart components.
+- Added four selectable Visualiser artwork previews, the reference dual-glow waveform, clip waveform marks and existing-model Mute/Solo actions. Extended the rail to the timeline baseline with WAV/sample-rate controls, Stems/Normalize switches, Generate / Render and Save Project. Render feedback explicitly identifies the unconnected renderer.
+- `fidelityPass2.css` restores subtle purple borders, cyan hover glow and saturated active/primary gradients. Desktop geometry and all named elements captured and audited at 1672 × 941; controls/save/reload and 390/320 px no-overflow checks verified. TypeScript/Vite production build passes; full-suite result is in `docs/FIDELITY_PASS_2_VERIFICATION.md`.
+- Local/uncommitted; no push/deployment. Real WAV generation/rendering remains outside this visual pass.
+
+## Target Parity — Active Studio Dashboard (`2.0.0`, 2026-10-06)
+
+- Replaced the empty Create overview with Midnight Echoes startup, a CSS Grid dashboard, three equal creative cards, full-width Visualiser artwork and a four-lane/eight-clip arrangement projection. Persistent Project Info, derived Guidance, Notes and real Export Settings now appear together.
+- Added `StudioDashboard.tsx`, `dashboard.css`, canonical starter records and supplied reference artwork. Existing saved projects, editor callbacks, Timeline model, single media owner and TXT/JSON export contracts retained. Home now returns to the overview; project setup forms stay outside it.
+- Verified 253 tests, production build, diff check and production-browser capture at 1672 × 941. All three 361 × 306 px cards and lower timeline fit in view. Module/clip/live-preview handoffs, Save/reload, 390/320 px no-overflow checks and clean console verified. Evidence: `docs/TARGET_PARITY_VERIFICATION.md`.
+- Local and uncommitted. Exact pixel/feature parity, playable starter audio and broader accessibility/device validation remain deferred; no push or deployment.
+
 ## UI/UX Overhaul Phase I-C — Motion System (`2.0.0`, 2026-10-06)
 
 - Began on clean accepted `9ac4429cd2745717155284fc728180ff6b52c9cb`. Added `src/motion.css` after locked I-A/I-B/I-B.1 layers: shared timings/easings, state transitions, tiny card/button feedback, short workspace/rail/historical entrances, a single 12-second hero drift and truthful one-shot Export feedback.

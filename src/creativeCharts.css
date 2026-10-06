@@ -1,0 +1,147 @@
+/* Focused presentation for the real Genre relationship and Mood DNA projections. */
+.blend-progress {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  align-items: center;
+  gap: 20px;
+  padding: 18px 33px;
+  border-bottom: 1px solid #343a2f;
+  background: linear-gradient(110deg, #111a28, #111522 72%, #111a25);
+  min-width: 0;
+}
+.blend-progress-ring { display: block; width: 120px; height: 120px; overflow: visible; }
+.blend-progress-stop-start { stop-color: #d94cff; }
+.blend-progress-stop-middle { stop-color: #854cff; }
+.blend-progress-stop-end { stop-color: #21d8ff; }
+.blend-progress-track,.blend-progress-value { fill: none; stroke-width: 5; }
+.blend-progress-track { stroke: #1e3048; }
+.blend-progress-value { stroke: var(--blend-progress-stroke); stroke-linecap: round; transform: rotate(-90deg); transform-origin: 60px 60px; }
+.blend-progress-number { fill: #f3efff; font: 600 25px 'DM Sans', sans-serif; letter-spacing: -.05em; }
+.blend-progress-caption { fill: #7fdfff; font: 7px 'DM Mono', monospace; letter-spacing: .09em; }
+.blend-progress-breakdown { min-width: 0; }
+.blend-progress-breakdown>.eyebrow,.blend-progress-empty>.eyebrow { color: #a68aff; font: 9px 'DM Mono', monospace; letter-spacing: .13em; }
+.blend-progress-breakdown ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
+.blend-progress-breakdown li { display: flex; align-items: center; gap: 8px; min-width: 0; color: #bdcae0; font-size: 11px; line-height: 1.2; }
+.blend-progress-breakdown li::before { content: ''; display: block; width: 7px; height: 7px; flex: none; border-radius: 50%; background: #34d4f2; box-shadow: 0 0 8px #20d8ff8c; }
+.blend-progress-breakdown li[data-kind="complementary"]::before { background: #a76aff; box-shadow: 0 0 8px #954dff9c; }
+.blend-progress-breakdown li[data-kind="contrasting"]::before { background: #ffbe5c; box-shadow: 0 0 8px #ffac4f99; }
+.blend-progress-breakdown li[data-kind="conflicting"]::before { background: #ff58cc; box-shadow: 0 0 8px #ec3eb699; }
+.blend-progress-breakdown li span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.blend-progress-breakdown li strong { margin-left: auto; color: #f2f5ff; font: 11px 'DM Mono', monospace; }
+.blend-progress-sources { grid-column: 1 / -1; min-width: 0; margin: -11px 0 0; overflow: hidden; color: #93a5c3; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.blend-progress-sources strong { color: #55d9f4; font-weight: 600; }
+.blend-progress-sources>span { color: #596c8a; padding: 0 4px; }
+.blend-progress-empty { display: flex; flex-direction: column; justify-content: center; gap: 9px; min-width: 0; color: #9aaecb; }
+.blend-progress-empty p { max-width: 28ch; margin: 0; font-size: 11px; line-height: 1.5; }
+.blend-progress.compact { grid-template-columns: 78px minmax(0, 1fr); gap: 8px; padding: 7px 0; border: 0; background: none; }
+.blend-progress.compact .blend-progress-ring { width: 78px; height: 78px; }
+.blend-progress.compact .blend-progress-number { font-size: 19px; }
+.blend-progress.compact .blend-progress-caption { font-size: 6px; }
+.blend-progress.compact .blend-progress-breakdown>.eyebrow { font-size: 7px; letter-spacing: .1em; white-space: nowrap; }
+.blend-progress.compact .blend-progress-breakdown ul { gap: 6px; margin-top: 7px; }
+.blend-progress.compact .blend-progress-breakdown li { gap: 5px; font-size: 8px; }
+.blend-progress.compact .blend-progress-breakdown li::before { width: 5px; height: 5px; }
+.blend-progress.compact .blend-progress-breakdown li strong { font-size: 8px; }
+.blend-progress.compact .blend-progress-sources { margin: -5px 0 0; font-size: 8px; }
+.blend-progress.compact.blend-progress-empty { padding: 10px 4px; }
+.sound-dna-composition { grid-template-columns: minmax(0, 1fr) minmax(162px, .82fr); gap: 10px; }
+.sound-card .dashboard-genres { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sound-card .dashboard-genre { min-width: 0; }
+.sound-card .dashboard-genre>small { overflow: hidden; text-overflow: ellipsis; }
+.sound-card .blend-progress.compact { align-self: center; }
+.sound-card .blend-progress.compact.blend-progress-empty { min-height: 112px; }
+
+.mood-radar { display: block; width: 100%; max-width: 300px; height: auto; overflow: visible; margin: 0 auto; }
+.mood-radar-fill-start { stop-color: #d955ff; stop-opacity: .42; }
+.mood-radar-fill-middle { stop-color: #7545ff; stop-opacity: .25; }
+.mood-radar-fill-end { stop-color: #25cfff; stop-opacity: .12; }
+.mood-radar-grid { fill: none; stroke: #243854; stroke-width: 1; }
+.mood-radar-axis { stroke: #253a56; stroke-width: 1; }
+.mood-radar-axis-point { fill: #39d8f5; filter: drop-shadow(0 0 3px #31d5ff); }
+.mood-radar-label { fill: #9fb4d3; font: 8px 'DM Mono', monospace; letter-spacing: .01em; }
+.mood-radar-surface { transform-box: view-box; transform-origin: 50% 50%; }
+.mood-radar-glow { fill: none; stroke: #b94fff; stroke-width: 10; stroke-linejoin: round; opacity: .28; filter: blur(5px); }
+.mood-radar-shape { fill: var(--mood-radar-fill); stroke: #52dfff; stroke-width: 1.8; stroke-linejoin: round; filter: drop-shadow(0 0 6px #ae37ff99) drop-shadow(0 0 12px #13cfff55); }
+.mood-radar-value-point { fill: #64e7ff; stroke: #f2eaff; stroke-width: 1; filter: drop-shadow(0 0 4px #a941ff); }
+.mood-radar-core { fill: #f3edff; filter: drop-shadow(0 0 5px #da47ff); }
+.mood-radar-empty-label { fill: #8197b6; font: 7px 'DM Mono', monospace; letter-spacing: .1em; }
+.studio-shell .studio-mood-summary .mood-radar { height: 190px; max-height: none; margin: 4px auto 9px; }
+.mood-fingerprint-layout { display: grid; grid-template-columns: minmax(190px, .9fr) minmax(230px, 1.1fr); align-items: center; gap: 16px; }
+.mood-fingerprint-layout .mood-radar { max-height: 245px; }
+.mood-dimension-list { min-width: 0; }
+.mood-dimension-list .mood-dimension:first-child { padding-top: 4px; }
+.mood-fingerprint-layout .mood-description { grid-column: 1 / -1; }
+
+@media(max-width: 1300px) {
+  .sound-dna-composition { grid-template-columns: minmax(0, 1fr); gap: 5px; }
+  .sound-card .blend-progress.compact { grid-template-columns: 68px minmax(0, 1fr); width: 100%; max-width: 290px; justify-self: center; }
+  .sound-card .blend-progress.compact .blend-progress-ring { width: 68px; height: 68px; }
+  .sound-card .blend-progress.compact .blend-progress-breakdown ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 9px; }
+  .sound-card .blend-progress.compact .blend-progress-sources { margin-top: -3px; }
+  .sound-card .reference-wave.compact { height: 55px; margin-top: 4px; }
+}
+@media(max-width: 1200px) {
+  .mood-fingerprint-layout { grid-template-columns: minmax(0, 1fr); }
+  .mood-fingerprint-layout .mood-radar { width: min(100%, 300px); }
+}
+@media(max-width: 650px) {
+  .sound-card .dashboard-genre { height: 96px; }
+  .sound-card .reference-art { height: 43px; }
+  .sound-card .dashboard-genre strong { margin: 5px 0 3px; }
+  .sound-card .dashboard-genre>small { min-height: 11px; margin: 2px 0 5px; }
+  .sound-card .reference-wave.compact { height: 45px; margin-top: 4px; }
+  .blend-progress { grid-template-columns: 100px minmax(0, 1fr); gap: 12px; padding: 15px 20px; }
+  .blend-progress-ring { width: 96px; height: 96px; }
+  .blend-progress-breakdown li { font-size: 10px; }
+  .mood-radar-label { font-size: 7px; }
+}
+
+/* Fidelity pass 2 has intentionally specific card geometry; these overrides keep its shell intact. */
+.studio-shell .dashboard-card.fidelity-sound-card .sound-dna-composition {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 162px);
+  gap: 10px;
+}
+.studio-shell .dashboard-card.fidelity-sound-card .dashboard-genres {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.studio-shell .dashboard-card.fidelity-sound-card .blend-progress.compact {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 4px;
+  padding: 2px 0;
+  align-self: center;
+}
+.studio-shell .dashboard-card.fidelity-sound-card .blend-progress.compact .blend-progress-ring {
+  width: 78px;
+  height: 78px;
+}
+.studio-shell .dashboard-card.fidelity-sound-card .blend-progress.compact .blend-progress-breakdown { width: 100%; }
+.studio-shell .dashboard-card.fidelity-sound-card .blend-progress.compact .blend-progress-breakdown>.eyebrow {
+  display: block;
+  text-align: center;
+}
+.studio-shell .dashboard-card.fidelity-sound-card .blend-progress.compact .blend-progress-breakdown ul {
+  grid-template-columns: 1fr;
+  gap: 4px;
+  margin-top: 6px;
+}
+.studio-shell .dashboard-card.fidelity-sound-card .blend-progress.compact .blend-progress-breakdown li { font-size: 7px; }
+.studio-shell .dashboard-card.fidelity-sound-card .blend-progress.compact .blend-progress-breakdown li strong { font-size: 7px; }
+.studio-shell .dashboard-card.fidelity-sound-card .blend-progress.compact .blend-progress-sources { display: none; }
+
+@media(max-width: 1300px) {
+  .studio-shell .dashboard-card.fidelity-sound-card .sound-dna-composition {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 110px);
+    gap: 8px;
+  }
+  .studio-shell .dashboard-card.fidelity-sound-card .blend-progress.compact .blend-progress-ring { width: 68px; height: 68px; }
+}
+@media(max-width: 650px) {
+  .studio-shell .dashboard-card.fidelity-sound-card .sound-dna-composition {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 122px);
+    gap: 7px;
+  }
+  .studio-shell .dashboard-card.fidelity-sound-card .dashboard-genre { height: 96px; }
+  .studio-shell .dashboard-card.fidelity-sound-card .reference-art { height: 43px; }
+  .studio-shell .dashboard-card.fidelity-sound-card .reference-wave.compact { height: 45px; margin-top: 4px; }
+}

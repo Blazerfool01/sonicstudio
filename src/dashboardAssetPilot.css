@@ -1,0 +1,50 @@
+/* Two-asset pilot only: slider_controls.png and module-card_hover.png. */
+.studio-shell[data-dashboard=true] .vocal-card .studio-summary-meter {
+  height:8px;border:1px solid #3b2359;background:#04050d;
+  box-shadow:inset 0 1px 4px #000;
+}
+.studio-shell[data-dashboard=true] .vocal-card .studio-summary-meter span {
+  background:linear-gradient(90deg,#462bff,#d519fb);
+  box-shadow:0 0 7px #8828ff66;
+  transition:width 240ms ease,box-shadow 180ms ease;
+}
+.studio-shell[data-dashboard=true] .vocal-card .studio-summary-meter span:after {
+  width:14px;height:14px;right:-6px;top:-4px;
+  background:#c12dff;border:1.5px solid #f1d9ff;
+  box-shadow:0 0 5px #e3b3ff,0 0 12px #bb22ffaa;
+  transition:box-shadow 180ms ease;
+}
+.studio-shell[data-dashboard=true] .vocal-card .studio-vocal-summary>div:nth-child(3) .studio-summary-meter span {
+  background:linear-gradient(90deg,#4034ff,#00c8ff);box-shadow:0 0 7px #16b9ff66;
+}
+.studio-shell[data-dashboard=true] .vocal-card .studio-vocal-summary>div:nth-child(3) .studio-summary-meter span:after {
+  background:#15c9ff;border-color:#dbfbff;box-shadow:0 0 5px #b7f7ff,0 0 12px #00bbffaa;
+}
+.studio-shell[data-dashboard=true] .vocal-card .studio-vocal-summary>div:hover .studio-summary-meter span:after {
+  box-shadow:0 0 7px #fff,0 0 18px #ad38ffcc;
+}
+.studio-shell[data-dashboard=true] .dashboard-genre {
+  position:relative;isolation:isolate;transition:transform 180ms ease,border-color 180ms ease,box-shadow 180ms ease,background 180ms ease;
+}
+.studio-shell[data-dashboard=true] .dashboard-genre .reference-art {
+  transition:transform 220ms ease;transform-origin:center;
+}
+.studio-shell[data-dashboard=true] .dashboard-genre:after {
+  content:'';position:absolute;inset:-8px;z-index:-1;pointer-events:none;opacity:0;
+  background:radial-gradient(circle at 8% 18%,#dd9cff 0 1px,transparent 2px),radial-gradient(circle at 88% 30%,#58edff 0 1px,transparent 2px),radial-gradient(circle at 12% 86%,#954fff 0 1px,transparent 2px),radial-gradient(circle at 95% 76%,#e069ff 0 1px,transparent 2px);
+  transition:opacity 180ms ease;
+}
+@media(hover:hover) and (pointer:fine) {
+  .studio-shell[data-dashboard=true] .dashboard-genre:hover {
+    transform:translateY(-5px);border-color:#d857ff;background:#141026;
+    box-shadow:0 0 0 1px #9637ff66,0 0 13px #b02aff88,0 0 24px #6825ff55,inset 0 0 10px #b33bff15;
+  }
+  .studio-shell[data-dashboard=true] .dashboard-genre:hover .reference-art {transform:scale(1.035)}
+  .studio-shell[data-dashboard=true] .dashboard-genre:hover:after {opacity:.85;animation:pilot-card-sparkle 1800ms ease-in-out infinite alternate}
+}
+@keyframes pilot-card-sparkle {from{transform:translateY(2px);opacity:.45}to{transform:translateY(-2px);opacity:.95}}
+@media(prefers-reduced-motion:reduce) {
+  .studio-shell[data-dashboard=true] .dashboard-genre,.studio-shell[data-dashboard=true] .dashboard-genre .reference-art,.studio-shell[data-dashboard=true] .dashboard-genre:after,.studio-shell[data-dashboard=true] .vocal-card .studio-summary-meter span,.studio-shell[data-dashboard=true] .vocal-card .studio-summary-meter span:after {transition:none}
+  .studio-shell[data-dashboard=true] .dashboard-genre:hover,.studio-shell[data-dashboard=true] .dashboard-genre:hover .reference-art {transform:none}
+  .studio-shell[data-dashboard=true] .dashboard-genre:hover:after {animation:none}
+}

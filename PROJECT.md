@@ -1,12 +1,48 @@
 # Sonic Studio — Project Status
 
-**Status:** SonicStudio v2.0 remains the released baseline (`2.0.0`). Phase I-C — Motion System is implemented and locally verified from clean accepted checkpoint `9ac4429cd2745717155284fc728180ff6b52c9cb`. Changes remain uncommitted; no push or deployment. Full Phase I remains incomplete · **Next objective:** user motion review, then separately authorized I-D · **Last reviewed:** 2026-10-06
+**Current checkpoint — supplied Home and motion references (`2.0.0`, 2026-10-06):** Home now follows the `example-dash.png` composition: 200 px navigation, flexible centre (minimum 720 px), 310 px context rail, Create Without Limits hero, four creative destinations, and Project / Track / Guidance / Presets tabs. The 11 motion sheets remain implemented through the existing shell and state owners. The desktop composition was checked in the 1280 × 594 production preview; Start Creating, rail tabs, project search, Settings, Visualiser, track opening, and both panel collapses were exercised. `npm test` passes 253/253; TypeScript/Vite build and `git diff --check` pass. [Mapping and verification](docs/MOTION_REFERENCE_VERIFICATION.md).
+
+**Visual acceptance remains open:** the layout and spacing follow the reference closely, but the live project is `Midnight Echoes`, whose current model has no Key field. The screenshot's `Neon Skies` / `F minor` values are not inserted as if they were current project data. Literal screenshot content parity is therefore not claimed. Existing project, editor, persistence, audio and timeline owners remain unchanged.
+
+**Next objective:** resolve how reference-only sample values should appear alongside live project data, then complete final one-to-one visual acceptance. Preview: `http://127.0.0.1:5186/`. Existing uncommitted work is preserved; no commit, push or deployment.
+
+## Earlier fidelity and asset checkpoints
+
+**Earlier review checkpoint — full dashboard asset collection:** the user accepted the two-asset pilot and authorized the remaining 19 references. All 21 are interpreted through scoped component styling: outline navigation, active workflow steps, saturated buttons/switches, live-data chart motion, waveform/spectrum/particle artwork, clip feedback, real pending-copy loading and dismissible notifications. Package remains `2.0.0`. Production build, 253 tests and Home desktop/390/320 px browser checks pass. That collection's visual review remains a separate gate. Preview: `http://127.0.0.1:5185/`. [Asset mapping and evidence](docs/ASSET_COLLECTION_VERIFICATION.md). No commit, push or deployment.
+
+**Latest fidelity milestone (user-approved scope, verified 2026-10-06):** live project values on Home; match reference styling only. Home uses its real two-source Genre blend, computed relationship counts, four Vocal values and seven Mood dimensions. The revised fidelity pass is complete: 253/253 tests, TypeScript/Vite build, desktop capture, controls/reload and 390/320 px no-overflow checks pass. [Final evidence](docs/LIVE_FIDELITY_PASS_2_VERIFICATION.md). Do not restore the former illustrative 92% / three-source preset.
+
+**Status:** SonicStudio v2.0 remains the released baseline (`2.0.0`). Fidelity Pass 2 and the requested #7 Blend Progress / #8 Mood Mapper chart upgrades are implemented locally. Blend and Mood visuals use current project/source data and existing analyzers. Changes remain uncommitted; no push or deployment. Full Phase I remains incomplete. Real audio rendering remains separately scoped. **Last reviewed:** 2026-10-06
 **Source of intent:** [Sonic Studio — Blueprint](https://app.notion.com/p/Sonic-Studio-Blueprint-3ef6c060aacf8152a6fcf5564b5aa69b#0891614faacc4a5491dec934fcfeff2e)  
 **Status authority:** The GitHub `main` branch is the canonical committed project record. This file records implemented state and verification within that repository; the Notion blueprint defines product intent. Reconcile any scope change here before work begins.
 
 **Latest change record:** [CHANGELOG.md](CHANGELOG.md)
 
-## Current local milestone — I-C: Motion System
+**Fidelity acceptance:** the user's live-data styling decision supersedes the earlier preset parity gate. Current charts preserve real values while matching the reference's composition, density and neon treatment. Full-image pixel equality and real audio rendering are not claimed. Recommended next milestone: separately scope and verify real audio rendering.
+
+## Current local milestone — Blend Progress and Mood Mapper (#7 / #8)
+
+Blend Progress now appears in Genre Mixer and the Home Sound DNA card. Its ring shows the actual lead Genre share; its relationship rows use the existing `analyzeCompatibility` report. The dashboard renders the active project's two Genre sources and weights by default. It does not display the former 92% reference preset as a computed result. `MoodRadar` charts all seven dimensions from the existing `MoodDna` calculation in Mood Mapper and the Home Mood card. The mapper retains its numeric values, and empty input has no fabricated profile.
+
+Chart paths and SVG geometry stay in TSX; the existing scoped CSS layer sets color, glow, layout and chart motion. Ring glow and Mood Radar breathing are limited to these chart components and respect the established reduced-motion and hidden-view rules. No project, mood, compatibility or persistence model changed.
+
+The full-width Audio Visualiser now shows the supplied cyan/violet waveform artwork and interactive Waveform / Spectrum / 3D View / Particles preview tabs. Live Preview still opens the existing analyzer. The four-track arrangement has clip waveform marks and functional Mute / Solo controls that update existing Timeline clips. Clip/audio-attachment handoffs and project save retain their existing owners.
+
+The context rail reaches the same desktop baseline as Track View. Export Settings shows WAV, 48 kHz (selectable sample rate), working Stems / Normalize switches, the saturated Generate / Render CTA and Save Project. Render settings are a visual request preview; the CTA truthfully reports that the renderer is not connected. Existing metadata export remains available through the Export workflow. No playable audio or completed WAV render is claimed.
+
+**Verification:** production TypeScript/Vite build and `git diff --check` pass. Production-browser review at 1264 × 569 shows the current project pair (Synthwave 65% / Dark R&B 35%), the real 65% lead share and analyzer counts (1 reinforcing, 4 complementary, 0 contrasting, 2 conflicting). Selecting Dreamlike in Mood Mapper yields the existing seven values (66, 26, 20, 61, 18, 16, 96) in both the chart's accessible label and numeric rows; chart motion is active and console errors are empty. The earlier Fidelity Pass 2 lower-dashboard controls and their evidence are recorded in the changelog and [verification report](docs/FIDELITY_PASS_2_VERIFICATION.md).
+
+## Earlier implemented milestone — Target Parity layout pass
+
+The Create overview now presents a full-width reference-art hero and workflow strip, three equal-width Sound DNA / Vocal Persona Lab / Mood Mapper cards, a full-width Visualiser artwork band and a compact four-lane Track View. A persistent right panel displays Project Info, derived AI Guidance, Mix Notes and real metadata Export Settings together. Setup and project-management forms are hidden on this overview. Home consistently returns to it from the existing editors.
+
+Startup selects an existing Midnight Echoes project or supplies a valid editable starter through the existing project owner. Other saved projects remain intact and selectable. Starter identity uses the existing two-source Genre schema, airy vocal selections, three weighted curated moods and four historical track records with eight referenced arrangement clips. No audio files are supplied; artwork is labeled and Live Preview opens the single existing Visualiser. Save persists through existing storage; exports remain TXT/JSON metadata.
+
+**Verification:** all 253 tests pass, production build passes, diff check passes. Production-browser review at target 1672 × 941 confirms three 361 × 306 px cards at y=283, Visualiser y=597, Track View y=761–925, all four context sections visible, zero visible forms and no horizontal overflow. Genre/Vocal/Mood and clip handoffs, Live Preview, Home, Save and reload verified. 390/320 px overview checks show no page overflow. Console warnings/errors empty; one audio element and one canvas retained. [Screenshot and evidence](docs/TARGET_PARITY_VERIFICATION.md).
+
+This completes the requested layout/state pass, not exact pixel or feature parity: native two-source Genre, four vocal dimensions, seven-axis Mood and TXT/JSON exports remain authoritative. Audio attachment/playback, exhaustive responsive/editor and accessibility verification remain separate. No commit, push or deployment.
+
+## Earlier implemented milestone — I-C: Motion System
 
 `src/motion.css` follows the accepted fidelity, interaction and empty-state layers. Shared 140/210/320/520 ms tokens connect existing states with restrained color/border/shadow transitions, immediate press feedback, subtle primary-button scale and a 2 px module lift. Workspace, rail and historical entries use short opacity/4 px translation; the existing hero vector alone drifts horizontally over 12 seconds. Timeline position and Visualiser rendering remain untouched. Real Export feedback gets a one-shot success glow; errors retain their existing alert semantics.
 

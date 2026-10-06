@@ -6,6 +6,7 @@ import { analyzeCompatibility, dimensionLabels } from './lib/compatibility.ts'
 import { makeMix, readSavedMixes, sourceOf, STORAGE_KEY, updateMix } from './lib/savedMixes.ts'
 import type { SavedMix } from './lib/savedMixes.ts'
 import { createRecipe } from './lib/recipe.ts'
+import BlendProgress from './BlendProgress.tsx'
 
 import { readBrowserStorage } from './lib/browserStorage.ts'
 import './vocal.css'
@@ -171,6 +172,7 @@ export default function GenreMixer({ onUse, projectEnabled, historicalDraft }: {
         <section className="output-panel" aria-labelledby="dna-heading">
           <div className="output-head"><div className="eyebrow">03 / THE RESULT <span className="live-pill"><i/> LIVE DNA</span></div><h2 id="dna-heading">Sound DNA<span className="heading-period">.</span></h2><p>A musical arrangement of leading and supporting traits, shaped by your balance.</p></div>
           <div className="dna-identity"><span>YOUR BLEND</span><strong>{first.name} <i>×</i> {second.name}</strong><div><span>{weight}% {first.name}</span><span>{100-weight}% {second.name}</span></div></div>
+          <BlendProgress primary={first} secondary={second} primaryWeight={weight} compatibility={compatibility}/>
           <div className="dna-content">
             <div className="tempo-row"><div><span className="field-index">01 / TEMPO</span><strong>{dna.tempo[0]}–{dna.tempo[1]} <small>BPM</small></strong><span className="tempo-source">Rhythmic engine: {dna.tempoSource}</span></div><div className="tempo-bars" aria-hidden="true">{[18,30,42,22,48,34,58,28,52,40,64,35,48,24,38,20].map((height,index)=><span key={index} style={{height:`${height}px`}}/>)}</div></div>
             <DnaField index="02" title="RHYTHMIC FEEL" relation={dna.rhythm}/>

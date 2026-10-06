@@ -1,0 +1,86 @@
+{
+  "audioOwners": 1,
+  "canvases": 1,
+  "clips": 8,
+  "grid": "grid",
+  "moduleColumns": "361px 361px 361px",
+  "modules": [
+    {
+      "rect": {
+        "bottom": 589,
+        "height": 306,
+        "left": 216,
+        "right": 577,
+        "top": 283,
+        "width": 361,
+        "x": 216,
+        "y": 283
+      },
+      "title": "◈ Sound DNA / Genre Blend"
+    },
+    {
+      "rect": {
+        "bottom": 589,
+        "height": 306,
+        "left": 589,
+        "right": 950,
+        "top": 283,
+        "width": 361,
+        "x": 589,
+        "y": 283
+      },
+      "title": "♩ Vocal Persona Lab"
+    },
+    {
+      "rect": {
+        "bottom": 589,
+        "height": 306,
+        "left": 962,
+        "right": 1323,
+        "top": 283,
+        "width": 361,
+        "x": 962,
+        "y": 283
+      },
+      "title": "✤ Mood Mapper"
+    }
+  ],
+  "overflow": false,
+  "rail": {
+    "bottom": 868.640625,
+    "height": 808.640625,
+    "left": 1339,
+    "right": 1643,
+    "top": 60,
+    "width": 304,
+    "x": 1339,
+    "y": 60
+  },
+  "scrollY": 0,
+  "timeline": {
+    "bottom": 925,
+    "height": 164,
+    "left": 216,
+    "right": 1323,
+    "top": 761,
+    "width": 1107,
+    "x": 216,
+    "y": 761
+  },
+  "tracks": 4,
+  "viewport": {
+    "height": 941,
+    "width": 1672
+  },
+  "visibleForms": 0,
+  "visualiser": {
+    "bottom": 753,
+    "height": 156,
+    "left": 216,
+    "right": 1323,
+    "top": 597,
+    "width": 1107,
+    "x": 216,
+    "y": 597
+  }
+}

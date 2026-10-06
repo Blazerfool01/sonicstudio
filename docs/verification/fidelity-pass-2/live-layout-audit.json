@@ -1,0 +1,146 @@
+{
+  "audioOwners": 1,
+  "blend": "65%\nLEAD SHARE\nBLEND PROGRESS\nReinforcing\n1\nComplementary\n4\nContrasting\n0\nConflicting\n2",
+  "border": "1px solid rgba(168, 85, 247, 0.25)",
+  "clips": 8,
+  "modules": [
+    {
+      "box": {
+        "bottom": 589,
+        "height": 306,
+        "left": 216,
+        "right": 694.6875,
+        "top": 283,
+        "width": 478.6875,
+        "x": 216,
+        "y": 283
+      },
+      "title": "◈ Sound DNA / Genre Blend"
+    },
+    {
+      "box": {
+        "bottom": 589,
+        "height": 306,
+        "left": 706.6875,
+        "right": 1026.8125,
+        "top": 283,
+        "width": 320.125,
+        "x": 706.6875,
+        "y": 283
+      },
+      "title": "♩ Vocal Persona Lab"
+    },
+    {
+      "box": {
+        "bottom": 589,
+        "height": 306,
+        "left": 1038.8125,
+        "right": 1338,
+        "top": 283,
+        "width": 299.1875,
+        "x": 1038.8125,
+        "y": 283
+      },
+      "title": "✤ Mood Mapper"
+    }
+  ],
+  "mood": "Mood DNA radar for Dreamlike: Valence 62, Energy 28, Tension 20, Intimacy 56, Weight 24, Motion 26, Atmosphere 77.",
+  "moodCurve": "M 140.00 72.84 C 149.30 76.30 152.68 95.60 154.89 103.13 C 157.10 110.66 152.99 110.33 153.26 118.03 C 153.53 125.72 159.91 147.36 156.52 149.31 C 153.13 151.26 138.55 134.77 132.92 129.70 C 127.29 124.64 128.41 126.83 122.76 118.93 C 117.12 111.04 96.19 90.04 99.06 82.35 C 101.94 74.67 130.70 69.38 140.00 72.84 Z",
+  "overflow": false,
+  "rail": {
+    "bottom": 925,
+    "height": 865,
+    "left": 1354,
+    "right": 1658,
+    "top": 60,
+    "width": 304,
+    "x": 1354,
+    "y": 60
+  },
+  "railBaselineMatches": true,
+  "selectedGradient": "linear-gradient(115deg, rgb(113, 53, 255), rgb(23, 108, 189))",
+  "settings": "Export Settings\nFormat\nWAV (High Quality)\nSample Rate\n48 kHz\n44.1 kHz\n96 kHz\nStems\nExport individual stems\nNormalize\nLoudness optimised\n🎵 Generate / Render →\n💾 Save Project",
+  "sinePreview": true,
+  "singleSourceRow": true,
+  "sources": [
+    {
+      "box": {
+        "bottom": 479,
+        "height": 146,
+        "left": 229,
+        "right": 365.34375,
+        "top": 333,
+        "width": 136.34375,
+        "x": 229,
+        "y": 333
+      },
+      "name": "Synthwave",
+      "weight": "65%"
+    },
+    {
+      "box": {
+        "bottom": 479,
+        "height": 146,
+        "left": 373.34375,
+        "right": 509.6875,
+        "top": 333,
+        "width": 136.34375,
+        "x": 373.34375,
+        "y": 333
+      },
+      "name": "Dark R&B",
+      "weight": "35%"
+    }
+  ],
+  "switches": [
+    {
+      "checked": "true",
+      "name": "Export individual stems"
+    },
+    {
+      "checked": "true",
+      "name": "Normalize audio"
+    }
+  ],
+  "tabs": [
+    {
+      "name": "Waveform",
+      "selected": "true"
+    },
+    {
+      "name": "Spectrum",
+      "selected": "false"
+    },
+    {
+      "name": "3D View",
+      "selected": "false"
+    },
+    {
+      "name": "Particles",
+      "selected": "false"
+    }
+  ],
+  "timeline": {
+    "bottom": 925,
+    "height": 164,
+    "left": 216,
+    "right": 1338,
+    "top": 761,
+    "width": 1122,
+    "x": 216,
+    "y": 761
+  },
+  "tracks": [
+    "▣Drums",
+    "▣Synths",
+    "▣Vocals",
+    "▣Atmosphere"
+  ],
+  "viewport": [
+    1672,
+    941
+  ],
+  "visibleForms": 0,
+  "vocal": "Warmth\n78\nPower\n62\nBreathiness\n71\nRasp\n24",
+  "waveform": true
+}
