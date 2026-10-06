@@ -1,0 +1,26 @@
+[
+  {
+    "width": 1280,
+    "client": 1280,
+    "scroll": 1280,
+    "animations": [
+      "studio-hero-flow"
+    ]
+  },
+  {
+    "width": 390,
+    "client": 375,
+    "scroll": 375,
+    "animations": [
+      "studio-hero-flow"
+    ]
+  },
+  {
+    "width": 320,
+    "client": 305,
+    "scroll": 305,
+    "animations": [
+      "studio-hero-flow"
+    ]
+  }
+]

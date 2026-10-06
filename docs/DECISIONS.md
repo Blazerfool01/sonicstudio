@@ -1,5 +1,11 @@
 # Decisions
 
+## 2026-10-06 — Motion is a final presentation layer over existing states
+
+Phase I-C adds a dedicated CSS layer after fidelity, interaction and empty-state CSS. Shared duration/easing tokens animate only existing endpoints; layout dimensions, audio clocks and canvas modes never interpolate. The hero is the single continuous decorative surface; other artwork stays static. Native hidden surfaces cancel animations. Reduced motion removes optional effects and focus/disabled feedback stays immediate. Pointer lifts/scales require hover and a fine pointer.
+
+Rail section and Export-operation keys replay short presentation entry using existing owners. Rail drafts remain above the keyed panel and Export feedback remains local, truthful and guarded by its existing operation ref. No global motion state, animation framework, decorative JS loop or new persisted state is justified. Workspace transitions have entry only, without exit choreography or duplicate mounting. Future motion work must preserve these limits and distinguish a download request from confirmation that a file was saved. This extends, rather than supersedes, the I-B endpoint convention.
+
 ## 2026-10-06 — Interaction states consume existing owners and keep separate meanings
 
 Phase I-B defines static endpoints in one final interaction-state CSS layer using shared tokens. Hover signals interactivity through a cool surface/border; selection persists as violet fill/edge; keyboard location gets an independent offset cyan-white ring; cyan playback can coexist with violet selection. Historical framing and explicit labels remain separate from current identity. Dirty styling applies only to existing local drafts, never to immediately persisted project fields. Destructive emphasis is reserved for actual confirmation context. StatusNotice remains the shared semantic feedback component; Export reuses it instead of introducing toast/status infrastructure.

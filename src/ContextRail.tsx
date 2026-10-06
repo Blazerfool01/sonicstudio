@@ -52,7 +52,7 @@ export default function ContextRail({ project, selection, statusMessage, onProje
       >{sectionLabels[key]}</button>)}
     </nav>
 
-    <section id="context-rail-panel" className="context-rail-panel" aria-labelledby="context-rail-panel-heading">
+    <section key={section} id="context-rail-panel" className="context-rail-panel" aria-labelledby="context-rail-panel-heading">
       <h3 id="context-rail-panel-heading">{sectionLabels[section]}</h3>
 
       {section === 'project' && <>

@@ -1,0 +1,386 @@
+[
+  {
+    "motion": "reduce",
+    "width": 1280,
+    "destination": "Create",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 1280,
+    "destination": "Tracks",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 1280,
+    "destination": "Compare",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 1280,
+    "destination": "Visualise",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 1280,
+    "destination": "1 Genre Mixer",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 1280,
+    "destination": "2 Vocal Persona",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 1280,
+    "destination": "3 Mood Mapper",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 1280,
+    "destination": "5 Export",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 390,
+    "destination": "Create",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 390,
+    "destination": "Tracks",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 390,
+    "destination": "Compare",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 390,
+    "destination": "Visualise",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 390,
+    "destination": "1 Genre Mixer",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 390,
+    "destination": "2 Vocal Persona",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 390,
+    "destination": "3 Mood Mapper",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 390,
+    "destination": "5 Export",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 320,
+    "destination": "Create",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 320,
+    "destination": "Tracks",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 320,
+    "destination": "Compare",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 320,
+    "destination": "Visualise",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 320,
+    "destination": "1 Genre Mixer",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 320,
+    "destination": "2 Vocal Persona",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 320,
+    "destination": "3 Mood Mapper",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "reduce",
+    "width": 320,
+    "destination": "5 Export",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 1280,
+    "destination": "Create",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 1280,
+    "destination": "Tracks",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 1280,
+    "destination": "Compare",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 1280,
+    "destination": "Visualise",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 1280,
+    "destination": "1 Genre Mixer",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 1280,
+    "destination": "2 Vocal Persona",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 1280,
+    "destination": "3 Mood Mapper",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 1280,
+    "destination": "5 Export",
+    "client": 1265,
+    "scroll": 1265,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 390,
+    "destination": "Create",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 390,
+    "destination": "Tracks",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 390,
+    "destination": "Compare",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 390,
+    "destination": "Visualise",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 390,
+    "destination": "1 Genre Mixer",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 390,
+    "destination": "2 Vocal Persona",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 390,
+    "destination": "3 Mood Mapper",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 390,
+    "destination": "5 Export",
+    "client": 375,
+    "scroll": 375,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 320,
+    "destination": "Create",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 320,
+    "destination": "Tracks",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 320,
+    "destination": "Compare",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 320,
+    "destination": "Visualise",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 320,
+    "destination": "1 Genre Mixer",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 320,
+    "destination": "2 Vocal Persona",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 320,
+    "destination": "3 Mood Mapper",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  },
+  {
+    "motion": "no-preference",
+    "width": 320,
+    "destination": "5 Export",
+    "client": 305,
+    "scroll": 305,
+    "hiddenAnimations": 0
+  }
+]

@@ -1,0 +1,17 @@
+# Phase I-C handoff — Motion System
+
+2026-10-06 · Package 2.0.0 · Local gate PASS with verification limits below. Uncommitted; no push/deployment. Full Phase I incomplete; I-D unstarted.
+
+Actual starting HEAD: clean accepted `9ac4429cd2745717155284fc728180ff6b52c9cb`. Read supplied Phase I-C brief and all three images, SOUL, AGENTS, PROJECT, CHANGELOG, DECISIONS, ROADMAP, I-A/I-B/I-B.1 handoffs and verification records. Accepted UI is authoritative; boards supply motion inspiration only.
+
+Implementation: `src/motion.css` imported after `emptyState.css` in `src/main.tsx`. Fast/base/slow/emphasis tokens 140/210/320/520 ms; standard/out/in easing vocabulary. Color/border/small-shadow interpolation, primary scale 1.015, press .99, module lift -2 px, icon scale 1.03, native thumb scale 1.08, entry opacity .92/translateY(4 px), notice opacity .85/2 px, real Export success glow once. Slow/in tokens are available vocabulary, not forced onto an effect. Only hero artwork has a continuous 12-second/-8 px alternate drift.
+
+`ContextRail.tsx` keys its existing panel by section; existing parent draft owner survives switches. `ExportPanel.tsx` keys its existing feedback by operation ref. No new hooks, effects, timers, stores, handlers, libraries, audio/RAF owners or persistence. Focus/disabled states are immediate. Reduced motion disables optional effects; coarse/no-hover devices receive no hover lifts/scales. Native hidden descendants/pseudo-elements have no animation/transition. Timeline left position/clip bounds/seek values and canvas rendering untouched.
+
+Verification: 251 existing tests PASS, final TypeScript/Vite build PASS, diff check PASS. Desktop 1664 × 920 and measured baseline geometry unchanged. Sidebar/workflow/editors/sliders/rail, rail draft retention, Timeline mute/solo/playback, Compare selection/B preference/playback switching, Visualiser native mode controls/playback/personality, snapshots/duplicate/shortcuts and historical Genre reopening, Export clipboard/requested download/controlled copy and download error paths, no-project/populated Create and reload covered. Normal and reduced workflows work; 48 populated responsive checks and six empty checks at 1280/390/320 pass. One audio/canvas/graph and zero hidden CSS animations observed. Resting Create has one hero animation; listening destinations have none after entry. Console warning/error logs empty.
+
+Exact observations/evidence/limits: `docs/IC_VERIFICATION.md`, `docs/verification/phase-ic/`. Browser native touch dispatch unavailable; coarse styles and keyboard under emulation verified, not physical touch. Actual download saving, long-session/device/codec stress and exhaustive accessibility remain unverified. Existing I-B capture softness remains a screenshot limitation. No recordings or large new media.
+
+Review project `I-C motion review` remains in local app storage with two test track records, one comparison, ingredients and notes. Reused existing interaction-tone.wav; reload cleared session audio. Existing projects/libraries were not edited. No production data reset. Temporary clipboard/URL failure patches, media/input emulation restored. PROJECT/CHANGELOG/DECISIONS updated; ROADMAP planned direction unchanged.
+
+Deferred: exit choreography, sweep/ripple/particle effects, animated canvas-mode blending, counting numbers, radar breathing and other ambient motion. Recommended next step: user motion review, then separately scoped I-D if accepted. Do not commit/push/deploy or begin I-D without explicit authorization.

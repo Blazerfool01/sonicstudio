@@ -1,0 +1,67 @@
+[
+  {
+    "class": "studio-sidebar",
+    "rect": {
+      "bottom": 920,
+      "height": 920,
+      "left": 0,
+      "right": 200,
+      "top": 0,
+      "width": 200,
+      "x": 0,
+      "y": 0
+    }
+  },
+  {
+    "class": "studio-hero",
+    "rect": {
+      "bottom": 216,
+      "height": 144,
+      "left": 216,
+      "right": 1309,
+      "top": 72,
+      "width": 1093,
+      "x": 216,
+      "y": 72
+    }
+  },
+  {
+    "class": "studio-stepper",
+    "rect": {
+      "bottom": 304,
+      "height": 58,
+      "left": 216,
+      "right": 1309,
+      "top": 246,
+      "width": 1093,
+      "x": 216,
+      "y": 246
+    }
+  },
+  {
+    "class": "studio-ingredients studio-module-grid",
+    "rect": {
+      "bottom": 637.59375,
+      "height": 266,
+      "left": 216,
+      "right": 1309,
+      "top": 371.59375,
+      "width": 1093,
+      "x": 216,
+      "y": 371.59375
+    }
+  },
+  {
+    "class": "studio-context-slot context-rail",
+    "rect": {
+      "bottom": 668.796875,
+      "height": 596.796875,
+      "left": 1325,
+      "right": 1635,
+      "top": 72,
+      "width": 310,
+      "x": 1325,
+      "y": 72
+    }
+  }
+]

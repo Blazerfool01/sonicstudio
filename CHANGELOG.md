@@ -1,5 +1,12 @@
 # Changelog
 
+## UI/UX Overhaul Phase I-C — Motion System (`2.0.0`, 2026-10-06)
+
+- Began on clean accepted `9ac4429cd2745717155284fc728180ff6b52c9cb`. Added `src/motion.css` after locked I-A/I-B/I-B.1 layers: shared timings/easings, state transitions, tiny card/button feedback, short workspace/rail/historical entrances, a single 12-second hero drift and truthful one-shot Export feedback.
+- Two existing-state presentation keys replay Context Rail section and Export feedback entry. No new dependencies, state stores, effects, RAF/timer owners, persistence, renderer or Timeline timing changes. Immediate focus/disabled states, native hidden behavior, reduced-motion overrides and fine-pointer hover guards retained.
+- Verified 251 unchanged tests, final production build/diff, exact desktop geometry, real audio/control/historical/shortcut/Export flows, controlled copy/download errors, rail draft retention, reload and clean console. 48 populated normal/reduced responsive checks and six empty width checks pass. Coarse-pointer styling verified; native touch gestures and actual download saving remain unverified. Evidence: docs/IC_VERIFICATION.md; handoff: .ai/handoffs/I-C.md.
+- Local/uncommitted; no push/deployment. Full Phase I incomplete. I-D remains unstarted and separately authorized.
+
 ## I-B.1 — Authorized checkpoint (`2.0.0`, 2026-10-06)
 
 - User authorized committing and pushing the verified empty-state correction to canonical `main`, including desktop before/after and narrow screenshot evidence.

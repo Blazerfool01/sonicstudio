@@ -39,7 +39,7 @@ export default function ExportPanel({ project }: { project: StudioProject | null
     </fieldset>
     <div className="export-validation" data-export-ready={validation.allowed} aria-label="Export validation"><h3>{validation.allowed ? 'Ready to export' : 'Before you export'}</h3><ul>{validation.notices.map(notice => <li key={notice.code} className={`export-notice export-${notice.level}`}><strong>{notice.level === 'blocker' ? 'Required' : notice.level === 'warning' ? 'Note' : 'About this export'}:</strong> {notice.message}</li>)}</ul></div>
     <div className="export-actions"><button disabled={!artifact} onClick={copy}>Copy {format === 'brief' ? 'Creation Brief' : 'JSON'}</button><button className="action-primary" disabled={!artifact} onClick={download}>Download {format === 'brief' ? '.txt' : '.json'}</button></div>
-    {feedback && <StatusNotice className="export-feedback" tone={feedback.error ? 'error' : 'success'}>{feedback.text}</StatusNotice>}
+    {feedback && <StatusNotice key={operation.current} className="export-feedback" tone={feedback.error ? 'error' : 'success'}>{feedback.text}</StatusNotice>}
     {artifact && <label className="export-preview">Export preview · {artifact.filename}<textarea readOnly aria-label="Export preview" value={artifact.content} rows={14}/></label>}
     <p className="export-boundary">Only saved project fields are exported. Unsaved editor drafts are excluded. Audio rendering and project import are not available.</p>
   </section>

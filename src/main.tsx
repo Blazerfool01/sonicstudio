@@ -5,6 +5,7 @@ import './style.css'
 import './fidelity.css'
 import './interactionStates.css'
 import './emptyState.css'
+import './motion.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode><App /></React.StrictMode>,

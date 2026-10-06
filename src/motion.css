@@ -1,0 +1,125 @@
+/* I-C: motion between locked I-B endpoints. Never transition layout or clocks. */
+:root {
+  --motion-fast: 140ms;
+  --motion-base: 210ms;
+  --motion-slow: 320ms;
+  --motion-emphasis: 520ms;
+  --ease-standard: cubic-bezier(.2, .8, .2, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-in: cubic-bezier(.4, 0, 1, 1);
+}
+
+.studio-shell :is(button, input, select, textarea, summary, .export-formats label,
+  .studio-module, .project-track, .comparison-side, .visualiser-track, [data-draft-state]) {
+  transition: color var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-fast) var(--ease-standard),
+    transform var(--motion-base) var(--ease-out);
+}
+.studio-shell :is(.studio-nav-icon, .studio-step-number) {
+  transition: transform var(--motion-fast) var(--ease-out),
+    color var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
+}
+
+/* Entry only: native hidden views stay mounted and never duplicate their owners. */
+.studio-shell :is(#studio-tool-genre, #studio-tool-vocal, #studio-tool-mood,
+  #studio-visualiser, .destination-panel, .export-panel, .studio-identity-overview):not([hidden]) {
+  animation: studio-enter var(--motion-base) var(--ease-out);
+}
+.studio-shell :is(.context-rail-panel, .historical-draft-notice) {
+  animation: studio-enter var(--motion-base) var(--ease-out);
+}
+.studio-shell .status-notice:not(.status-notice-empty) {
+  animation: studio-notice var(--motion-fast) var(--ease-out);
+}
+/* Existing success only; download feedback still means requested, never saved. */
+.studio-shell .export-feedback.status-notice-success {
+  animation: studio-notice var(--motion-base) var(--ease-out),
+    studio-success var(--motion-emphasis) var(--ease-out);
+}
+
+/* One ambient surface. Other decorative waves and mood vectors remain still. */
+.studio-shell .studio-hero > .studio-wave-art {
+  animation: studio-hero-flow 12s var(--ease-standard) infinite alternate;
+}
+@keyframes studio-hero-flow {
+  from { transform: translateX(0); }
+  to { transform: translateX(-8px); }
+}
+@keyframes studio-enter {
+  from { opacity: .92; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes studio-notice {
+  from { opacity: .85; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes studio-success {
+  from { box-shadow: 0 0 0 2px #66e2bb44; }
+  to { box-shadow: 0 0 0 0 #66e2bb00; }
+}
+
+/* Only direct pointer interaction moves controls; destructive actions stay still. */
+@media (hover: hover) and (pointer: fine) {
+  .studio-shell :is(button.action-primary, .project-use):not(:disabled):not([aria-disabled="true"]):not(.action-destructive):hover {
+    transform: scale(1.015);
+  }
+  .studio-shell .studio-sidebar button:not(:disabled):hover .studio-nav-icon {
+    transform: scale(1.03);
+  }
+  .studio-shell .studio-module:hover:not(:focus-within) { transform: translateY(-2px); }
+  .studio-shell input[type="range"]:not(:disabled)::-webkit-slider-thumb {
+    transition: transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-standard);
+  }
+  .studio-shell input[type="range"]:not(:disabled):hover::-webkit-slider-thumb { transform: scale(1.08); }
+  .studio-shell input[type="range"]:not(:disabled)::-moz-range-thumb {
+    transition: transform var(--motion-fast) var(--ease-out);
+  }
+  .studio-shell input[type="range"]:not(:disabled):hover::-moz-range-thumb { transform: scale(1.08); }
+}
+.studio-shell button:not(:disabled):not([aria-disabled="true"]):not(.action-destructive):not(.timeline-clip):active {
+  transform: scale(.99) !important;
+  transition-duration: 0s;
+}
+/* No smoothing of the playhead's left position, clip geometry or seek progress. */
+.studio-shell .timeline-playhead-line {
+  transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
+}
+.studio-shell .timeline-playhead-line::before {
+  transition: background-color var(--motion-fast) var(--ease-standard);
+}
+
+/* Focus/unavailable feedback is immediate, even mid-hover or entry. */
+.studio-shell :is(button, input, select, textarea, summary, a, [tabindex]):focus-visible,
+.studio-shell :is(button, input, select, textarea):is(:disabled, [aria-disabled="true"]),
+.studio-shell .studio-module:focus-within,
+.studio-shell :is(.destination-panel, #studio-tool-genre, #studio-tool-vocal,
+  #studio-tool-mood, #studio-visualiser, .export-panel, .context-rail-panel):has(:focus-visible) {
+  transition: none;
+  animation: none;
+  transform: none !important;
+}
+.studio-shell input[type="range"]:focus-visible::-webkit-slider-thumb { transition: none; transform: none; }
+.studio-shell input[type="range"]:focus-visible::-moz-range-thumb { transition: none; transform: none; }
+
+/* Cancel rather than pause: revealing a view may play its short entry again. */
+.studio-shell [hidden], .studio-shell [hidden] *,
+.studio-shell [hidden]::before, .studio-shell [hidden]::after,
+.studio-shell [hidden] *::before, .studio-shell [hidden] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-shell *, .studio-shell *::before, .studio-shell *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .studio-shell :is(button, .studio-module, .studio-nav-icon, .studio-step-number) { transform: none !important; }
+  .studio-shell input[type="range"]::-webkit-slider-thumb { transform: none !important; transition: none !important; }
+  .studio-shell input[type="range"]::-moz-range-thumb { transform: none !important; transition: none !important; }
+}
